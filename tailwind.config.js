@@ -2,17 +2,18 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    colors:{
-      main:'#F57C00',
-      second:'#F8A047',
-      third:'#FFE8BF',
-      gray_1:'#EDEDED',
-      gray_2:'#F6F6F6',
-      font_color_1:'#505050',
-      font_color_2:'#AEAEAE',
-      white:'#FAFAFA'
+    extend: {
+      colors: {
+        "orange-3": "#F57C00",
+        "orange-2": "#F8A047",
+        "orange-1": "#FFE8BF",
+        "gray-1": "#FAFAFA",
+        "gray-2": "#F6F6F6",
+        "gray-3": "#EDEDED",
+        "gray-4": "#AEAEAE",
+        "gray-5": "#505050",
+      },
     },
-    extend: {},
   },
 
   plugins: [],

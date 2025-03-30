@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import OnboardingConcernPage from "./services/onboarding/additional/concern";
+import OnboardingEmotionPage from "./services/onboarding/additional/emotion";
+import OnboardingCompletePage from "./services/onboarding/additional/complete";
+import Layout from "./Layout.tsx";
+import HomePage from "./services/home";
+import NotFoundPage from "./services/error/404";
+import OnboardingAdditionalLayout from "./services/onboarding/additional/layout.tsx";
+import OnboardingBasicPage from "./services/onboarding/basic";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index path="/" element={<HomePage />} />
+
+          <Route path="onboarding">
+            <Route index path="*" element={<NotFoundPage />} />
+            <Route path="basic" element={<OnboardingBasicPage />} />
+            <Route path="additional">
+              <Route index path="*" element={<NotFoundPage />} />
+              <Route element={<OnboardingAdditionalLayout />}>
+                <Route path="concern" element={<OnboardingConcernPage />} />
+                <Route path="emotion" element={<OnboardingEmotionPage />} />
+                <Route path="complete" element={<OnboardingCompletePage />} />
+              </Route>
+            </Route>
+          </Route>
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

@@ -2,11 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OnboardingConcernPage from "./services/onboarding/additional/concern";
 import OnboardingEmotionPage from "./services/onboarding/additional/emotion";
 import OnboardingCompletePage from "./services/onboarding/additional/complete";
-import Layout from "./layout.tsx";
 import HomePage from "./services/home";
 import NotFoundPage from "./services/error/404";
 import OnboardingBasicPage from "./services/onboarding/basic";
 import LoginPage from "./services/auth/login";
+import Layout from "./layout.tsx";
 
 function App() {
   return (

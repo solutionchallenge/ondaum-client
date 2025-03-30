@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function useOnboardingAdditional() {
+export function useOnboardingAdditional() {
   const navigate = useNavigate();
 
   const goEmotionPage = () => {
@@ -14,11 +14,10 @@ function useOnboardingAdditional() {
   const goBackPage = () => {
     navigate(-1);
   };
-  const goHome = () => {
+  const goHomePage = () => {
     // Todo api 성공 이후 보내기
-    navigate("/onboarding/additional/complete");
+    navigate("/");
   };
 
-  return { goEmotionPage, goCompletePage, goHome, goBackPage };
+  return { goEmotionPage, goCompletePage, goHomePage, goBackPage };
 }
-export default useOnboardingAdditional;

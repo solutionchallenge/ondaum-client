@@ -1,10 +1,10 @@
 import OnboardingAdditionalLayout from "../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
-import useOnboardingAdditional from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
+import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
 
 function OnboardingCompletePage() {
   const { user } = useAuthStore();
-  const { goHome } = useOnboardingAdditional();
+  const { goHomePage } = useOnboardingAdditional();
 
   return (
     <OnboardingAdditionalLayout
@@ -22,7 +22,7 @@ function OnboardingCompletePage() {
       }
       button={{
         name: "Start",
-        onPress: goHome,
+        onPress: goHomePage,
       }}
     >
       image

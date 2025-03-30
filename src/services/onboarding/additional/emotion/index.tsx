@@ -1,7 +1,7 @@
 import OnboardingAdditionalLayout from "../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
 import { useOnboardingEmotionStore } from "../../../../store/onboarding";
-import useOnboardingAdditional from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
+import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
 
 function OnboardingEmotionPage() {
   const { emotion } = useOnboardingEmotionStore();

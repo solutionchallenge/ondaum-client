@@ -5,7 +5,7 @@ import {
   CONCERN,
   useOnboardingConcernStore,
 } from "../../../../store/onboarding";
-import useOnboardingAdditional from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
+import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
 
 function OnboardingConcernPage() {
   const { user } = useAuthStore();

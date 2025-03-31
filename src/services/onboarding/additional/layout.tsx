@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ReactNode } from "react";
+import Button from "../../../commons/inputs/Button";
 
 export interface OnboardingLayoutProps {
   title: ReactNode;
@@ -8,6 +9,7 @@ export interface OnboardingLayoutProps {
     name: string;
     onPress: () => void;
     subName?: string;
+    disabled?: boolean;
   };
 }
 
@@ -22,14 +24,11 @@ function OnboardingAdditionalLayout({
       {children}
       {button && (
         <div className="fixed w-screen bottom-16 py-4 px-4 text-center">
-          <button
-            onClick={button.onPress}
-            className="w-full bg-orange-400 text-white font-semibold py-4 rounded-full text-sm"
-          >
+          <Button onClick={button.onPress} disabled={button.disabled}>
             {button.name}
-          </button>
+          </Button>
           {button.subName && (
-            <Link to="/" className=" text-sm text-orange-400 underline mt-4">
+            <Link to="/" className="text-sm text-orange-400 underline mt-4">
               {button.subName}
             </Link>
           )}

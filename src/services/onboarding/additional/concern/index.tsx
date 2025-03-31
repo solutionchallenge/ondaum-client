@@ -6,7 +6,7 @@ import {
   useOnboardingConcernStore,
 } from "../../../../store/onboarding";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
-import PickerList from "../../../../commons/inputs/Picker/list.tsx";
+import ToggleGroup from "../../../../commons/inputs/ToggleButton/group.tsx";
 
 function OnboardingConcernPage() {
   const { user } = useAuthStore();
@@ -40,9 +40,9 @@ function OnboardingConcernPage() {
       {CONCERN_KEY.map((key) => (
         <article key={key} className="mb-6">
           <h5 className="text-sm text-gray-5 mb-2 capitalize">{key}</h5>
-          <PickerList
+          <ToggleGroup
             options={CONCERN[key]}
-            selectedOption={concern[key] || null}
+            selectedOption={concern[key] || ""}
             onSelect={(value) => updateConcern({ ...concern, [key]: value })}
           />
         </article>

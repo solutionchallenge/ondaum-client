@@ -1,31 +1,31 @@
-import PickerButton from "./index.tsx";
+import Toggle from "./index.tsx";
 
-interface PickerListProps {
+interface ToggleGroupProps {
   options: string[];
   selectedOption: string | null;
   onSelect: (option: string) => void;
   className?: string;
 }
 
-function PickerList({
+function ToggleGroup({
   options,
   selectedOption,
   onSelect,
   className,
-}: PickerListProps) {
+}: ToggleGroupProps) {
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {options.map((option) => (
-        <PickerButton
+        <Toggle
           key={option}
           selected={selectedOption === option}
           onClick={() => onSelect(option)}
         >
           {option}
-        </PickerButton>
+        </Toggle>
       ))}
     </div>
   );
 }
 
-export default PickerList;
+export default ToggleGroup;

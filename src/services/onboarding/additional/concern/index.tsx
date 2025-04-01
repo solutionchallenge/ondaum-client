@@ -6,11 +6,15 @@ import {
   useOnboardingConcernStore,
 } from "../../../../store/onboarding";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
+import ToggleGroup from "../../../../commons/inputs/ToggleButton/group.tsx";
 
 function OnboardingConcernPage() {
   const { user } = useAuthStore();
   const { concern, updateConcern } = useOnboardingConcernStore();
   const { goEmotionPage } = useOnboardingAdditional();
+
+  // 최소 한 개라도 선택했는지 확인하여 버튼 활성화 여부 설정
+  const isDisabled = !Object.values(concern).some((val) => val);
 
   return (
     <OnboardingAdditionalLayout
@@ -30,32 +34,17 @@ function OnboardingConcernPage() {
         name: "Finish choosing your mind",
         onPress: goEmotionPage,
         subName: "I don't want to share my worries",
+        disabled: isDisabled,
       }}
     >
       {CONCERN_KEY.map((key) => (
         <article key={key} className="mb-6">
           <h5 className="text-sm text-gray-5 mb-2 capitalize">{key}</h5>
-          <div className="flex flex-wrap gap-2">
-            {CONCERN[key].map((value: string) => {
-              const isSelected = concern[key] === value;
-              return (
-                <button
-                  key={value}
-                  onClick={() => {
-                    updateConcern({ ...concern, [key]: value });
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm 
-                      ${
-                        isSelected
-                          ? "bg-orange-2 text-white"
-                          : "bg-gray-2 text-gray-5"
-                      }`}
-                >
-                  {value}
-                </button>
-              );
-            })}
-          </div>
+          <ToggleGroup
+            options={CONCERN[key]}
+            selectedOption={concern[key] || ""}
+            onSelect={(value) => updateConcern({ ...concern, [key]: value })}
+          />
         </article>
       ))}
     </OnboardingAdditionalLayout>

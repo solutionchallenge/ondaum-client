@@ -25,22 +25,22 @@ function LoginPage() {
   return (
     <div>
       <GlobalNavigation />
-      <main className="pb-44">
-        <h2 className="text-lg text-gray-5 my-4 font-normal pb-[20px]">
+      <main className="flex-1">
+        <h2 className="text-base md:text-lg text-gray-5 my-4 font-normal">
           Hello
         </h2>
-        <p className="text-[40px] font-bold font-['Figtree'] leading-[56px] pb-[32px]">
+        <p className="text-3xl sm:text-3xl md:text-4xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
           Is this
-          <br />
+          <br className="hidden sm:block" />
           your first time using
           <br />
           <span className="text-orange-2">OnDaum?</span>
         </p>
-        <p className="text-font-color text-[22px] font-normal font-['Pretendard'] leading-[30.80px]">
-          {"You can sign up in just" + " "}
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-600 font-normal leading-snug">
+          You can sign up in just{" "}
           <span className="text-orange-2">one minute.</span>
         </p>
-        <div className="fixed w-screen bottom-16 py-4 px-4 text-center">
+        <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mt-8">
           <LoginButton onClick={handleGoogleLogin} />
         </div>
       </main>

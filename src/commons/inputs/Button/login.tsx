@@ -1,4 +1,4 @@
-import GoogleLogo from "../../../assets/images/auth_logo.svg?react";
+import GoogleLogo from "../../../assets/images/icon_login.svg?react";
 
 interface LoginButtonProps {
   onClick: () => void;

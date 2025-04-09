@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../../store/auth";
 import LoginButton from "../../../commons/inputs/Button/login";
 import GlobalNavigation from "../../../commons/navigation/GlobalNavigation";
-import AuthBg from "../../../assets/images/auth_image.svg?react";
+import AuthBg from "../../../assets/images/img_login.svg?react";
 
 function LoginPage() {
   const { login } = useAuthStore();
@@ -21,28 +21,26 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      {/* 배경 SVG */}
-      <div className="absolute inset-0 z-10 translate-y-32">
+    <div className="fixed w-screen">
+      <div className="absolute inset-0 z-5 translate-y-[25rem]">
         <AuthBg />
       </div>
-
-      {/* 콘텐츠 영역 */}
+      <div className="absolute inset-0 z-0 w-[393px] h-[250px] translate-y-[35rem] bg-gradient-to-b from-transparent to-[#FFBE7DCC] " />
       <div className="relative z-10 p-[20px]">
         <GlobalNavigation />
 
         <main className="flex-1">
-          <h2 className="text-base md:text-lg text-gray-5 my-4 font-normal">
+          <h2 className="text-base sm:text-2xl text-gray-5 my-4 font-normal">
             Hello
           </h2>
-          <p className="text-3xl sm:text-3xl md:text-4xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
+          <p className="text-5xl sm:text-5xl md:text-7xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
             Is this
             <br className="hidden sm:block" />
-            your first time using
+            your first time
             <br />
-            <span className="text-orange-2">OnDaum?</span>
+            using <span className="text-orange-2">OnDaum?</span>
           </p>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-600 font-normal leading-snug">
+          <p className="text-lg sm:text-2xl md:text-xl text-gray-600 font-normal leading-snug pb-8">
             You can sign up in just{" "}
             <span className="text-orange-2">one minute.</span>
           </p>

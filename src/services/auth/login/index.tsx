@@ -1,16 +1,16 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../../store/auth";
+import LoginButton from "../../../commons/inputs/Button/login";
+import GlobalNavigation from "../../../commons/navigation/GlobalNavigation";
+import AuthBg from "../../../assets/images/img_login.svg?react";
 
-// 실제 구글 OAuth 로그인은 예시로 대체 (Google API 통합은 별도)
 function LoginPage() {
   const { login } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
 
   const handleGoogleLogin = async () => {
-    // 구글 OAuth 성공 시 받아온 사용자 정보로 로그인
     const mockUser = {
       id: "123",
       name: "홍길동",
@@ -21,13 +21,35 @@ function LoginPage() {
   };
 
   return (
-    <div className="p-4 text-center">
-      <button
-        onClick={handleGoogleLogin}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Sign in with Google
-      </button>
+    <div className="fixed w-screen">
+      <div className="absolute inset-0 z-5 translate-y-[25rem]">
+        <AuthBg />
+      </div>
+      <div className="absolute inset-0 z-0 w-[393px] h-[250px] translate-y-[35rem] bg-gradient-to-b from-transparent to-[#FFBE7DCC] " />
+      <div className="relative z-10 p-[20px]">
+        <GlobalNavigation />
+
+        <main className="flex-1">
+          <h2 className="text-base sm:text-2xl text-gray-5 my-4 font-normal">
+            Hello
+          </h2>
+          <p className="text-5xl sm:text-5xl md:text-7xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
+            Is this
+            <br className="hidden sm:block" />
+            your first time
+            <br />
+            using <span className="text-orange-2">OnDaum?</span>
+          </p>
+          <p className="text-lg sm:text-2xl md:text-xl text-gray-600 font-normal leading-snug pb-8">
+            You can sign up in just{" "}
+            <span className="text-orange-2">one minute.</span>
+          </p>
+
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg translate-y-72">
+            <LoginButton onClick={handleGoogleLogin} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

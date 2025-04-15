@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 export function useOnboardingAdditional() {
   const navigate = useNavigate();
 
+  const goConcernPage = () => {
+    // Todo api 성공 이후 보내기
+    navigate("/onboarding/additional/concern");
+  };
   const goEmotionPage = () => {
     // Todo api 성공 이후 보내기
     navigate("/onboarding/additional/emotion");
@@ -19,5 +23,11 @@ export function useOnboardingAdditional() {
     navigate("/");
   };
 
-  return { goEmotionPage, goCompletePage, goHomePage, goBackPage };
+  return {
+    goConcernPage,
+    goEmotionPage,
+    goCompletePage,
+    goHomePage,
+    goBackPage,
+  };
 }

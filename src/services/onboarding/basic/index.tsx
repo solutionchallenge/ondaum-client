@@ -1,4 +1,5 @@
 import ToggleGroup from "../../../commons/inputs/ToggleButton/group";
+import { DatePickers } from "../../../commons/mui-x/DatePickers";
 import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional";
 import { useAuthStore } from "../../../store/auth";
 import OnboardingAdditionalLayout from "../additional/layout";
@@ -50,7 +51,7 @@ function OnboardingBasicPage() {
       </article>
       <article className="mb-6">
         <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Birth</h5>
-        {/* TODO : 생년월일 선택 모달 및 버튼 만들기 */}
+        <DatePickers />
       </article>
     </OnboardingAdditionalLayout>
   );

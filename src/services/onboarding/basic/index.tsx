@@ -21,16 +21,16 @@ function OnboardingBasicPage() {
     <OnboardingAdditionalLayout
       title={
         <>
-          <h2 className="text-2xl text-gray-5 my-4 font-normal">
+          <h2 className="text-2xl text-font-color my-4 font-normal">
             To get to know you better,
             <br />
             {user?.name}
           </h2>
-          <p className="text-4xl font-semibold font-[Open_Sans] text-gray-5 leading-[50.40px] mb-6">
+          <p className="text-4xl font-semibold font-[Open_Sans] text-font-color leading-[50.40px] mb-6">
             Could you provide
             <br />
             {"some" + " "}
-            <span className="text-orange-2">
+            <span className="text-second">
               simple
               <br />
               information?

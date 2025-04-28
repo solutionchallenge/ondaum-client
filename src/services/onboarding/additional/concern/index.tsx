@@ -20,10 +20,10 @@ function OnboardingConcernPage() {
     <OnboardingAdditionalLayout
       title={
         <>
-          <h2 className="text-lg text-gray-5 my-4 font-normal">
+          <h2 className="text-lg text-font-color my-4 font-normal">
             {user?.name} 님,
           </h2>
-          <p className="text-2xl font-semibold text-gray-5 leading-snug mb-6">
+          <p className="text-2xl font-semibold text-font-color leading-snug mb-6">
             Do you have <span className="text-orange-2">something</span>
             <br />
             on your mind ?
@@ -39,7 +39,7 @@ function OnboardingConcernPage() {
     >
       {CONCERN_KEY.map((key) => (
         <article key={key} className="mb-6">
-          <h5 className="text-sm text-gray-5 mb-2 capitalize">{key}</h5>
+          <h5 className="text-sm text-font-color mb-2 capitalize">{key}</h5>
           <ToggleGroup
             options={CONCERN[key]}
             selectedOption={concern[key] || ""}

@@ -21,34 +21,36 @@ function LoginPage() {
   };
 
   return (
-    <div className="fixed w-screen">
-      <div className="absolute inset-0 z-5 translate-y-[25rem]">
-        <AuthBg />
-      </div>
-      <div className="absolute inset-0 z-0 w-[393px] h-[250px] translate-y-[35rem] bg-gradient-to-b from-transparent to-[#FFBE7DCC] " />
+    <div className="flex flex-col justify-between min-h-screen relative overflow-hidden z-0">
       <div className="relative z-10 p-[20px]">
         <GlobalNavigation />
 
-        <main className="flex-1">
-          <h2 className="text-base sm:text-2xl text-gray-5 my-4 font-normal">
-            Hello
-          </h2>
-          <p className="text-5xl sm:text-5xl md:text-7xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
-            Is this
-            <br className="hidden sm:block" />
+        <main className="flex flex-col flex-1 relative z-0">
+          <h2 className="text-base text-gray-5 my-4 font-normal">Hello</h2>
+          <p className="text-5xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
+            Is this <br />
             your first time
             <br />
             using <span className="text-orange-2">OnDaum?</span>
           </p>
-          <p className="text-lg sm:text-2xl md:text-xl text-gray-600 font-normal leading-snug pb-8">
+          <p className="text-lg text-gray-600 font-normal leading-snug pb-8">
             You can sign up in just{" "}
             <span className="text-orange-2">one minute.</span>
           </p>
-
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg translate-y-72">
-            <LoginButton onClick={handleGoogleLogin} />
-          </div>
         </main>
+      </div>
+      <div className="flex relative mt-[-20px]">
+        <div className="w-full max-w-[400px] relative">
+          <AuthBg className="w-full h-auto" />
+          <div className="absolute inset-0 flex mt-[80%] w-[100%]">
+            {/* 그라데이션 */}
+            <div className="absolute bottom-0 w-full h-[150px] bg-gradient-to-b from-transparent to-[#FFBE7DCC] pointer-events-none" />
+            {/* 로그인 버튼 */}
+            <div className="relative z-10 ml-[5%]">
+              <LoginButton onClick={handleGoogleLogin} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

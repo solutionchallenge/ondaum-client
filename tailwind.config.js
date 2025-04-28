@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        "orange-3": "#F57C00",
-        "orange-2": "#F8A047",
-        "orange-1": "#FFE8BF",
-        "gray-1": "#FAFAFA",
+        main: "#F57C00",
+        second: "#F8A047",
+        third: "#FFE8BF",
+        white: "#FAFAFA",
         "gray-2": "#F6F6F6",
-        "gray-3": "#EDEDED",
-        "gray-4": "#AEAEAE",
-        "gray-5": "#505050",
+        "gray-1": "#EDEDED",
+        "font-color2": "#AEAEAE",
         "font-color": "#505050",
+        black: "#000000",
       },
     },
   },

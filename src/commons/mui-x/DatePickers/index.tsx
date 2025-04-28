@@ -1,16 +1,24 @@
-﻿import { useState } from "react";
 import { DayPicker, getDefaultClassNames } from "react-day-picker";
 import "react-day-picker/style.css";
 
-export function DatePickers() {
-  const [selected, setSelected] = useState<Date>();
+export function DatePickers({
+  selectedDate,
+  onSelectDate,
+}: {
+  selectedDate: Date | undefined;
+  onSelectDate: (date: Date) => void;
+}) {
   const defaultClassNames = getDefaultClassNames();
   return (
     <DayPicker
       animate
       mode="single"
-      selected={selected}
-      onSelect={setSelected}
+      selected={selectedDate}
+      onSelect={(date) => {
+        if (date) {
+          onSelectDate(date);
+        }
+      }}
       captionLayout="dropdown-years"
       classNames={{
         today: `border-amber-500`, // Add a border to today's date

@@ -1,3 +1,4 @@
+import Toggle from "../../../commons/inputs/ToggleButton";
 import ToggleGroup from "../../../commons/inputs/ToggleButton/group";
 import { DatePickers } from "../../../commons/mui-x/DatePickers";
 import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional";
@@ -11,6 +12,7 @@ function OnboardingBasicPage() {
   const { user } = useAuthStore();
   const { goConcernPage } = useOnboardingAdditional();
   const [concern, setConcern] = useState<Record<string, string>>({});
+  const [isBirthModalOpen, setIsBirthModalOpen] = useState(false);
   const updateConcern = (newConcern: Record<string, string>) => {
     setConcern(newConcern);
   };
@@ -51,7 +53,24 @@ function OnboardingBasicPage() {
       </article>
       <article className="mb-6">
         <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Birth</h5>
-        <DatePickers />
+        <Toggle
+          selected={!!concern.birth}
+          onClick={() => setIsBirthModalOpen(true)}
+        >
+          {concern.birth ? concern.birth : "Select birth"}
+        </Toggle>
+        {isBirthModalOpen && (
+          <DatePickers
+            selectedDate={concern.birth ? new Date(concern.birth) : undefined}
+            onSelectDate={(date) => {
+              updateConcern({
+                ...concern,
+                birth: `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`,
+              });
+              setIsBirthModalOpen(false);
+            }}
+          />
+        )}
       </article>
     </OnboardingAdditionalLayout>
   );

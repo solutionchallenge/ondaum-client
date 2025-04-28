@@ -7,6 +7,7 @@ import ChatToggle from "../../commons/inputs/ToggleButton/chat";
 
 function HomePage() {
   const [selectedOption, setSelectedOption] = useState<"Chat" | "Test">("Chat");
+  const [isChatFinished, setIsChatFinished] = useState(false);
 
   return (
     <main className="flex flex-col justify-center items-center h-screen pb-44">
@@ -18,27 +19,31 @@ function HomePage() {
       <DateChip date={new Date("2025-03-09T16:55:00")} />
       <div className="w-full flex flex-row justify-center gap-2 ml-3">
         <UmAvatar />
-        <div className="flex flex-col w-ful">
+        <div className="flex flex-col w-full justify-start">
           <div className="justify-start text-main font-semibold font-['Pretendard']">
             Um
           </div>
-          <InitChatList />
-          <div className="flex mt-5 gap-2">
-            <ChatToggle
-              key="Chat"
-              selected={selectedOption === "Chat"}
-              onClick={() => setSelectedOption("Chat")}
-            >
-              Chat
-            </ChatToggle>
-            <ChatToggle
-              key="Test"
-              selected={selectedOption === "Test"}
-              onClick={() => setSelectedOption("Test")}
-            >
-              Test
-            </ChatToggle>
+          <div className="min-h-[200px]">
+            <InitChatList onFinish={() => setIsChatFinished(true)} />
           </div>
+          {isChatFinished && (
+            <div className="flex mt-5 gap-2">
+              <ChatToggle
+                key="Chat"
+                selected={selectedOption === "Chat"}
+                onClick={() => setSelectedOption("Chat")}
+              >
+                Chat
+              </ChatToggle>
+              <ChatToggle
+                key="Test"
+                selected={selectedOption === "Test"}
+                onClick={() => setSelectedOption("Test")}
+              >
+                Test
+              </ChatToggle>
+            </div>
+          )}
         </div>
       </div>
     </main>

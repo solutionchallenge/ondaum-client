@@ -12,6 +12,7 @@ export default {
         "gray-3": "#EDEDED",
         "gray-4": "#AEAEAE",
         "gray-5": "#505050",
+        "font-color": "#505050",
       },
     },
   },

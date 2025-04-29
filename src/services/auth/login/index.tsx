@@ -26,27 +26,27 @@ function LoginPage() {
         <GlobalNavigation />
 
         <main className="flex flex-col flex-1 relative z-0">
-          <h2 className="text-base text-gray-5 my-4 font-normal">Hello</h2>
-          <p className="text-5xl font-bold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
+          <h2 className="text-[24px] text-font-color text-gray-5 my-4 font-normal">
+            Hello
+          </h2>
+          <p className="text-5xl text-font-color font-extrabold font-[figtree] leading-tight md:leading-snug sm:leading-snug pb-6 md:pb-8">
             Is this <br />
             your first time
             <br />
-            using <span className="text-orange-2">OnDaum?</span>
+            using <span className="text-second">OnDaum?</span>
           </p>
-          <p className="text-lg text-gray-600 font-normal leading-snug pb-8">
+          <p className="text-[22px] text-font-color text-gray-600 font-normal leading-snug pb-8">
             You can sign up in just{" "}
-            <span className="text-orange-2">one minute.</span>
+            <span className="text-main">one minute.</span>
           </p>
         </main>
       </div>
       <div className="flex relative mt-[-20px]">
-        <div className="w-full max-w-[400px] relative">
+        <div className="w-full max-w-[393px] relative">
           <AuthBg className="w-full h-auto" />
-          <div className="absolute inset-0 flex mt-[80%] w-[100%]">
-            {/* 그라데이션 */}
+          <div className="absolute inset-0 flex mt-[80%] w-full">
             <div className="absolute bottom-0 w-full h-[150px] bg-gradient-to-b from-transparent to-[#FFBE7DCC] pointer-events-none" />
-            {/* 로그인 버튼 */}
-            <div className="relative z-10 ml-[5%]">
+            <div className="flex justify-center w-full z-10">
               <LoginButton onClick={handleGoogleLogin} />
             </div>
           </div>

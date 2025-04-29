@@ -7,7 +7,7 @@ interface LoginButtonProps {
 function LoginButton({ onClick }: LoginButtonProps) {
   return (
     <button
-      className="flex items-center justify-center w-[353px] bg-white border border-gray-300 rounded-lg shadow-md hover:bg-gray-100 transition"
+      className="flex items-center justify-center w-[80%] h-[50%] bg-white border border-gray-300 rounded-lg shadow-md hover:bg-gray-100 transition"
       onClick={onClick}
     >
       <div className="absolute inset-0 rounded-lg transition-opacity"></div>

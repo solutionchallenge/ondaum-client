@@ -5,7 +5,7 @@ import MyPage from "../../../assets/images/icon_mypage.svg?react";
 function GlobalNavigation() {
   const { user } = useAuthStore();
   return (
-    <header className="w-screen h-16 flex items-center bg-[#fafafa] justify-between px-4 sticky top-0">
+    <header className="fixed w-screen h-16 flex items-center bg-white justify-between px-4 sticky top-0">
       <div>
         <OndaumLogo />
       </div>

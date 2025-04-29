@@ -158,7 +158,9 @@ function HomePage() {
           }}
         />
       </div>
-      {showEndSessionModal && <EndSessionModal />}
+      {showEndSessionModal && (
+        <EndSessionModal onClose={() => setShowEndSessionModal(false)} />
+      )}
     </main>
   );
 }

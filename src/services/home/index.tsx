@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import EndSessionModal from "../../commons/utils/modal";
 import UmAvatar from "../../commons/data-display/Avatar";
 import DateChip from "../../commons/data-display/Chip";
 import InitChatList from "../../commons/data-display/List/initgroup";
@@ -24,6 +25,17 @@ function HomePage() {
   const [isChatFinished, setIsChatFinished] = useState(false);
   const [chatInput, setChatInput] = useState("");
   const [chatEvents, setChatEvents] = useState<ChatEvent[]>([]);
+  const [showEndSessionModal, setShowEndSessionModal] = useState(false);
+
+  useEffect(() => {
+    if (selectedOption === "Chat") {
+      const timer = setTimeout(() => {
+        setShowEndSessionModal(true);
+      }, 1000); // Currently 1 second for development (later adjust)
+
+      return () => clearTimeout(timer);
+    }
+  }, [chatEvents]);
 
   return (
     <main className="flex flex-col h-screen overflow-hidden pt-[80px] pb-[120px] bg-white">
@@ -146,6 +158,7 @@ function HomePage() {
           }}
         />
       </div>
+      {showEndSessionModal && <EndSessionModal />}
     </main>
   );
 }

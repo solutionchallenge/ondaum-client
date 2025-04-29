@@ -24,13 +24,33 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
         onChange={onChange}
         onKeyPress={handleKeyPress}
         placeholder="Enter the contents."
+        inputMode="text"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck={false}
+        onFocus={() => {
+          setTimeout(() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          }, 300);
+        }}
         className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[calc(100%-80px)] bg-transparent text-font-color2 text-lg font-medium font-['Pretendard'] leading-[25.2px] outline-none"
       />
 
       {/* Send button (orange circle) */}
       <button
         type="button"
-        onClick={onSend}
+        onClick={() => {
+          onSend();
+          setTimeout(() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          }, 300);
+        }}
         className="absolute right-2 top-[9px] w-[34px] h-[34px] bg-[#f57c00] rounded-full flex items-center justify-center"
       >
         <SendIcon />

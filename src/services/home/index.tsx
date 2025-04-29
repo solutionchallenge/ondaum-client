@@ -35,7 +35,7 @@ function HomePage() {
 
       return () => clearTimeout(timer);
     }
-  }, [chatEvents]);
+  }, [chatEvents, selectedOption]);
 
   return (
     <main className="flex flex-col h-screen overflow-hidden pt-[80px] pb-[120px] bg-white">

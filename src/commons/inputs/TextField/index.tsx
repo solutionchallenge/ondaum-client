@@ -14,7 +14,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
   };
 
   return (
-    <div className="w-full max-w-[343px] h-[51px] relative">
+    <div className="w-full h-[51px] relative">
       {/* Background field */}
       <div className="absolute inset-0 bg-gray-2 rounded-[20px] border border-gray-1" />
 

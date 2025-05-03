@@ -19,7 +19,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col justify-between relative overflow-hidden z-0 bg-white">
+    <div className="flex flex-col justify-between min-h-screen relative overflow-hidden z-0 bg-white">
       <GlobalNavigation />
       <div className="relative z-10 p-[20px]">
         <main className="flex flex-col flex-1 relative z-0">
@@ -28,7 +28,7 @@ function LoginPage() {
           </h2>
           <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
             Is this
-            <br className="hidden sm:block" />
+            <br />
             your first time
             <br />
             using <span className="text-second">OnDaum?</span>

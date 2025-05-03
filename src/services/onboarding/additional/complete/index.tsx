@@ -10,10 +10,10 @@ function OnboardingCompletePage() {
     <OnboardingAdditionalLayout
       title={
         <>
-          <h2 className="text-lg text-gray-5 my-4 font-normal">
+          <h2 className="text-lg text-font-color my-4 font-normal">
             {user?.name} 님,
           </h2>
-          <p className="text-2xl font-bold text-gray-5 leading-snug mb-6">
+          <p className="text-2xl font-bold text-font-color leading-snug mb-6">
             From now on, <br />
             I’d love to hear <br />
             your thoughts.

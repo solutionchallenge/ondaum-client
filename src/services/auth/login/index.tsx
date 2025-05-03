@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../store/auth";
 import LoginButton from "../../../commons/inputs/Button/login";
 import GlobalNavigation from "../../../commons/navigation/GlobalNavigation";
@@ -7,8 +7,6 @@ import AuthBg from "../../../assets/images/img_login.svg?react";
 function LoginPage() {
   const { login } = useAuthStore();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
   const handleGoogleLogin = async () => {
     const mockUser = {
@@ -17,7 +15,7 @@ function LoginPage() {
       email: "test@example.com",
     };
     login(mockUser);
-    navigate(from, { replace: true });
+    navigate("/onboarding/basic");
   };
 
   return (
@@ -29,8 +27,9 @@ function LoginPage() {
           <h2 className="text-[24px] text-font-color text-gray-5 my-4 font-normal">
             Hello
           </h2>
-          <p className="text-5xl text-font-color font-extrabold font-[figtree] leading-tight md:leading-snug sm:leading-snug pb-6 md:pb-8">
-            Is this <br />
+          <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
+            Is this
+            <br className="hidden sm:block" />
             your first time
             <br />
             using <span className="text-second">OnDaum?</span>

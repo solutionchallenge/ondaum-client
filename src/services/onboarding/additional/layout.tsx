@@ -28,7 +28,7 @@ function OnboardingAdditionalLayout({
             {button.name}
           </Button>
           {button.subName && (
-            <Link to="/" className="text-sm text-orange-400 underline mt-4">
+            <Link to="/" className="text-sm text-second underline mt-4">
               {button.subName}
             </Link>
           )}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ChatResultModal from "../../commons/utils/modal/result";
 import EndSessionModal from "../../commons/utils/modal";
 import UmAvatar from "../../commons/data-display/Avatar";
 import DateChip from "../../commons/data-display/Chip";
@@ -26,6 +27,12 @@ function HomePage() {
   const [chatInput, setChatInput] = useState("");
   const [chatEvents, setChatEvents] = useState<ChatEvent[]>([]);
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
+  const [showChatResultModal, setShowChatResultModal] = useState(false);
+
+  const [summary, setSummary] = useState("");
+  const [mood, setMood] = useState("");
+  const [themes, setThemes] = useState<string[]>([]);
+  const [moodScore, setMoodScore] = useState(0);
 
   useEffect(() => {
     if (selectedOption === "Chat") {
@@ -37,9 +44,24 @@ function HomePage() {
     }
   }, [chatEvents, selectedOption]);
 
+  //더미 서버 api 요청
+  useEffect(() => {
+    if (showChatResultModal) {
+      // Simulated API call
+      setTimeout(() => {
+        setSummary(
+          "The consultation revealed signs of moderate anxiety, suggesting a need for continued emotional support and stress management"
+        );
+        setMood("Fear");
+        setThemes(["#overthinking", "#feelinglow", "#selfreflection"]);
+        setMoodScore(70);
+      }, 500);
+    }
+  }, [showChatResultModal]);
+
   return (
     <main className="flex flex-col h-screen overflow-hidden pt-[80px] pb-[120px] bg-white">
-      <div className="fixed top-14 left-0 px-4 right-0 z-10 bg-white">
+      <div className="fixed top-14 mt-3 mb-8 left-0 px-4 right-0 z-10 bg-white">
         <Card
           onClick={() => {}}
           title="Let's chat with Umi!"
@@ -159,7 +181,22 @@ function HomePage() {
         />
       </div>
       {showEndSessionModal && (
-        <EndSessionModal onClose={() => setShowEndSessionModal(false)} />
+        <EndSessionModal
+          onClose={() => setShowEndSessionModal(false)}
+          onConfirm={() => {
+            setShowEndSessionModal(false);
+            setShowChatResultModal(true);
+          }}
+        />
+      )}
+      {showChatResultModal && (
+        <ChatResultModal
+          onClose={() => setShowChatResultModal(false)}
+          summary={summary}
+          mood={mood}
+          themes={themes}
+          moodScore={moodScore}
+        />
       )}
     </main>
   );

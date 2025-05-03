@@ -19,10 +19,9 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col justify-between min-h-screen relative overflow-hidden z-0 bg-[#ffffff]">
+    <div className="flex flex-col justify-between relative overflow-hidden z-0 bg-white">
+      <GlobalNavigation />
       <div className="relative z-10 p-[20px]">
-        <GlobalNavigation />
-
         <main className="flex flex-col flex-1 relative z-0">
           <h2 className="text-[24px] text-font-color text-gray-5 my-4 font-normal">
             Hello
@@ -40,7 +39,7 @@ function LoginPage() {
           </p>
         </main>
       </div>
-      <div className="flex relative mt-[-20px]">
+      <div className="flex relative">
         <div className="w-full max-w-[393px] relative">
           <AuthBg className="w-full h-auto" />
           <div className="absolute inset-0 flex mt-[80%] w-full">

@@ -1,11 +1,23 @@
 import { NavLink } from "react-router-dom";
+import HomeFalse from "../../../assets/images/bottom/icon_home_false.svg?react";
+import Hometrue from "../../../assets/images/bottom/icon_home_true.svg?react";
+import SettingFalse from "../../../assets/images/bottom/icon_setting_false.svg?react";
+import Settingtrue from "../../../assets/images/bottom/icon_setting_true.svg?react";
+import ReportFalse from "../../../assets/images/bottom/icon_report_false.svg?react";
+import Reporttrue from "../../../assets/images/bottom/icon_report_true.svg?react";
 
 function BottomNavigation() {
   return (
-    <footer className="fixed bottom-0 z-10 w-screen white h-16 flex justify-around">
-      <NavLink to={"/onboarding/additional/concern"}>concern</NavLink>
-      <NavLink to={"/"}>home</NavLink>
-      <NavLink to={"/more"}>more</NavLink>
+    <footer className="fixed bottom-0 z-10 w-screen items-center bg-white h-16 flex justify-around">
+      <NavLink to={"/onboarding/additional/concern"}>
+        {({ isActive }) => (isActive ? <Settingtrue /> : <SettingFalse />)}
+      </NavLink>
+      <NavLink to={"/"}>
+        {({ isActive }) => (isActive ? <Hometrue /> : <HomeFalse />)}
+      </NavLink>
+      <NavLink to={"/more"}>
+        {({ isActive }) => (isActive ? <Reporttrue /> : <ReportFalse />)}
+      </NavLink>
     </footer>
   );
 }

@@ -1,5 +1,5 @@
 ﻿import UmAvatar from "../../../../commons/data-display/Avatar";
-import { ChatGroup } from "../../../../commons/data-display/List/group";
+import { ChatGroup } from "../../../../commons/data-display/List/servergroup";
 import { UserChatGroup } from "../../../../commons/data-display/List/usergroup";
 import { useAuthStore } from "../../../../store/auth";
 

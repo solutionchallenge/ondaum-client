@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import ListItem from ".";
+import ServerItem from "./serveritem";
 
 const chatContents = [
   [{ text: "Hello, do you have any concerns?", bold: false }],
@@ -37,7 +37,7 @@ export default function TestChatList({ onFinish }: { onFinish?: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <ListItem contents={contents} />
+          <ServerItem contents={contents} />
         </motion.div>
       ))}
     </div>

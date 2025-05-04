@@ -32,7 +32,7 @@ function App() {
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="/oauth/google/callback" element={<OAuthCallback />} />
+        <Route path="/oauth/google" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </AnimatePresence>

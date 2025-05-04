@@ -9,37 +9,35 @@ function OAuthCallback() {
   const { login } = useAuthStore();
 
   useEffect(() => {
-    const accessToken = searchParams.get("access_token");
-    const refreshToken = searchParams.get("refresh_token");
-
-    if (accessToken && refreshToken) {
-      localStorage.setItem("access_token", accessToken);
-      localStorage.setItem("refresh_token", refreshToken);
-
-      fetch(`${API_BASE_URL}/user/self`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch user");
-          return res.json();
-        })
-        .then((user) => {
-          login({
-            id: user.id,
-            name: user.username,
-            email: user.email,
-          });
-          console.log(user);
-          navigate("/onboarding/basic");
-        })
-        .catch(() => {
-          navigate("/login");
-        });
-    } else {
+    const code = searchParams.get("code");
+    if (!code) {
       navigate("/login");
+      return;
     }
+
+    fetch(`${API_BASE_URL}/oauth/google/auth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to exchange code for token");
+        return res.json();
+      })
+      .then(({ jwt, user }) => {
+        localStorage.setItem("access_token", jwt);
+        login({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        });
+        navigate("/onboarding/basic");
+      })
+      .catch(() => {
+        navigate("/login");
+      });
   }, [login, navigate, searchParams]);
 
   return <div>로그인 처리 중입니다...</div>;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ChatResultModal from "../../commons/utils/modal/result";
-import EndSessionModal from "../../commons/utils/modal";
+import ChatResultModal from "./components/modal/resultsession";
+import EndSessionModal from "./components/modal/endsession";
 
 import HeaderCard from "./components/headercard";
 import IntroSection from "./components/introsection";

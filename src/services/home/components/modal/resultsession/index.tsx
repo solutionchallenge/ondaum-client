@@ -1,4 +1,4 @@
-﻿import Card from "../../surfaces/Card";
+﻿import Card from "../../../../../commons/surfaces/Card";
 import AngerIcon from "../../../assets/images/chatresult/icon_anger.svg?react";
 import DisgustIcon from "../../../assets/images/chatresult/icon_disgust.svg?react";
 import SadnessIcon from "../../../assets/images/chatresult/icon_sadness.svg?react";

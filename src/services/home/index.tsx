@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import DateChip from "../../commons/data-display/Chip";
+
 import ChatResultModal from "./components/modal/resultsession";
 import EndSessionModal from "./components/modal/endsession";
-
 import HeaderCard from "./components/headercard";
 import IntroSection from "./components/introsection";
 import ChatSection from "./components/chatsection";
@@ -56,6 +57,7 @@ function HomePage() {
       <HeaderCard />
 
       <div className="mt-12 flex flex-col gap-4">
+        <DateChip date={new Date()} />
         <IntroSection
           isChatFinished={isChatFinished}
           hasselectedOption={hasselectedOption}
@@ -94,7 +96,14 @@ function HomePage() {
       )}
       {showChatResultModal && (
         <ChatResultModal
-          onClose={() => setShowChatResultModal(false)}
+          onClose={() => {
+            setShowChatResultModal(false);
+            setSelectedOption("");
+            hasSetSelectedOption(false);
+            setIsChatFinished(false);
+            setChatInput("");
+            setChatEvents([]);
+          }}
           summary={summary}
           mood={mood}
           themes={themes}

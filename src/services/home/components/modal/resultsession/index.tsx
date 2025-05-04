@@ -1,10 +1,10 @@
 ﻿import Card from "../../../../../commons/surfaces/Card";
-import AngerIcon from "../../../assets/images/chatresult/icon_anger.svg?react";
-import DisgustIcon from "../../../assets/images/chatresult/icon_disgust.svg?react";
-import SadnessIcon from "../../../assets/images/chatresult/icon_sadness.svg?react";
-import FearIcon from "../../../assets/images/chatresult/icon_fear.svg?react";
-import SurpriseIcon from "../../../assets/images/chatresult/icon_surprise.svg?react";
-import HappinessIcon from "../../../assets/images/chatresult/icon_happiness.svg?react";
+import AngerIcon from "../../../../../assets/images/chatresult/icon_anger.svg?react";
+import DisgustIcon from "../../../../../assets/images/chatresult/icon_disgust.svg?react";
+import SadnessIcon from "../../../../../assets/images/chatresult/icon_sadness.svg?react";
+import FearIcon from "../../../../../assets/images/chatresult/icon_fear.svg?react";
+import SurpriseIcon from "../../../../../assets/images/chatresult/icon_surprise.svg?react";
+import HappinessIcon from "../../../../../assets/images/chatresult/icon_happiness.svg?react";
 import { JSX } from "react";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {

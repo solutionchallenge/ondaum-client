@@ -9,6 +9,7 @@ import LoginPage from "./services/auth/login";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
 import { useNavigationDirection } from "./hooks/animation/useNavigationDirection.ts";
+import PhqPage from "./services/home/test/phq/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,14 @@ function App() {
       <Routes location={location} key={location.pathname}>
         <Route element={<Layout direction={direction} />}>
           <Route index element={<HomePage />} />
+          <Route path="home">
+            <Route index path="*" element={<HomePage />} />
+            <Route path="test">
+              <Route path="phq" element={<PhqPage />} />
+              <Route path="pss" element={<OnboardingEmotionPage />} />
+              <Route path="gad" element={<OnboardingCompletePage />} />
+            </Route>
+          </Route>
           <Route path="onboarding">
             <Route index path="*" element={<NotFoundPage />} />
             <Route path="basic" element={<OnboardingBasicPage />} />

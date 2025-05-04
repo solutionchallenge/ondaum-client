@@ -4,12 +4,16 @@ interface StepperProps {
 
 const Stepper = ({ currentStep }: StepperProps) => {
   return (
-    <div className="w-full flex justify-start items-center gap-2">
+    <div className="w-full p-3 flex justify-start items-center gap-2">
       {[1, 2, 3].map((step) => (
         <div
           key={step}
           className={`flex-1 h-2.5 rounded-[20px] ${
-            step === currentStep ? "bg-third" : "bg-[#d9d9d9]"
+            step === currentStep
+              ? "bg-third"
+              : step < currentStep
+                ? "bg-main"
+                : "bg-[#d9d9d9]"
           }`}
         />
       ))}

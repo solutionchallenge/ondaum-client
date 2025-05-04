@@ -6,6 +6,7 @@ import HomePage from "./services/home";
 import NotFoundPage from "./services/error/404";
 import OnboardingBasicPage from "./services/onboarding/basic";
 import LoginPage from "./services/auth/login";
+import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
 import { useNavigationDirection } from "./hooks/animation/useNavigationDirection.ts";
@@ -31,6 +32,7 @@ function App() {
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
+        <Route path="/oauth/google/callback" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </AnimatePresence>

@@ -2,7 +2,7 @@
 
 const HeaderCard = () => {
   return (
-    <div className="fixed top-14 mt-3 mb-8 left-0 px-4 right-0 z-10 bg-white">
+    <div className="fixed top-14 mt-8 mb-8 left-0 px-4 right-0 z-10 bg-white">
       <Card
         onClick={() => {}}
         title="Let's chat with Umi!"

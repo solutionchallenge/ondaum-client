@@ -19,14 +19,14 @@ const TEST_TOGGLE_ITEMS: TestToggleItem[] = [
 
 const TestToggle: React.FC<TestToggleGroupProps> = ({ selected, onSelect }) => {
   return (
-    <div className="flex flex-wrap gap-2 w-full mt-4">
+    <div className="flex flex-nowrap gap-2 w-full mt-4 overflow-x-auto">
       {TEST_TOGGLE_ITEMS.map((item) => {
         const isSelected = selected === item.key;
         return (
           <button
             key={item.key}
             onClick={() => onSelect(item.key)}
-            className={`flex flex-col w-[30%] min-w-[100px] h-36 justify-between px-3 py-4 rounded-[15px] outline outline-1 flex-grow transition-colors
+            className={`flex flex-col w-[30%] min-w-[124px] h-36 justify-between px-3 py-4 rounded-[15px] outline outline-1 flex-grow transition-colors
               ${isSelected ? "bg-main text-white outline-main" : "bg-[#ededed] text-font-color outline-gray-2"}`}
           >
             <div className="text-base font-semibold leading-snug text-left">

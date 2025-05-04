@@ -16,21 +16,23 @@ const TestSection = ({
 }: Props) => {
   const [isListFinished, setIsListFinished] = useState(false);
   return (
-    <div className="w-full flex flex-row justify-center gap-2 ml-3">
+    <div className="w-full flex flex-row gap-2 ml-3">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
         <div className="text-main font-semibold font-['Pretendard']">Um</div>
-        <div className="overflow-x-auto pr-2">
-          <TestChatList
-            onFinish={() => {
-              setIsChatFinished(true);
-              setIsListFinished(true);
-            }}
-          />
-          {isListFinished && (
-            <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
-          )}
-        </div>
+        <TestChatList
+          onFinish={() => {
+            setIsChatFinished(true);
+            setIsListFinished(true);
+          }}
+        />
+        {isListFinished && (
+          <div className="overflow-x-auto mt-2 mr-2">
+            <div className="flex flex-nowrap gap-2 w-max max-w-[347px]">
+              <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

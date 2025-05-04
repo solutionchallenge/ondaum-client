@@ -29,6 +29,13 @@ function HomePage() {
   const [selectedTest, setSelectedTest] = useState("phq-9");
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
     if (selectedOption === "Chat") {
       const timer = setTimeout(() => {
         setShowEndSessionModal(true);
@@ -53,10 +60,12 @@ function HomePage() {
   }, [showChatResultModal]);
 
   return (
-    <main className="flex flex-col h-screen overflow-hidden pt-[80px] pb-[120px] bg-white">
-      <HeaderCard />
+    <main className="relative flex flex-col h-screen overflow-hidden bg-white">
+      <div className="h-32 flex-shrink-0">
+        <HeaderCard />
+      </div>
 
-      <div className="mt-12 flex flex-col gap-4">
+      <div className="flex-1 min-h-0 overflow-y-auto mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
         <DateChip date={new Date()} />
         <IntroSection
           isChatFinished={isChatFinished}
@@ -79,11 +88,13 @@ function HomePage() {
         )}
       </div>
 
-      <ChatInputBox
-        chatInput={chatInput}
-        setChatInput={setChatInput}
-        setChatEvents={setChatEvents}
-      />
+      <div className="h-[120px] flex-shrink-0">
+        <ChatInputBox
+          chatInput={chatInput}
+          setChatInput={setChatInput}
+          setChatEvents={setChatEvents}
+        />
+      </div>
 
       {showEndSessionModal && (
         <EndSessionModal

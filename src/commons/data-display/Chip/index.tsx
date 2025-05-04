@@ -18,7 +18,7 @@ export default function DateChip({ date }: DateChipProps) {
     : "Date not defined";
 
   return (
-    <div className="inline-flex items-center justify-center w-full mb-8 max-w-sm px-4 py-1 bg-gray-2 rounded-full">
+    <div className="inline-flex items-center justify-center w-full mb-4 max-w-sm px-4 py-1 bg-gray-2 rounded-full">
       <div className="text-font-color text-xs text-center">{formattedDate}</div>
     </div>
   );

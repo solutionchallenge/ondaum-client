@@ -36,6 +36,7 @@ function OnboardingConcernPage() {
         subName: "I don't want to share my worries",
         disabled: isDisabled,
       }}
+      currentStep={2}
     >
       {CONCERN_KEY.map((key) => (
         <article key={key} className="mb-6">

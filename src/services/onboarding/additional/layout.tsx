@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ReactNode } from "react";
 import Button from "../../../commons/inputs/Button";
+import Stepper from "../../../commons/navigation/Stepper";
 
 export interface OnboardingLayoutProps {
   title: ReactNode;
@@ -11,15 +12,18 @@ export interface OnboardingLayoutProps {
     subName?: string;
     disabled?: boolean;
   };
+  currentStep?: number;
 }
 
 function OnboardingAdditionalLayout({
   title,
   children,
   button,
+  currentStep,
 }: OnboardingLayoutProps) {
   return (
     <main className="pb-44">
+      {typeof currentStep === "number" && <Stepper currentStep={currentStep} />}
       {title}
       {children}
       {button && (

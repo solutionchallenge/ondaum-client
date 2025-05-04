@@ -27,6 +27,7 @@ function OnboardingEmotionPage() {
         name: "Finish choosing your mind",
         onPress: goCompletePage,
       }}
+      currentStep={3}
     >
       {emotion}
     </OnboardingAdditionalLayout>

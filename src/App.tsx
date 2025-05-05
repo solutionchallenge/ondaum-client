@@ -9,6 +9,7 @@ import LoginPage from "./services/auth/login";
 import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
+import PhqPage from "./services/home/test/phq/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -17,7 +18,14 @@ function App() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route element={<Layout />}>
-          <Route index element={<HomePage />} />
+          <Route path="home">
+            <Route index path="*" element={<HomePage />} />
+            <Route path="test">
+              <Route path="phq" element={<PhqPage />} />
+              <Route path="pss" element={<OnboardingEmotionPage />} />
+              <Route path="gad" element={<OnboardingCompletePage />} />
+            </Route>
+          </Route>
           <Route path="onboarding">
             <Route index path="*" element={<NotFoundPage />} />
             <Route path="basic" element={<OnboardingBasicPage />} />

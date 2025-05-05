@@ -10,7 +10,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col justify-between min-h-screen relative overflow-hidden z-0 bg-white">
+    <div className="flex flex-col pt-16 justify-between min-h-screen relative overflow-hidden z-0 bg-white">
       <GlobalNavigation />
       <div className="relative z-10 p-[20px]">
         <main className="flex flex-col flex-1 relative z-0">

@@ -20,7 +20,7 @@ export function useOnboardingAdditional() {
   };
   const goHomePage = () => {
     // Todo api 성공 이후 보내기
-    navigate("/");
+    navigate("/home");
   };
 
   return {

@@ -12,7 +12,7 @@ function BottomNavigation() {
       <NavLink to={"/onboarding/additional/concern"}>
         {({ isActive }) => (isActive ? <Settingtrue /> : <SettingFalse />)}
       </NavLink>
-      <NavLink to={"/"}>
+      <NavLink to={"/home"}>
         {({ isActive }) => (isActive ? <Hometrue /> : <HomeFalse />)}
       </NavLink>
       <NavLink to={"/more"}>

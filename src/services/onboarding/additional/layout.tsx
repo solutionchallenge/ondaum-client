@@ -22,7 +22,7 @@ function OnboardingAdditionalLayout({
   currentStep,
 }: OnboardingLayoutProps) {
   return (
-    <main className="pb-44">
+    <main className="pb-44 pt-16">
       {typeof currentStep === "number" && <Stepper currentStep={currentStep} />}
       {title}
       {children}

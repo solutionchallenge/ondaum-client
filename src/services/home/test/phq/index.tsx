@@ -6,11 +6,13 @@ import StartCard from "../../components/test/startcard";
 import TestResultCard from "../../components/test/testresultcard";
 import { AnswerGroup } from "../../components/test/answertoggle/group";
 import SolutionGroup from "../../components/test/solutioncard/group";
+import SolutionModal from "../../components/test/solutionmodal";
 
 export default function PHQ() {
   const [selectedSolutionId, setSelectedSolutionId] = useState<string | null>(
     null
   );
+  const [showSolutionModal, setShowSolutionModal] = useState(false);
 
   return (
     <>
@@ -30,11 +32,16 @@ export default function PHQ() {
         <CautionTypo />
         <TestResultCard type="PSS" score={23} />
         <TestResultCard type="PHQ-9" score={23} />
+        {showSolutionModal && (
+          <SolutionModal onClose={() => setShowSolutionModal(false)} />
+        )}
+        {/* 하위 컴포넌트에 prop 전달 */}
         <SolutionGroup
           type="PHQ-9"
           result="Severe"
           selectedId={selectedSolutionId}
           onSelect={setSelectedSolutionId}
+          openSolutionModal={() => setShowSolutionModal(true)}
         />
       </main>
     </>

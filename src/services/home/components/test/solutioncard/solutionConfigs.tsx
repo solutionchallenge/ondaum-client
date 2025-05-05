@@ -7,7 +7,7 @@ type SolutionItem = {
   title: string;
   description: string;
   icon: JSX.Element;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 type SolutionMap = {
@@ -24,18 +24,12 @@ const solutionMap: SolutionMap = {
         title: "Let's talk with Um.",
         description: "Let's talk about the situation with Um.",
         icon: <IconTalk />,
-        onClick: () => {
-          console.log("stress-positive-1 clicked");
-        },
       },
       {
         id: "stress-positive-2",
         title: "End the test",
         description: "Finish the test and rest.",
         icon: <IconEnd />,
-        onClick: () => {
-          console.log("stress-positive-2 clicked");
-        },
       },
     ],
     negative: [
@@ -44,18 +38,12 @@ const solutionMap: SolutionMap = {
         title: "Talk to a Counselor",
         description: "Professional support, when you need it",
         icon: <IconEnd />,
-        onClick: () => {
-          console.log("stress-negative-1 clicked");
-        },
       },
       {
         id: "stress-negative-2",
         title: "Let's talk about the problem",
         description: "Let's talk about the problem with Um.",
         icon: <IconTalk />,
-        onClick: () => {
-          console.log("stress-negative-2 clicked");
-        },
       },
     ],
   },

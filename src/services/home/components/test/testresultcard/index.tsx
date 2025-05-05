@@ -17,7 +17,7 @@ const TestResultCard = ({ type, score }: TestResultCardProps) => {
     levelConfigs[type]?.[level] || levelConfigs["PHQ-9"]["Minimal"];
   const maxScore = maxScoreMap[type] || 27;
   return (
-    <div className="w-full mt-3 mb-24 px-4 py-5 bg-third rounded-xl outline outline-1 outline-offset-[-1px] outline-second flex flex-col items-center gap-4">
+    <div className="w-full mt-3 mb-12 px-4 py-5 bg-third rounded-xl outline outline-1 outline-offset-[-1px] outline-second flex flex-col items-center gap-4">
       <div className="flex flex-row justify-between items-start w-full gap-4">
         <div className="flex-1 flex flex-col items-start gap-2">
           <div className="text-font-color text-lg sm:text-xl font-bold leading-7">

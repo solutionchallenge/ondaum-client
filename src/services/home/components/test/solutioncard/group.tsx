@@ -1,10 +1,11 @@
 ﻿import SolutionCard from "./item";
 import solutionMap from "./solutionConfigs";
+import levelThresholds from "../testresultcard/levelThresholds";
 import { resultPolarityMap } from "./solutionLevelMap";
 
 type SolutionGroupProps = {
   type: string;
-  result: string;
+  score: number;
   selectedId: string | null;
   onSelect: (id: string) => void;
   openSolutionModal: () => void;
@@ -12,13 +13,20 @@ type SolutionGroupProps = {
 
 const SolutionGroup = ({
   type,
-  result,
+  score,
   selectedId,
   onSelect,
   openSolutionModal,
 }: SolutionGroupProps) => {
-  const level = resultPolarityMap[type]?.[result] ?? "positive";
-  const items = solutionMap["stress"]?.[level] || [];
+  const thresholds = levelThresholds[type] ?? [];
+  const level =
+    thresholds
+      .slice()
+      .reverse()
+      .find((t) => score >= t.min)?.level ?? "Minimal";
+  const result = resultPolarityMap[type]?.[level] ?? "positive";
+  const key = `stress-${result}`;
+  const items = solutionMap[key] || [];
 
   return (
     <div className="flex flex-col gap-4 w-full">

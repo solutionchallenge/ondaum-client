@@ -35,7 +35,7 @@ const AccountDeletion = () => {
             </p>
           </div>
           <div className="w-full p-3 bg-white rounded-[10px] outline outline-1 outline-offset-[-1px] outline-gray-1">
-            <div className="flex items-start gap-2">
+            <div className="flex items-center gap-2">
               <input
                 type="checkbox"
                 id="delete-confirmation"

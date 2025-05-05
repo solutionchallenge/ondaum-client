@@ -1,7 +1,7 @@
 import OnboardingAdditionalLayout from "../layout.tsx";
-import { useAuthStore } from "../../../../store/auth";
-import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
-
+import { useAuthStore } from "../../../store/auth/index.ts";
+import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional.ts";
+import UmWithFriendImage from '../../../assets/images/image_umwithfriend.svg?react';
 function OnboardingCompletePage() {
   const { user } = useAuthStore();
   const { goHomePage } = useOnboardingAdditional();
@@ -25,7 +25,9 @@ function OnboardingCompletePage() {
         onPress: goHomePage,
       }}
     >
-      image
+      <div className="flex flex-col items-center justify-center">
+       <UmWithFriendImage/>
+      </div>
     </OnboardingAdditionalLayout>
   );
 }

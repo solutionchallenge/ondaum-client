@@ -5,10 +5,9 @@ export function useNavigationDirection() {
   const location = useLocation();
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const historyStack = useRef<string[]>([]);
+  const currentKey = location.key;
 
   useEffect(() => {
-    const currentKey = location.key;
-
     const currentIndex = historyStack.current.indexOf(currentKey);
 
     if (currentIndex === -1) {
@@ -20,7 +19,7 @@ export function useNavigationDirection() {
       historyStack.current = historyStack.current.slice(0, currentIndex + 1);
       setDirection("backward");
     }
-  }, [location.key]);
+  }, [currentKey]);
 
   return direction;
 }

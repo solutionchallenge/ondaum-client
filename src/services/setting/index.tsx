@@ -6,7 +6,7 @@ import FAQSection from "./component/question";
 
 function SettingPage() {
   return (
-    <main className="flex py-24 px-3 gap-5 flex-col h-screen overflow-y-auto bg-white">
+    <main className="flex flex-col items-center py-24 px-3 gap-5 flex-col h-screen overflow-y-auto bg-white">
       <GlobalNavigation />
       <LanguageSetting />
       <FAQSection />

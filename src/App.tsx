@@ -10,6 +10,8 @@ import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
 import PhqPage from "./services/home/test/phq/index.tsx";
+import GadPage from "./services/home/test/gad/index.tsx";
+import PssPage from "./services/home/test/pss/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -22,8 +24,8 @@ function App() {
             <Route index path="*" element={<HomePage />} />
             <Route path="test">
               <Route path="phq" element={<PhqPage />} />
-              <Route path="pss" element={<OnboardingEmotionPage />} />
-              <Route path="gad" element={<OnboardingCompletePage />} />
+              <Route path="pss" element={<PssPage />} />
+              <Route path="gad" element={<GadPage />} />
             </Route>
           </Route>
           <Route path="onboarding">
@@ -31,7 +33,7 @@ function App() {
             <Route path="basic" element={<OnboardingBasicPage />} />
             <Route path="additional">
               <Route index path="*" element={<NotFoundPage />} />
-              <Route path="concern" element={<OnboardingConcernPage  />} />
+              <Route path="concern" element={<OnboardingConcernPage />} />
               <Route path="emotion" element={<OnboardingEmotionPage />} />
             </Route>
             <Route path="complete" element={<OnboardingCompletePage />} />

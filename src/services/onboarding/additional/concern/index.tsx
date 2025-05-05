@@ -65,7 +65,7 @@ function OnboardingConcernPage() {
         </div>
       </Accordion>
       ))}
-      <Link to="/" className="text-sm text-second text-center underline mt-4">
+      <Link to="/home" className="text-sm text-second text-center underline mt-4">
         I don't want to share my worries
       </Link>
       </section>

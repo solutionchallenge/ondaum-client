@@ -73,8 +73,6 @@ function OnboardingAdditionalLayout({
       >
       {children}
       </motion.div>
-
-     
       {button && (
         <div className="fixed left-0 w-screen bottom-16 py-4 px-4 text-center bg-linear-gradient-to-[#FFBF7D80] from-white to-transparent">
            {toast &&

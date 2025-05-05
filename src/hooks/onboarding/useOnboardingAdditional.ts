@@ -13,7 +13,7 @@ export function useOnboardingAdditional() {
   };
   const goCompletePage = () => {
     // Todo api 성공 이후 보내기
-    navigate("/onboarding/additional/complete");
+    navigate("/onboarding/complete");
   };
   const goBackPage = () => {
     navigate(-1);

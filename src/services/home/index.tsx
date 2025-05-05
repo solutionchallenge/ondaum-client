@@ -76,7 +76,6 @@ function HomePage() {
           setChatEvents={setChatEvents}
           setIsChatFinished={setIsChatFinished}
         />
-
         {selectedOption === "Chat" && <ChatSection chatEvents={chatEvents} />}
 
         {selectedOption === "Test" && (

@@ -6,12 +6,12 @@ type Category = {
     label: string;
   };
   
-  interface AccordianProps{
+  interface AccordionProps{
     item:Category;
     children: ReactNode;
   }
 
-function Accordian({item, children}:AccordianProps){
+function Accordion({item, children}:AccordionProps){
     const [expanded, setExpanded] = useState<string>();
   
     return(
@@ -34,4 +34,4 @@ function Accordian({item, children}:AccordianProps){
           </article>
     )
 }
-export default Accordian;
+export default Accordion;

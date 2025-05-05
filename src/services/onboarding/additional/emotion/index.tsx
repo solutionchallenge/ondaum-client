@@ -2,7 +2,7 @@ import OnboardingAdditionalLayout from "../../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
 import { EMOTION_KEYS, EMOTION_ICONS, EMOTIONS } from "./constants.tsx";
-import Accordian from "../../../../commons/surfaces/Accordian/index.tsx";
+import Accordion from "../../../../commons/surfaces/Accordion/index.tsx";
 import CheckBox from "../../../../commons/inputs/CheckBox/index.tsx";
 import { useEffect } from "react";
 import {  EmotionTypes, getEmotion, updateUserAddition } from "../../../../api/onboarding/addition.ts";
@@ -70,7 +70,7 @@ const fetchAddition = async()=>{
       <section className="flex flex-col gap-3">
       {
       EMOTION_KEYS.map((key) => (
-      <Accordian key={key} item={{
+      <Accordion key={key} item={{
         icon: EMOTION_ICONS[key],
         label: key
       }}>
@@ -81,7 +81,7 @@ const fetchAddition = async()=>{
             ))
           }
         </div>
-      </Accordian>
+      </Accordion>
       ))}
       </section>
     </OnboardingAdditionalLayout>

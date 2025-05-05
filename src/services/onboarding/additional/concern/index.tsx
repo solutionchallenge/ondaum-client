@@ -6,7 +6,7 @@ import {
   CONCERN_ICONS,
 } from "./constants.tsx";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
-import Accordian from "../../../../commons/surfaces/Accordian/index.tsx";
+import Accordion from "../../../../commons/surfaces/Accordion/index.tsx";
 import { useOnboardingConcernStore } from "../../../../store/onboarding/index.ts";
 import CheckBox from "../../../../commons/inputs/CheckBox/index.tsx";
 import { Link } from "react-router-dom";
@@ -50,7 +50,7 @@ function OnboardingConcernPage() {
       <section className="flex flex-col gap-3">
       {
       CONCERN_KEYS.map((key) => (
-      <Accordian key={key} item={{
+      <Accordion key={key} item={{
       icon: CONCERN_ICONS[key],
         label: key
       }}>
@@ -61,7 +61,7 @@ function OnboardingConcernPage() {
             ))
           }
         </div>
-      </Accordian>
+      </Accordion>
       ))}
 
       <Link to="/" className="text-sm text-second text-center underline mt-4">

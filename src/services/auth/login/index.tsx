@@ -4,13 +4,9 @@ import LoginButton from "../../../commons/inputs/Button/login";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function LoginPage() {
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = () => {
     const redirectUri = `${window.location.origin}/oauth/google`;
-    const res = await fetch(
-      `${API_BASE_URL}/oauth/google/start?redirect=${encodeURIComponent(redirectUri)}`
-    );
-    const { auth_url } = await res.json();
-    window.location.href = auth_url;
+    window.location.href = `${API_BASE_URL}/oauth/google/start?redirect=${encodeURIComponent(redirectUri)}`;
   };
 
   return (

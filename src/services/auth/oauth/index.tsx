@@ -1,15 +1,21 @@
-﻿import { useEffect } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuthStore } from "../../../store/auth";
+import { useFetchUser } from "../../../hooks/auth/useFetchUser";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function OAuthCallback() {
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { login } = useAuthStore();
+  useFetchUser(accessToken, () => {
+    navigate("/onboarding/basic");
+  });
 
   useEffect(() => {
     const code = searchParams.get("code");
+    console.log(code);
     if (!code) {
       navigate("/login");
       return;
@@ -26,21 +32,15 @@ function OAuthCallback() {
         if (!res.ok) throw new Error("Failed to exchange code for token");
         return res.json();
       })
-      .then(({ jwt, user }) => {
-        localStorage.setItem("access_token", jwt);
-        login({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        });
-        navigate("/onboarding/basic");
+      .then(({ access_token, refresh_token }) => {
+        localStorage.setItem("access_token", access_token);
+        setAccessToken(access_token);
+        localStorage.setItem("refresh_token", refresh_token);
       })
       .catch(() => {
         navigate("/login");
       });
   }, [login, navigate, searchParams]);
-
-  return <div>로그인 처리 중입니다...</div>;
 }
 
 export default OAuthCallback;

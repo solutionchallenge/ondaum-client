@@ -11,7 +11,7 @@ function OnboardingCompletePage() {
       title={
         <>
           <h2 className="text-lg text-font-color my-4 font-normal">
-            {user?.name} 님,
+            {user?.username} 님,
           </h2>
           <p className="text-2xl font-bold text-font-color leading-snug mb-6">
             From now on, <br />

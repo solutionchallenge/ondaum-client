@@ -24,7 +24,7 @@ function OnboardingBasicPage() {
           <h2 className="text-2xl text-font-color my-4 font-normal">
             To get to know you better,
             <br />
-            {user?.name}
+            {user?.username}
           </h2>
           <p className="text-4xl font-semibold font-[Open_Sans] text-font-color leading-[50.40px] mb-6">
             Could you provide

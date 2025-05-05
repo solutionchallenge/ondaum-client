@@ -3,7 +3,7 @@ import ToggleGroup from "../../../commons/inputs/ToggleButton/group";
 import { DatePickers } from "../../../commons/mui-x/DatePickers";
 import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional";
 import { useAuthStore } from "../../../store/auth";
-import OnboardingAdditionalLayout from "../additional/layout";
+import OnboardingAdditionalLayout from "../layout";
 import { useState } from "react";
 
 const GENDER_LIST = ["male", "female", "etc"];

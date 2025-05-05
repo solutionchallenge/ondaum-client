@@ -1,4 +1,4 @@
-import OnboardingAdditionalLayout from "../layout.tsx";
+import OnboardingAdditionalLayout from "../../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
 import { useOnboardingEmotionStore } from "../../../../store/onboarding";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
@@ -10,9 +10,10 @@ function OnboardingEmotionPage() {
 
   return (
     <OnboardingAdditionalLayout
+      currentStepNumber={2}
+      navigation={goBackPage}
       title={
         <>
-          <div onClick={goBackPage}> {"<"}</div>
           <h2 className="text-lg text-font-color my-4 font-normal">
             {user?.name} 님,
           </h2>

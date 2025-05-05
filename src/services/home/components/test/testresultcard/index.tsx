@@ -1,6 +1,6 @@
 ﻿import levelThresholds from "./levelThresholds";
-import { levelConfigs } from "./levelconfigs";
-import { maxScoreMap } from "./maxscoremap";
+import { levelConfigs } from "./levelConfigs";
+import { maxScoreMap } from "./maxScoreMap";
 
 interface TestResultCardProps {
   type: string;

@@ -53,7 +53,10 @@ const AccountDeletion = () => {
             <button className="w-full bg-gray_1 text-font-color2 py-2 rounded-md text-base">
               Delete My Account
             </button>
-            <button className="w-full bg-main text-white py-2 rounded-md text-base font-semibold">
+            <button
+              className="w-full bg-main text-white py-2 rounded-md text-base font-semibold"
+              onClick={() => setIsOpen(!isOpen)}
+            >
               Cancel
             </button>
           </div>

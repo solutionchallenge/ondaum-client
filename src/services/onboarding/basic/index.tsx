@@ -42,7 +42,6 @@ function OnboardingBasicPage() {
         name: "Enter your information",
         onPress: goConcernPage,
       }}
-      currentStep={1}
     >
       <article className="mb-6">
         <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Sex</h5>

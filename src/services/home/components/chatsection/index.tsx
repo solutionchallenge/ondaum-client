@@ -35,7 +35,7 @@ const ChatSection = ({ chatEvents }: Props) => {
           {event.sender === "user" && (
             <div className="flex flex-col items-end gap-2 pr-7">
               <div className="text-main font-semibold font-['Pretendard'] text-right">
-                {user?.name}
+                {user?.username}
               </div>
               <UserChatGroup
                 messages={[[{ text: event.text, bold: event.bold }]]}

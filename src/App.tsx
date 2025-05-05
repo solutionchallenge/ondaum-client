@@ -10,6 +10,7 @@ import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
 import PhqPage from "./services/home/test/phq/index.tsx";
+import SettingPage from "./services/setting/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -31,7 +32,7 @@ function App() {
             <Route path="basic" element={<OnboardingBasicPage />} />
             <Route path="additional">
               <Route index path="*" element={<NotFoundPage />} />
-              <Route path="concern" element={<OnboardingConcernPage  />} />
+              <Route path="concern" element={<OnboardingConcernPage />} />
               <Route path="emotion" element={<OnboardingEmotionPage />} />
             </Route>
             <Route path="complete" element={<OnboardingCompletePage />} />
@@ -40,6 +41,7 @@ function App() {
         </Route>
         <Route path="/oauth/google" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/setting" element={<SettingPage />} />
       </Routes>
     </AnimatePresence>
   );

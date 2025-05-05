@@ -5,18 +5,29 @@ interface Answer {
   title: string;
 }
 
-const answers: Answer[] = [
+const defaultAnswers: Answer[] = [
   { title: "Not at all" },
   { title: "Several days" },
   { title: "More than half the days" },
   { title: "Nearly every day" },
 ];
 
+const pssAnswers: Answer[] = [
+  { title: "Never" },
+  { title: "Almost Never" },
+  { title: "Sometimes" },
+  { title: "Fairly Often" },
+  { title: "Very Often" },
+];
+
 const AnswerGroup: React.FC<{
   onSelect: (score: number) => void;
   questionIndex: number;
-}> = ({ onSelect, questionIndex }) => {
+  type?: string;
+}> = ({ onSelect, questionIndex, type }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const answers = type === "PSS" ? pssAnswers : defaultAnswers;
 
   useEffect(() => {
     setSelectedIndex(null);

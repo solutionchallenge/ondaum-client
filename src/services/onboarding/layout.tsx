@@ -26,6 +26,7 @@ function OnboardingAdditionalLayout({
   currentStepNumber,  
   navigation,
 }: OnboardingLayoutProps) {
+  
   const direction = useNavigationDirection();
   const variants = {
     forward: {

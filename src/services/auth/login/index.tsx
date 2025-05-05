@@ -14,17 +14,17 @@ function LoginPage() {
       <GlobalNavigation />
       <div className="relative z-10 p-[20px]">
         <main className="flex flex-col flex-1 relative z-0">
-          <h2 className="text-[24px] text-font-color text-gray-5 my-4 font-normal">
+          <h2 className="text-[24px] text-font-color text-gray-5 font-normal">
             Hello
           </h2>
-          <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] pb-6 md:pb-8">
+          <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] pb-2">
             Is this
             <br />
             your first time
             <br />
             using <span className="text-second">OnDaum?</span>
           </p>
-          <p className="text-[22px] text-font-color text-gray-600 font-normal leading-snug pb-8">
+          <p className="text-[22px] text-font-color text-gray-600 font-normal leading-snug pb-3">
             You can sign up in just{" "}
             <span className="text-main">one minute.</span>
           </p>

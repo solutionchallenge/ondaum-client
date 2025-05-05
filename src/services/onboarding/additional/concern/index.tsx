@@ -21,7 +21,7 @@ function OnboardingConcernPage() {
       title={
         <>
           <h2 className="text-lg text-font-color my-4 font-normal">
-            {user?.name} 님,
+            {user?.username} 님,
           </h2>
           <p className="text-2xl font-semibold text-font-color leading-snug mb-6">
             Do you have <span className="text-orange-2">something</span>

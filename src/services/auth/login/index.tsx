@@ -1,21 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../../store/auth";
-import LoginButton from "../../../commons/inputs/Button/login";
 import GlobalNavigation from "../../../commons/navigation/GlobalNavigation";
 import AuthBg from "../../../assets/images/img_login.svg?react";
+import LoginButton from "../../../commons/inputs/Button/login";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function LoginPage() {
-  const { login } = useAuthStore();
-  const navigate = useNavigate();
-
-  const handleGoogleLogin = async () => {
-    const mockUser = {
-      id: "123",
-      name: "홍길동",
-      email: "test@example.com",
-    };
-    login(mockUser);
-    navigate("/onboarding/basic");
+  const handleGoogleLogin = () => {
+    const redirectUri = `${window.location.origin}/oauth/google`;
+    window.location.href = `${API_BASE_URL}/oauth/google/start?redirect=${encodeURIComponent(redirectUri)}`;
   };
 
   return (

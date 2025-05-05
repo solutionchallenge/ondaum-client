@@ -10,6 +10,7 @@ export default {
         white: "#FAFAFA",
         "gray-2": "#F6F6F6",
         "gray-1": "#EDEDED",
+        'gray-3':'#D9D9D9',
         "font-color2": "#AEAEAE",
         "font-color": "#505050",
         black: "#000000",
@@ -22,6 +23,5 @@ export default {
       },
     },
   },
-
   plugins: [],
 };

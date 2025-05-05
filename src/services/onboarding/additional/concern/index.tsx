@@ -1,4 +1,4 @@
-import OnboardingAdditionalLayout from "../layout.tsx";
+import OnboardingAdditionalLayout from "../../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
 import {
   CONCERN_KEY,
@@ -17,16 +17,16 @@ function OnboardingConcernPage() {
   const isDisabled = !Object.values(concern).some((val) => val);
 
   return (
-    <OnboardingAdditionalLayout
+    <OnboardingAdditionalLayout 
+      currentStepNumber={1}
       title={
         <>
           <h2 className="text-lg text-font-color my-4 font-normal">
             {user?.username} 님,
           </h2>
           <p className="text-2xl font-semibold text-font-color leading-snug mb-6">
-            Do you have <span className="text-orange-2">something</span>
-            <br />
-            on your mind ?
+            Do you have <br />
+            <span className="text-second">something</span> on your mind ?
           </p>
         </>
       }

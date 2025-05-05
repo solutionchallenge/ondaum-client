@@ -16,9 +16,7 @@ function OnboardingConcernPage() {
   const { concern, updateConcern } = useOnboardingConcernStore();
   const { goEmotionPage } = useOnboardingAdditional();
 
-  console.log(concern);
   const concernChange=(key:string, label:string, value:boolean)=>{
-    console.log(key, label, value);
     if(value){
       updateConcern({...concern, [key]: [...(concern[key as ConcernTypes] || []), label]});
     }else{
@@ -40,6 +38,10 @@ function OnboardingConcernPage() {
           </p>
         </>
       }
+      toast={{
+        message: <>Select {Object.values(concern).flat().length} something in total</>,
+        type: "warning",
+      }}
       button={{
         name: "Finish choosing your mind",
         onPress:()=>{
@@ -63,10 +65,9 @@ function OnboardingConcernPage() {
         </div>
       </Accordion>
       ))}
-
       <Link to="/" className="text-sm text-second text-center underline mt-4">
-              I don't want to share my worries
-            </Link>
+        I don't want to share my worries
+      </Link>
       </section>
     </OnboardingAdditionalLayout>
   );

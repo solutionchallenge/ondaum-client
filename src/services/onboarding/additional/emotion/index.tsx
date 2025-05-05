@@ -14,8 +14,6 @@ function OnboardingEmotionPage() {
   const { user } = useAuthStore();
   const { goCompletePage, goBackPage } = useOnboardingAdditional();
 
-
-  console.log(emotion);
 const fetchEmotions=async()=>{
   const {supported_emotions}=await getEmotion();
   console.log('response',  supported_emotions);
@@ -59,9 +57,17 @@ const fetchAddition = async()=>{
           </p>
         </>
       }
+      toast={
+        Object.values(emotion).flat().length > 0 ? {
+        message:<>A total of {Object.values(emotion).flat().length} emotion was selected.</>,
+        type: "warning",
+        }:{
+        message:<>Please choose more than <span className="text-green-3">1 emotion.</span></>,
+        type: "success",
+      }}
       button={{
         name: "Finish choosing your mind",
-        onPress: ()=>{
+        onPress: () => {
           fetchAddition();
           goCompletePage();
         },

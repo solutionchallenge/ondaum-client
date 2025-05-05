@@ -23,7 +23,7 @@ function CheckBox({label, onChange, defaultChecked}:CheckBoxProps){
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => check(label, e.target.checked)}
-                    className="accent-orange-500 w-4 h-4 bg-white"
+                    className="accent-second w-4 h-4 bg-gray-100 border-font-color text-white"
                 />
             <span className="text-gray-700">{label}</span>
         </label>

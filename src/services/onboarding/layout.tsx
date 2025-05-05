@@ -4,6 +4,7 @@ import Progress from "../../commons/feedback/Progress";
 import { motion } from "framer-motion";
 import { useNavigationDirection } from "../../hooks/animation/useNavigationDirection";
 import BackIcon from "../../assets/images/icon_arrow_back.svg?react";
+import Toast from "../../commons/feedback/Toast";
 
 export interface OnboardingLayoutProps {
   title: ReactNode;
@@ -15,6 +16,10 @@ export interface OnboardingLayoutProps {
     onPress: () => void;
     disabled?: boolean;
   };
+  toast?: {
+    message: ReactNode;
+    type: 'info' | 'success' | 'warning' | 'error';
+  };
   currentStepNumber?: number;
 }
 
@@ -25,6 +30,7 @@ function OnboardingAdditionalLayout({
   currentStepNumber,  
   navigation,
   backgroundImage,
+  toast,
 }: OnboardingLayoutProps) {
 
   const direction = useNavigationDirection();
@@ -67,8 +73,13 @@ function OnboardingAdditionalLayout({
       >
       {children}
       </motion.div>
+
+     
       {button && (
         <div className="fixed left-0 w-screen bottom-16 py-4 px-4 text-center bg-linear-gradient-to-[#FFBF7D80] from-white to-transparent">
+           {toast &&
+        <div className="mb-3 inline-block"><Toast message={toast.message} type={toast.type} /></div>
+      }
           <Button onClick={button.onPress} disabled={button.disabled}>
             {button.name}
           </Button>

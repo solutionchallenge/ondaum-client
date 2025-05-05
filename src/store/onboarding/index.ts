@@ -1,54 +1,42 @@
 import { create } from "zustand/react";
-
-export const CONCERN = {
-  career: [
-    "Choice",
-    "Transition",
-    "Satisfaction",
-    "Stress",
-    "Security",
-    "Promotion",
-  ],
-  personal: [
-    "Relationships",
-    "Identity",
-    "Health",
-    "Finance",
-    "Meaning",
-    "Satisfaction",
-  ],
-  social: [
-    "Responsibility",
-    "Environment",
-    "Politics",
-    "Culture",
-    "Inequality",
-    "Community",
-  ],
-};
-
-export const CONCERN_KEY = Object.keys(CONCERN) as (keyof typeof CONCERN)[];
+import { CONCERNS } from "../../services/onboarding/additional/concern/constants";
+import { EMOTIONS } from "../../services/onboarding/additional/emotion/constants";  
 
 type ConcernType = {
-  [key in keyof typeof CONCERN]?: string;
+  [key in keyof typeof CONCERNS]?: string[];
 };
+
+type EmotionType = {
+  [key in keyof typeof EMOTIONS]?: string[];
+};
+
+
+export const useOnboarindgEmotionStore=create<{
+  emotion: EmotionType;
+  updateEmotion: (value: EmotionType) => void;
+}>((set) => ({
+  emotion: {
+    joy: [], 
+    sadness: [],
+    anger: [],
+    surprise: [],
+    fear: [],
+    disgust: [],
+  },
+  updateEmotion: (emotion) => set(() => ({ emotion: emotion })),
+}));
+
 
 export const useOnboardingConcernStore = create<{
   concern: ConcernType;
   updateConcern: (value: ConcernType) => void;
 }>((set) => ({
   concern: {
-    career: "Satisfaction",
-    social: undefined,
-    personal: undefined,
+    career: [],
+    social: [],
+    personal: [],
   },
-  updateConcern: (value) => set(() => ({ concern: value })),
+  updateConcern: (concern) => set(() => ({ concern: concern })),
 }));
 
-export const useOnboardingEmotionStore = create<{
-  emotion: string;
-  updateEmotion: (value: string) => void;
-}>((set) => ({
-  emotion: "",
-  updateEmotion: (value) => set(() => ({ emotion: value })),
-}));
+

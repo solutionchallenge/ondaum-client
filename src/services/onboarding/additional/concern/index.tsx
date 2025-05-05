@@ -1,20 +1,30 @@
 import OnboardingAdditionalLayout from "../../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
 import {
-  CONCERN_KEY,
-  CONCERN,
-  useOnboardingConcernStore,
-} from "../../../../store/onboarding";
+  CONCERNS,
+  CONCERN_KEYS,
+  CONCERN_ICONS,
+} from "./constants.tsx";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
-import ToggleGroup from "../../../../commons/inputs/ToggleButton/group.tsx";
-
+import Accordian from "../../../../commons/surfaces/Accordian/index.tsx";
+import { useOnboardingConcernStore } from "../../../../store/onboarding/index.ts";
+import CheckBox from "../../../../commons/inputs/CheckBox/index.tsx";
+import { Link } from "react-router-dom";
+import { ConcernTypes } from "../../../../api/onboarding/addition.ts";
 function OnboardingConcernPage() {
   const { user } = useAuthStore();
   const { concern, updateConcern } = useOnboardingConcernStore();
   const { goEmotionPage } = useOnboardingAdditional();
 
-  // 최소 한 개라도 선택했는지 확인하여 버튼 활성화 여부 설정
-  const isDisabled = !Object.values(concern).some((val) => val);
+  console.log(concern);
+  const concernChange=(key:string, label:string, value:boolean)=>{
+    console.log(key, label, value);
+    if(value){
+      updateConcern({...concern, [key]: [...(concern[key as ConcernTypes] || []), label]});
+    }else{
+      updateConcern({...concern, [key]: concern[key as ConcernTypes]?.filter((item: string)=>item!==label)});
+    }
+  }
 
   return (
     <OnboardingAdditionalLayout 
@@ -32,21 +42,32 @@ function OnboardingConcernPage() {
       }
       button={{
         name: "Finish choosing your mind",
-        onPress: goEmotionPage,
-        subName: "I don't want to share my worries",
-        disabled: isDisabled,
+        onPress:()=>{
+          goEmotionPage();
+        } ,
       }}
     >
-      {CONCERN_KEY.map((key) => (
-        <article key={key} className="mb-6">
-          <h5 className="text-sm text-font-color mb-2 capitalize">{key}</h5>
-          <ToggleGroup
-            options={CONCERN[key]}
-            selectedOption={concern[key] || ""}
-            onSelect={(value) => updateConcern({ ...concern, [key]: value })}
-          />
-        </article>
+      <section className="flex flex-col gap-3">
+      {
+      CONCERN_KEYS.map((key) => (
+      <Accordian key={key} item={{
+      icon: CONCERN_ICONS[key],
+        label: key
+      }}>
+        <div className="flex flex-col gap-6">
+          {
+            CONCERNS[key].map((option)=>(
+            <CheckBox key={option} label={option} defaultChecked={!!concern?.[key]?.includes(option)} onChange={(label, value)=>concernChange(key, label,value)} /> 
+            ))
+          }
+        </div>
+      </Accordian>
       ))}
+
+      <Link to="/" className="text-sm text-second text-center underline mt-4">
+              I don't want to share my worries
+            </Link>
+      </section>
     </OnboardingAdditionalLayout>
   );
 }

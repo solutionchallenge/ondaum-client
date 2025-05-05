@@ -2,6 +2,7 @@
 import solutionMap from "./solutionConfigs";
 import levelThresholds from "../testresultcard/levelThresholds";
 import { resultPolarityMap } from "./solutionLevelMap";
+import { useNavigate } from "react-router-dom";
 
 type SolutionGroupProps = {
   type: string;
@@ -18,6 +19,7 @@ const SolutionGroup = ({
   onSelect,
   openSolutionModal,
 }: SolutionGroupProps) => {
+  const navigate = useNavigate();
   const thresholds = levelThresholds[type] ?? [];
   const level =
     thresholds
@@ -30,7 +32,7 @@ const SolutionGroup = ({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {items.map(({ id, title, description, icon, onClick }) => {
+      {items.map(({ id, title, description, icon }) => {
         const isModalTarget = id === "stress-negative-1"; // 필요 조건에 따라 확장 가능
 
         return (
@@ -45,7 +47,7 @@ const SolutionGroup = ({
               if (isModalTarget) {
                 openSolutionModal();
               } else {
-                onClick?.();
+                navigate("/home");
               }
             }}
           />

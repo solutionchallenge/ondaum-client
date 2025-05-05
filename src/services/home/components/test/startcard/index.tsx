@@ -44,8 +44,8 @@ const StartCard: React.FC<StartCardProps> = ({ type }) => {
   const { description, icon: Icon, notes } = CONTENT[type];
 
   return (
-    <div className="w-full flex flex-col items-center gap-3 p-4">
-      <div className="w-full flex flex-col justify-center items-center min-h-[350px] px-4 py-4 bg-third rounded-xl outline outline-1 outline-second ">
+    <div className="w-[95%] flex flex-col items-center gap-3 p-4">
+      <div className="w-full flex flex-col justify-center items-center min-h-[340px] px-4 py-4 bg-third rounded-xl outline outline-1 outline-second ">
         <Icon />
         <div className="text-center">
           <h2 className="m-3 text-font-color text-4xl sm:text-3xl font-bold font-[figtree] leading-tight">
@@ -57,7 +57,7 @@ const StartCard: React.FC<StartCardProps> = ({ type }) => {
           </p>
         </div>
       </div>
-      <ul className="w-full flex flex-col gap-1 text-font-color text-sm sm:text-base font-semibold font-['Pretendard'] list-disc list-inside">
+      <ul className="w-full flex flex-col gap-1 text-font-color text-sm sm:text-base font-semibold font-pretendard list-disc list-inside">
         {notes.map((note, idx) => (
           <li key={idx}>{note}</li>
         ))}

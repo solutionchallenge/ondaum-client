@@ -24,7 +24,7 @@ const AnswerItem: React.FC<AnswerItemProps> = ({
   return (
     <div
       className={`w-full min-h-[58px] px-5 py-2 rounded-[20px] flex items-center gap-2.5 cursor-pointer ${
-        selected ? "bg-main text-white" : "bg-gray-1 text-font-color"
+        selected ? "bg-second text-white" : "bg-gray-1 text-font-color"
       }`}
       onClick={onClick}
     >

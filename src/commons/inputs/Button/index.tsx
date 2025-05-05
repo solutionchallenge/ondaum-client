@@ -12,8 +12,8 @@ function Button({ onClick, children, className, disabled }: ButtonProps) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-4 rounded-full text-sm font-semibold 
-        ${disabled ? "bg-gray-300 text-font-color cursor-not-allowed" : "bg-second text-white"}
+      className={`w-full py-4 rounded-xl text-sm font-semibold 
+        ${disabled ? "bg-gray-300 text-font-color cursor-not-allowed" : "bg-main text-white"}
         ${className}`}
     >
       {children}

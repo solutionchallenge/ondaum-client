@@ -41,6 +41,12 @@ function OAuthCallback() {
         navigate("/login");
       });
   }, [login, navigate, searchParams]);
+
+  return (
+    <>
+      <div className="bg-white"></div>
+    </>
+  );
 }
 
 export default OAuthCallback;

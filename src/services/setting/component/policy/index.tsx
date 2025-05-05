@@ -23,9 +23,7 @@
         </div>
       </div>
 
-      <div className="text-sm text-font-color">
-        Last updated: February 15, 2024
-      </div>
+      <div className="text-sm text-font-color">Last updated: May 16, 2025</div>
     </div>
   );
 };

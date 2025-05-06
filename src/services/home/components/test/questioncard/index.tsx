@@ -15,7 +15,7 @@ const QuestionCard = ({
   return (
     <div className="w-full px-4 py-5 bg-white flex flex-col gap-6 sm:gap-3">
       <QuestionStepperText currentStep={currentStep} totalSteps={totalSteps} />
-      <div className="text-font-color text-xl sm:text-2xl md:text-[28px] font-semibold leading-snug">
+      <div className="text-font-color text-3xl sm:text-2xl md:text-[28px] font-semibold leading-snug">
         {questionText}
       </div>
     </div>

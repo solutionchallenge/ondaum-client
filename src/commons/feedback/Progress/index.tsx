@@ -14,11 +14,11 @@ function Progress({stepCount, currentStepNumber}: ProgressProps) {
         }
         return 'bg-gray-3'
     }
-
+const gridTemplateColumns = `repeat(${stepCount}, 1fr)`
   return (
-  <div className={`grid grid-cols-${String(stepCount)}  gap-2`}>
+  <div className={`grid gap-2`} style={{gridTemplateColumns}}>
     {Array.from({length: stepCount}).map((_, count)=>(
-        <div className={`rounded-md h-2 ${backgroundColor(count+1)}`}></div>
+        <div key={`progress-${count}`} className={`rounded-md h-2 ${backgroundColor(count+1)}`}></div>
     ))}
   </div>
   );

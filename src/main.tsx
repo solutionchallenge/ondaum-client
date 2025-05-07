@@ -16,14 +16,7 @@ createRoot(document.getElementById("root")!).render(
         startTime,
         commitTime
       ) => {
-        console.log(
-          id,
-          phase,
-          actualDuration,
-          baseDuration,
-          startTime,
-          commitTime
-        );
+       console.log(id, phase, actualDuration, baseDuration, startTime, commitTime);
       }}
     >
       <BrowserRouter>

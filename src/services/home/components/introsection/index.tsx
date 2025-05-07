@@ -31,8 +31,14 @@ const IntroSection = ({
           <InitChatList onFinish={() => setIsChatFinished(true)} />
         </div>
 
-        {isChatFinished && !hasselectedOption && (
-          <div className="flex mt-5 gap-2">
+        {isChatFinished && (
+          <div
+            className={`flex mt-5 gap-2 transition-all duration-1000 transform origin-top ${
+              hasselectedOption
+                ? "opacity-0 scale-y-0 h-0 pointer-events-none"
+                : "opacity-100 scale-y-100 h-auto"
+            }`}
+          >
             <ChatToggle
               key="Chat"
               selected={selectedOption === "Chat"}

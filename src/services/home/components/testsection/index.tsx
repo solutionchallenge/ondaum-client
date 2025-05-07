@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import UmAvatar from "../../../../commons/data-display/Avatar";
 import TestChatList from "../../../../commons/data-display/List/testgroup";
-import TestToggle from "../../../../commons/inputs/ToggleButton/test";
+import TestToggle from "../testtoggle";
 
 interface Props {
   selectedTest: string;

@@ -15,7 +15,7 @@ function BottomNavigation() {
       <NavLink to={"/home"}>
         {({ isActive }) => (isActive ? <Hometrue /> : <HomeFalse />)}
       </NavLink>
-      <NavLink to={"/more"}>
+      <NavLink to={"/report"}>
         {({ isActive }) => (isActive ? <Reporttrue /> : <ReportFalse />)}
       </NavLink>
     </footer>

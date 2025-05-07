@@ -9,18 +9,16 @@ import SolutionGroup from "../../components/test/solutioncard/group";
 import SolutionModal from "../../components/test/solutionmodal";
 
 const questions = [
-  "Little interest or pleasure in doing things?",
-  "Feeling down, depressed, or hopeless",
-  "Trouble falling or staying asleep, or sleeping too much",
-  "Feeling tired or having little energy",
-  "Poor appetite or overeating",
-  "Feeling bad about yourself — or that you are a failure or have let yourself or your family down",
-  "Trouble concentrating on things, such as reading the newspaper or watching television",
-  "Moving or speaking so slowly that other people could have noticed. Or the opposite — being so fidgety or restless that you have been moving a lot more than usual",
-  "Thoughts that you would be better off dead or of hurting yourself in some way",
+  "Feeling nervous, anxious, or on edge",
+  "Have you found it hard to stop or control your worries?",
+  "Have you worried excessively about different things?",
+  "Have you had difficulty relaxing or calming down?",
+  "Have you felt so restless that it was hard to stay still?",
+  "Have you been easily irritated or become annoyed more than usual?",
+  "Have you felt afraid, as if something terrible might happen soon?",
 ];
 
-export default function PHQ() {
+export default function GAD() {
   const [selectedSolutionId, setSelectedSolutionId] = useState<string | null>(
     null
   );
@@ -46,7 +44,7 @@ export default function PHQ() {
     <main className="flex flex-col min-h-screen items-center bg-white mb-16">
       {step === "intro" && (
         <div className="mt-16 flex flex-col items-center">
-          <StartCard type="phq" />
+          <StartCard type="gad" />
           <CautionTypo />
           <div className="w-full px-4">
             <button
@@ -64,7 +62,7 @@ export default function PHQ() {
           <div className="w-full">
             <QuestionStepper
               currentStep={currentIndex + 2}
-              totalSteps={9}
+              totalSteps={7}
               onBack={() => {
                 if (currentIndex > 0) {
                   setCurrentIndex((prev) => prev - 1);
@@ -77,7 +75,7 @@ export default function PHQ() {
             <QuestionCard
               questionText={questions[currentIndex]}
               currentStep={currentIndex + 1}
-              totalSteps={9}
+              totalSteps={7}
             />
           </div>
           <AnswerGroup onSelect={handleAnswer} questionIndex={currentIndex} />
@@ -89,20 +87,24 @@ export default function PHQ() {
           <div className="justify-start text-font-color text-xl font-bold font-pretendard leading-7">
             Your Mental Health Check-In Result
           </div>
-          <TestResultCard
-            type="PHQ-9"
-            score={answers.reduce((sum, val) => sum + val, 0)}
-          />
-          <div className="justify-start mb-3 text-font-color text-xl font-bold font-pretendard leading-7">
-            What can you do next?
-          </div>
-          <SolutionGroup
-            type="PHQ-9"
-            score={answers.reduce((sum, val) => sum + val, 0)}
-            selectedId={selectedSolutionId}
-            onSelect={setSelectedSolutionId}
-            openSolutionModal={() => setShowSolutionModal(true)}
-          />
+          {(() => {
+            const score = answers.reduce((sum, val) => sum + val, 0);
+            return (
+              <>
+                <TestResultCard type="GAD-7" score={score} />
+                <div className="justify-start mb-3 text-font-color text-xl font-bold font-pretendard leading-7">
+                  What can you do next?
+                </div>
+                <SolutionGroup
+                  type="GAD-7"
+                  score={score}
+                  selectedId={selectedSolutionId}
+                  onSelect={setSelectedSolutionId}
+                  openSolutionModal={() => setShowSolutionModal(true)}
+                />
+              </>
+            );
+          })()}
           {showSolutionModal && (
             <SolutionModal onClose={() => setShowSolutionModal(false)} />
           )}

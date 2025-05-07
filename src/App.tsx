@@ -31,6 +31,14 @@ function App() {
               <Route path="gad" element={<GadPage />} />
             </Route>
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="report">
+            <Route index path="*" element={<NotFoundPage />} />
+            <Route path="main" element={<ReportMainPage />} />
+            <Route path="detail/:id" element={<ReportDetailPage />} />
+          </Route>
+        </Route>
+        <Route element={<Layout bottomNavigation={false} />}>
           <Route path="onboarding">
             <Route index path="*" element={<NotFoundPage />} />
             <Route path="basic" element={<OnboardingBasicPage />} />
@@ -40,12 +48,6 @@ function App() {
               <Route path="emotion" element={<OnboardingEmotionPage />} />
             </Route>
             <Route path="complete" element={<OnboardingCompletePage />} />
-          </Route>
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="report">
-            <Route index path="*" element={<NotFoundPage />} />
-            <Route path="main" element={<ReportMainPage />} />
-            <Route path="detail/:id" element={<ReportDetailPage />} />
           </Route>
         </Route>
         <Route path="/oauth/google" element={<OAuthCallback />} />

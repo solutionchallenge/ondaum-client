@@ -79,7 +79,7 @@ function OnboardingAdditionalLayout({
         {children}
       </motion.div>
       {button && (
-        <div className="fixed left-0 w-screen bottom-16 py-4 px-4 text-center bg-linear-gradient-to-[#FFBF7D80] from-white to-transparent">
+        <div className="fixed left-0 w-screen bottom-0 py-4 px-4 text-center bg-linear-gradient-to-[#FFBF7D80] from-white to-transparent">
           {toast && (
             <div className="mb-3 inline-block">
               <Toast message={toast.message} type={toast.type} />

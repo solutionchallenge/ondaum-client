@@ -3,7 +3,7 @@ import BottomNavigation from "./commons/navigation/BottomNavigation";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "./store/auth";
 
-function Layout() {
+function Layout({ bottomNavigation = true }: { bottomNavigation?: boolean }) {
   const { isLoggedIn } = useAuthStore();
   const location = useLocation();
 
@@ -14,7 +14,7 @@ function Layout() {
     <>
       <GlobalNavigation />
         <Outlet />
-      <BottomNavigation />
+      {bottomNavigation && <BottomNavigation />}
     </>
   );
 }

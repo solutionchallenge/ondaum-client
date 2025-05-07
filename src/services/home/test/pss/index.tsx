@@ -64,7 +64,7 @@ export default function PSS() {
         <div className="w-full h-[88%] pt-24 flex flex-col items-center justify-between">
           <div className="w-full">
             <QuestionStepper
-              currentStep={currentIndex + 2}
+              currentStep={currentIndex + 1}
               totalSteps={10}
               onBack={() => {
                 if (currentIndex > 0) {

@@ -13,9 +13,11 @@ import PhqPage from "./services/home/test/phq/index.tsx";
 import SettingPage from "./services/setting/index.tsx";
 import GadPage from "./services/home/test/gad/index.tsx";
 import PssPage from "./services/home/test/pss/index.tsx";
+import RootRedirect from "./services/redirect/rootRedirect.tsx";
 
 function App() {
   const location = useLocation();
+  RootRedirect();
 
   return (
     <AnimatePresence mode="wait">

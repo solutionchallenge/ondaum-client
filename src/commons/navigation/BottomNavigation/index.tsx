@@ -9,7 +9,7 @@ import Reporttrue from "../../../assets/images/bottom/icon_report_true.svg?react
 function BottomNavigation() {
   return (
     <footer className="fixed bottom-0 z-10 w-screen items-center bg-white h-16 flex justify-around">
-      <NavLink to={"/onboarding/additional/concern"}>
+      <NavLink to={"/setting"}>
         {({ isActive }) => (isActive ? <Settingtrue /> : <SettingFalse />)}
       </NavLink>
       <NavLink to={"/home"}>

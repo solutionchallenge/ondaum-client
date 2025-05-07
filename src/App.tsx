@@ -10,6 +10,7 @@ import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
 import PhqPage from "./services/home/test/phq/index.tsx";
+import SettingPage from "./services/setting/index.tsx";
 import GadPage from "./services/home/test/gad/index.tsx";
 import PssPage from "./services/home/test/pss/index.tsx";
 
@@ -42,6 +43,7 @@ function App() {
         </Route>
         <Route path="/oauth/google" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/setting" element={<SettingPage />} />
       </Routes>
     </AnimatePresence>
   );

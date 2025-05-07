@@ -10,7 +10,7 @@ export interface OnboardingLayoutProps {
   title: ReactNode;
   children?: ReactNode;
   backgroundImage?: string;
-  navigation?:()=>void;
+  navigation?: () => void;
   button?: {
     name: string;
     onPress: () => void;
@@ -18,7 +18,7 @@ export interface OnboardingLayoutProps {
   };
   toast?: {
     message: ReactNode;
-    type: 'info' | 'success' | 'warning' | 'error';
+    type: "info" | "success" | "warning" | "error";
   };
   currentStepNumber?: number;
 }
@@ -27,12 +27,11 @@ function OnboardingAdditionalLayout({
   title,
   children,
   button,
-  currentStepNumber,  
+  currentStepNumber,
   navigation,
   backgroundImage,
   toast,
 }: OnboardingLayoutProps) {
-
   const direction = useNavigationDirection();
 
   const variants = {
@@ -48,21 +47,27 @@ function OnboardingAdditionalLayout({
     },
   };
 
-
   return (
-    <main className="h-[calc(100vh-64px)] pt-16 bg-cover bg-no-repeat bg-origin-content " style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'auto 120%', backgroundPosition : '50% 200px'}}>
-        <nav className="flex gap-4">
+    <main
+      className="h-[calc(100vh-64px)] pt-16 bg-cover bg-no-repeat bg-origin-content "
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "auto 120%",
+        backgroundPosition: "50% 200px",
+      }}
+    >
+      <nav className="flex gap-4">
         {navigation && (
-            <button onClick={navigation}>
-              <BackIcon />  
-            </button>
-          )}
-          {currentStepNumber &&
+          <button onClick={navigation}>
+            <BackIcon />
+          </button>
+        )}
+        {currentStepNumber && (
           <div className="w-full py-8">
             <Progress stepCount={2} currentStepNumber={currentStepNumber} />
-            </div>
-          }
-        </nav>
+          </div>
+        )}
+      </nav>
       {title}
       <motion.div
         className="pb-52"
@@ -71,14 +76,20 @@ function OnboardingAdditionalLayout({
         exit={variants[direction].exit}
         transition={{ duration: 0.3 }}
       >
-      {children}
+        {children}
       </motion.div>
       {button && (
         <div className="fixed left-0 w-screen bottom-16 py-4 px-4 text-center bg-linear-gradient-to-[#FFBF7D80] from-white to-transparent">
-           {toast &&
-        <div className="mb-3 inline-block"><Toast message={toast.message} type={toast.type} /></div>
-      }
-          <Button onClick={button.onPress} disabled={button.disabled}>
+          {toast && (
+            <div className="mb-3 inline-block">
+              <Toast message={toast.message} type={toast.type} />
+            </div>
+          )}
+          <Button
+            onClick={button.onPress}
+            disabled={button.disabled}
+            color="primary"
+          >
             {button.name}
           </Button>
         </div>

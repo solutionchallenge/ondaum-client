@@ -13,6 +13,8 @@ import PhqPage from "./services/home/test/phq/index.tsx";
 import SettingPage from "./services/setting/index.tsx";
 import GadPage from "./services/home/test/gad/index.tsx";
 import PssPage from "./services/home/test/pss/index.tsx";
+import ReportMainPage from "./services/report/main/index.tsx";
+import ReportDetailPage from "./services/report/detail/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -40,6 +42,11 @@ function App() {
             <Route path="complete" element={<OnboardingCompletePage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="report">
+            <Route index path="*" element={<NotFoundPage />} />
+            <Route path="main" element={<ReportMainPage />} />
+            <Route path="detail/:id" element={<ReportDetailPage />} />
+          </Route>
         </Route>
         <Route path="/oauth/google" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />

@@ -1,6 +1,6 @@
 import { create } from "zustand/react";
 import { CONCERNS } from "../../services/onboarding/additional/concern/constants";
-import { EMOTIONS } from "../../services/onboarding/additional/emotion/constants";  
+import { EMOTIONS } from "../../services/onboarding/additional/emotion/constants";
 
 type ConcernType = {
   [key in keyof typeof CONCERNS]?: string[];
@@ -10,13 +10,12 @@ type EmotionType = {
   [key in keyof typeof EMOTIONS]?: string[];
 };
 
-
-export const useOnboarindgEmotionStore=create<{
+export const useOnboarindgEmotionStore = create<{
   emotion: EmotionType;
   updateEmotion: (value: EmotionType) => void;
 }>((set) => ({
   emotion: {
-    joy: [], 
+    joy: [],
     sadness: [],
     anger: [],
     surprise: [],
@@ -25,7 +24,6 @@ export const useOnboarindgEmotionStore=create<{
   },
   updateEmotion: (emotion) => set(() => ({ emotion: emotion })),
 }));
-
 
 export const useOnboardingConcernStore = create<{
   concern: ConcernType;
@@ -38,5 +36,3 @@ export const useOnboardingConcernStore = create<{
   },
   updateConcern: (concern) => set(() => ({ concern: concern })),
 }));
-
-

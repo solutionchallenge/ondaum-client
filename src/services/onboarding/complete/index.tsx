@@ -1,7 +1,7 @@
 import OnboardingAdditionalLayout from "../layout.tsx";
 import { useAuthStore } from "../../../store/auth/index.ts";
 import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional.ts";
-import UmWithFriendImage from '../../../assets/images/image_umWithFriend.png';
+import UmWithFriendImage from "../../../assets/images/image_umWithFriend.png";
 
 function OnboardingCompletePage() {
   const { user } = useAuthStore();
@@ -9,7 +9,7 @@ function OnboardingCompletePage() {
 
   return (
     <OnboardingAdditionalLayout
-    backgroundImage={UmWithFriendImage}
+      backgroundImage={UmWithFriendImage}
       title={
         <>
           <h2 className="text-lg text-font-color my-4 font-normal">
@@ -18,8 +18,8 @@ function OnboardingCompletePage() {
           <p className="text-2xl font-bold text-font-color leading-snug mb-6">
             From now on, <br />
             <span className="text-second">
-            I'd love to hear <br />
-            your thoughts.
+              I'd love to hear <br />
+              your thoughts.
             </span>
           </p>
         </>

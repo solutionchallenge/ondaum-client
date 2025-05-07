@@ -1,6 +1,7 @@
-const accessToken = "";
 
 const baseFetch = async (url: RequestInfo, init?: RequestInit) => {
+const accessToken = localStorage.getItem("access_token");
+
   const res = await fetch(`https://ondaum.revimal.me/api/v1${url}`, {
     ...init,
     headers: {

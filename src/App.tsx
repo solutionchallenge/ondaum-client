@@ -9,10 +9,10 @@ import LoginPage from "./services/auth/login";
 import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
-import PHQ from "./services/home/test/PHQ/index.tsx";
+import PHQPage from "./services/home/test/PHQ/index.tsx";
 import SettingPage from "./services/setting/index.tsx";
-import GAD from "./services/home/test/GAD/index.tsx";
-import PSS from "./services/home/test/PSS/index.tsx";
+import GADPage from "./services/home/test/GAD/index.tsx";
+import PSSPage from "./services/home/test/PSS/index.tsx";
 import RootRedirect from "./services/redirect/rootRedirect.tsx";
 import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
 import ReportMainPage from "./services/report/main/index.tsx";
@@ -30,9 +30,9 @@ function App() {
           <Route path="home">
             <Route index path="*" element={<HomePage />} />
             <Route path="test">
-              <Route path="phq" element={<PHQ />} />
-              <Route path="pss" element={<PSS />} />
-              <Route path="gad" element={<GAD />} />
+              <Route path="phq" element={<PHQPage />} />
+              <Route path="pss" element={<PSSPage />} />
+              <Route path="gad" element={<GADPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

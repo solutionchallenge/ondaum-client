@@ -9,7 +9,8 @@ interface CardProps {
     | "fill-white/outline-main"
     | "fill-main/outline-main"
     | "fill-third/outline-main"
-    | "fill-white/outline-white";
+    | "fill-white/outline-white"
+    | "fill-white/outline-third";
   size?: "small" | "middle" | "large";
 }
 
@@ -26,6 +27,7 @@ export default function Card({
     "fill-main/outline-main": "bg-second text-white outline-second",
     "fill-third/outline-main": "bg-third text-font-color outline-second",
     "fill-white/outline-white": "bg-white text-font-color outline-white",
+    "fill-white/outline-third": "bg-white text-font-color outline-third",
   };
 
   const cardStyle = `${styleMap[styleType ?? "fill-third/outline-main"]} outline outline-1`;

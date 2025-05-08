@@ -21,7 +21,7 @@ function ReportDetailPage() {
       <Card
         title="Conversation Summary"
         description="The consultation revealed signs of moderate anxiety, suggesting a need for continued emotional support and stress management"
-        styleType="outlined_white"
+        styleType="fill-white/outline-third"
       />
 
       {/* Key Themes */}
@@ -93,7 +93,7 @@ function ReportDetailPage() {
       <Card
         icon={<PhoneIcon />}
         title="Talk to Someone"
-        styleType="outlined_third"
+        styleType="fill-third/outline-main"
         description="Nearby clinics are here for you."
         onClick={() => setReportModalVisible(true)}
       />

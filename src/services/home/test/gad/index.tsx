@@ -1,12 +1,12 @@
 ﻿import { useState } from "react";
-import CautionTypo from "../../components/test/cautiontypo";
-import StartCard from "../../components/test/startcard";
-import QuestionStepper from "../../components/test/questionstepper";
-import QuestionCard from "../../components/test/questioncard";
-import { AnswerGroup } from "../../components/test/answertoggle/group";
-import TestResultCard from "../../components/test/testresultcard";
-import SolutionGroup from "../../components/test/solutioncard/group";
-import SolutionModal from "../../components/test/solutionmodal";
+import CautionTypo from "../CautionTypo";
+import StartCard from "../StartCard";
+import QuestionStepper from "../QuestionStepper";
+import QuestionCard from "../QuestionCard";
+import { AnswerGroup } from "../AnswerToggle/group";
+import TestResultCard from "../TestResultCard";
+import SolutionCard from "../SolutionCard";
+import SolutionModal from "../SolutionModal";
 
 const questions = [
   "Feeling nervous, anxious, or on edge",
@@ -95,7 +95,7 @@ export default function GAD() {
                 <div className="justify-start mb-3 text-font-color text-xl font-bold font-pretendard leading-7">
                   What can you do next?
                 </div>
-                <SolutionGroup
+                <SolutionCard
                   type="GAD-7"
                   score={score}
                   selectedId={selectedSolutionId}

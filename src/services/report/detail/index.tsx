@@ -3,7 +3,7 @@ import Card from "../../../commons/surfaces/Card";
 import PhoneIcon from "../../../assets/images/icon_phone.svg?react";
 import SadnessIcon from "../../../assets/images/chatresult/icon_sadness.svg?react";
 import { useState } from "react";
-import SolutionModal from "../../home/components/test/solutionmodal";
+import SolutionModal from "../../home/test/SolutionModal";
 function ReportDetailPage() {
   const [reportModalVisible, setReportModalVisible] = useState(false);
 
@@ -98,9 +98,7 @@ function ReportDetailPage() {
         onClick={() => setReportModalVisible(true)}
       />
       {reportModalVisible && (
-      <SolutionModal
-          onClose={() => setReportModalVisible(false)}
-        />
+        <SolutionModal onClose={() => setReportModalVisible(false)} />
       )}
     </ReportLayout>
   );

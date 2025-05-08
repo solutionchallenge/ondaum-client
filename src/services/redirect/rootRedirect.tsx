@@ -43,6 +43,10 @@ const RootRedirect = () => {
     }
 
     if (location.pathname === "/onboarding/additional/concern") {
+      if (!user.privacy) {
+        navigate("/onboarding/basic", { replace: true });
+        return;
+      }
       if (user.addition?.concerns && user.addition?.emotions) {
         navigate("/home", { replace: true });
         return;

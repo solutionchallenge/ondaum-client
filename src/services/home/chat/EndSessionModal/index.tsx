@@ -1,4 +1,4 @@
-﻿import IconModal from "../../../../../assets/images/icon_modal.svg?react";
+﻿import IconModal from "../../../../assets/images/icon_modal.svg?react";
 
 const EndSessionModal = ({
   onClose,

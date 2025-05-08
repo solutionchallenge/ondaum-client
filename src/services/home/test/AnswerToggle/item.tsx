@@ -1,8 +1,8 @@
 ﻿import React from "react";
-import IconNot from "../../../../../assets/images/test/answer/icon_not.svg?react";
-import IconSeveral from "../../../../../assets/images/test/answer/icon_several.svg?react";
-import IconMore from "../../../../../assets/images/test/answer/icon_more.svg?react";
-import IconEvery from "../../../../../assets/images/test/answer/icon_every.svg?react";
+import IconNot from "../../../../assets/images/test/answer/icon_not.svg?react";
+import IconSeveral from "../../../../assets/images/test/answer/icon_several.svg?react";
+import IconMore from "../../../../assets/images/test/answer/icon_more.svg?react";
+import IconEvery from "../../../../assets/images/test/answer/icon_every.svg?react";
 
 interface AnswerItemProps {
   title: string;

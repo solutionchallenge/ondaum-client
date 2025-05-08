@@ -1,5 +1,5 @@
-﻿import IconEnd from "../../../../../assets/images/test/solution/icon_end.svg?react";
-import IconTalk from "../../../../../assets/images/test/solution/icon_talk.svg?react";
+﻿import IconEnd from "../../../../assets/images/test/solution/icon_end.svg?react";
+import IconTalk from "../../../../assets/images/test/solution/icon_talk.svg?react";
 import { JSX } from "react";
 
 type SolutionItem = {

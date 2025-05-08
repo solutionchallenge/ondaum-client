@@ -1,9 +1,9 @@
 ﻿import { ReactNode, FC, SVGProps } from "react";
-import MinimalIcon from "../../../../../assets/images/test/result/icon_minimal.svg?react";
-import MildIcon from "../../../../../assets/images/test/result/icon_mild.svg?react";
-import ModerateIcon from "../../../../../assets/images/test/result/icon_moderate.svg?react";
-import ModeratelySevereIcon from "../../../../../assets/images/test/result/icon_moderatelysevere.svg?react";
-import SevereIcon from "../../../../../assets/images/test/result/icon_severe.svg?react";
+import MinimalIcon from "../../../../assets/images/test/result/icon_minimal.svg?react";
+import MildIcon from "../../../../assets/images/test/result/icon_mild.svg?react";
+import ModerateIcon from "../../../../assets/images/test/result/icon_moderate.svg?react";
+import ModeratelySevereIcon from "../../../../assets/images/test/result/icon_moderatelysevere.svg?react";
+import SevereIcon from "../../../../assets/images/test/result/icon_severe.svg?react";
 
 export const levelConfigs: Record<
   string,

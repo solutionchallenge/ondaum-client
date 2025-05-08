@@ -1,7 +1,7 @@
 ﻿import React from "react";
-import phqIcon from "../../../../../assets/images/test/img_phq_start.svg?react";
-import pssIcon from "../../../../../assets/images/test/img_pss_start.svg?react";
-import gadIcon from "../../../../../assets/images/test/img_gad_start.svg?react";
+import phqIcon from "../../../../assets/images/test/img_phq_start.svg?react";
+import pssIcon from "../../../../assets/images/test/img_pss_start.svg?react";
+import gadIcon from "../../../../assets/images/test/img_gad_start.svg?react";
 
 interface StartCardProps {
   type: "phq" | "pss" | "gad";

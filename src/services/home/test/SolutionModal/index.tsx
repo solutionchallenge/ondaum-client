@@ -1,4 +1,4 @@
-﻿import IconModal from "../../../../../assets/images/test/solution/icon_modal.svg?react";
+﻿import IconModal from "../../../../assets/images/test/solution/icon_modal.svg?react";
 import SolutionModalItem from "./item";
 
 const SolutionModal = ({ onClose }: { onClose: () => void }) => {

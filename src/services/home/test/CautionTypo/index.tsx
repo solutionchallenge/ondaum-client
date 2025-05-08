@@ -1,4 +1,4 @@
-﻿import CautionIcon from "../../../../../assets/images/test/icon_caution.svg?react";
+﻿import CautionIcon from "../../../../assets/images/test/icon_caution.svg?react";
 
 const CautionTypo = () => {
   return (

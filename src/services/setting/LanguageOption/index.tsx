@@ -1,5 +1,5 @@
 ﻿import { useState } from "react";
-import IconArrow from "../../../../assets/images/icon_arrow_right.svg?react";
+import IconArrow from "../../../assets/images/icon_arrow_right.svg?react";
 
 const languages = ["English", "한국어", "日本語", "中国话"];
 

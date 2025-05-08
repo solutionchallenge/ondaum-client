@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
-import IconArrow from "../../../../assets/images/icon_arrow_right.svg?react";
-import IconEmail from "../../../../assets/images/icon_email.svg?react";
+import IconArrow from "../../../assets/images/icon_arrow_right.svg?react";
+import IconEmail from "../../../assets/images/icon_email.svg?react";
 
 const PasswordResetDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,5 +1,5 @@
-﻿import PasswordResetDropdown from "../passwordoption";
-import AccountDeletion from "../accountdeletion";
+﻿import PasswordResetDropdown from "../PasswordOption";
+import AccountDeletion from "../AccountDeletion";
 import IconSearch from "../../../../assets/images/icon_search.svg?react";
 
 const FAQSection = () => {

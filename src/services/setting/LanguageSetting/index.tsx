@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
-import Switch from "../../../../commons/inputs/Switch"; // assumes Switch component is stored here
-import LanguageSelect from "../languageoption";
+import Switch from "../../../commons/inputs/Switch"; // assumes Switch component is stored here
+import LanguageSelect from "../LanguageOption";
 
 const LanguageSetting = () => {
   const [autoDetect, setAutoDetect] = useState(true);

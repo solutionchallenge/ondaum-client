@@ -9,9 +9,8 @@ const RootRedirect = () => {
   const { user } = useAuthStore();
   const accessToken = localStorage.getItem("access_token");
   const refreshToken = localStorage.getItem("refresh_token");
-  const isUserIncomplete = !user || !user.privacy || !user.addition;
 
-  useFetchUser(accessToken, refreshToken, undefined, isUserIncomplete);
+  useFetchUser(accessToken, refreshToken, undefined);
 
   useEffect(() => {
     if (
@@ -33,6 +32,10 @@ const RootRedirect = () => {
     }
 
     if (location.pathname === "/home") {
+      if (!user.privacy) {
+        navigate("/onboarding/basic", { replace: true });
+        return;
+      }
       if (!user.addition?.concerns || !user.addition?.emotions) {
         navigate("/onboarding/additional/concern", { replace: true });
         return;

@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
-import IconArrow from "../../../../assets/images/icon_arrow_right.svg?react";
-import IconWarning from "../../../../assets/images/icon_warning.svg?react";
+import IconArrow from "../../../assets/images/icon_arrow_right.svg?react";
+import IconWarning from "../../../assets/images/icon_warning.svg?react";
 
 const AccountDeletion = () => {
   const [isOpen, setIsOpen] = useState(false);

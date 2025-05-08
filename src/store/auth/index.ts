@@ -21,7 +21,7 @@ type AuthState = {
   isLoggedIn: boolean;
   login: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
-  fetchUser: () => Promise<void>;
+  setTokens: (accessToken: string | null, refreshToken: string | null) => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => {
@@ -51,26 +51,10 @@ export const useAuthStore = create<AuthState>((set) => {
         isLoggedIn: false,
       });
     },
-    fetchUser: async () => {
-      const accessToken = localStorage.getItem("access_token");
-      if (!accessToken) return;
-
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/user/self`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (!response.ok) throw new Error("Failed to fetch user");
-        const user = await response.json();
-        localStorage.setItem("user", JSON.stringify(user));
-        set({ user });
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
+    setTokens: (accessToken, refreshToken) => {
+      if (accessToken) localStorage.setItem("access_token", accessToken);
+      if (refreshToken) localStorage.setItem("refresh_token", refreshToken);
+      set({ accessToken, refreshToken });
     },
   };
 });

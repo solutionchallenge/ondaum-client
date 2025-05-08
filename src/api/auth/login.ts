@@ -16,3 +16,10 @@ export const exchangeGoogleCode = async (code: string, redirectUri: string) => {
   );
   return response.response;
 };
+
+export const refreshToken = async (refresh_token: string) => {
+  const response = await http.post<OAuthResponse>("/auth/refresh", {
+    refresh_token,
+  });
+  return response.response;
+};

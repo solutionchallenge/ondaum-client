@@ -1,5 +1,5 @@
-﻿import IconBack from "../../../../../assets/images/icon_arrow_back.svg?react";
-
+import IconBack from "../../../../../assets/images/icon_arrow_back.svg?react";
+import Progress from "../../../../../commons/feedback/Progress";
 interface QuestionStepperProps {
   currentStep: number; // 1-based index
   totalSteps: number;
@@ -16,18 +16,7 @@ const QuestionStepper = ({
       <button onClick={onBack}>
         <IconBack className="w-5 h-5" />
       </button>
-      {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
-        <div
-          key={step}
-          className={`flex-1 h-2 rounded-[20px] ${
-            step === currentStep
-              ? "bg-third"
-              : step < currentStep
-                ? "bg-main"
-                : "bg-third"
-          }`}
-        />
-      ))}
+      <Progress currentStepNumber={currentStep} stepCount={totalSteps} />
     </div>
   );
 };

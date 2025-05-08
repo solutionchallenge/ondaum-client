@@ -1,10 +1,6 @@
 import OnboardingAdditionalLayout from "../../layout.tsx";
 import { useAuthStore } from "../../../../store/auth";
-import {
-  CONCERNS,
-  CONCERN_KEYS,
-  CONCERN_ICONS,
-} from "./constants.tsx";
+import { CONCERNS, CONCERN_KEYS, CONCERN_ICONS } from "./constants.tsx";
 import { useOnboardingAdditional } from "../../../../hooks/onboarding/useOnboardingAdditional.ts";
 import Accordion from "../../../../commons/surfaces/Accordion/index.tsx";
 import { useOnboardingConcernStore } from "../../../../store/onboarding/index.ts";
@@ -16,16 +12,24 @@ function OnboardingConcernPage() {
   const { concern, updateConcern } = useOnboardingConcernStore();
   const { goEmotionPage } = useOnboardingAdditional();
 
-  const concernChange=(key:string, label:string, value:boolean)=>{
-    if(value){
-      updateConcern({...concern, [key]: [...(concern[key as ConcernTypes] || []), label]});
-    }else{
-      updateConcern({...concern, [key]: concern[key as ConcernTypes]?.filter((item: string)=>item!==label)});
+  const concernChange = (key: string, label: string, value: boolean) => {
+    if (value) {
+      updateConcern({
+        ...concern,
+        [key]: [...(concern[key as ConcernTypes] || []), label],
+      });
+    } else {
+      updateConcern({
+        ...concern,
+        [key]: concern[key as ConcernTypes]?.filter(
+          (item: string) => item !== label
+        ),
+      });
     }
-  }
+  };
 
   return (
-    <OnboardingAdditionalLayout 
+    <OnboardingAdditionalLayout
       currentStepNumber={1}
       title={
         <>
@@ -39,35 +43,45 @@ function OnboardingConcernPage() {
         </>
       }
       toast={{
-        message: <>Select {Object.values(concern).flat().length} something in total</>,
+        message: (
+          <>Select {Object.values(concern).flat().length} something in total</>
+        ),
         type: "warning",
       }}
       button={{
         name: "Finish choosing your mind",
-        onPress:()=>{
+        onPress: () => {
           goEmotionPage();
-        } ,
+        },
       }}
     >
       <section className="flex flex-col gap-3">
-      {
-      CONCERN_KEYS.map((key) => (
-      <Accordion key={key} item={{
-      icon: CONCERN_ICONS[key],
-        label: key
-      }}>
-        <div className="flex flex-col gap-6">
-          {
-            CONCERNS[key].map((option)=>(
-            <CheckBox key={option} label={option} defaultChecked={!!concern?.[key]?.includes(option)} onChange={(label, value)=>concernChange(key, label,value)} /> 
-            ))
-          }
-        </div>
-      </Accordion>
-      ))}
-      <Link to="/home" className="text-sm text-second text-center underline mt-4">
-        I don't want to share my worries
-      </Link>
+        {CONCERN_KEYS.map((key) => (
+          <Accordion
+            key={key}
+            item={{
+              icon: CONCERN_ICONS[key],
+              label: key,
+            }}
+          >
+            <div className="flex flex-col gap-6">
+              {CONCERNS[key].map((option) => (
+                <CheckBox
+                  key={option}
+                  label={option}
+                  defaultChecked={!!concern?.[key]?.includes(option)}
+                  onChange={(label, value) => concernChange(key, label, value)}
+                />
+              ))}
+            </div>
+          </Accordion>
+        ))}
+        <Link
+          to="/home"
+          className="text-sm text-second text-center underline mt-4"
+        >
+          I don't want to share my worries
+        </Link>
       </section>
     </OnboardingAdditionalLayout>
   );

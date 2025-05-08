@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef } from "react";
 
 export function useThrottle<T extends (...args: any[]) => any>(
   callback: T,
@@ -16,4 +16,4 @@ export function useThrottle<T extends (...args: any[]) => any>(
     },
     [callback, delay]
   ) as T;
-} 
+}

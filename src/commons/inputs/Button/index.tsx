@@ -5,15 +5,26 @@ interface ButtonProps {
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;
+  color?: "primary" | "gray";
 }
 
-function Button({ onClick, children, className, disabled }: ButtonProps) {
+function Button({
+  onClick,
+  children,
+  className,
+  disabled,
+  color = "primary",
+}: ButtonProps) {
+  const colorStyle = {
+    primary: "bg-main text-white",
+    gray: "bg-gray-1 text-font-color",
+  };
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-4 rounded-xl text-sm font-semibold 
-        ${disabled ? "bg-gray-300 text-font-color cursor-not-allowed" : "bg-main text-white"}
+      className={`w-full py-4 rounded-xl text-sm font-semibold ${colorStyle[color]}
+        ${disabled && "bg-gray-300 text-font-color cursor-not-allowed"}
         ${className}`}
     >
       {children}

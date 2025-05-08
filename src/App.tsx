@@ -15,6 +15,8 @@ import GadPage from "./services/home/test/gad/index.tsx";
 import PssPage from "./services/home/test/pss/index.tsx";
 import RootRedirect from "./services/redirect/rootRedirect.tsx";
 import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
+import ReportMainPage from "./services/report/main/index.tsx";
+import ReportDetailPage from "./services/report/detail/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -33,6 +35,14 @@ function App() {
               <Route path="gad" element={<GadPage />} />
             </Route>
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="report">
+            <Route index path="*" element={<NotFoundPage />} />
+            <Route path="main" element={<ReportMainPage />} />
+            <Route path="detail/:id" element={<ReportDetailPage />} />
+          </Route>
+        </Route>
+        <Route element={<Layout bottomNavigation={false} />}>
           <Route path="onboarding">
             <Route index path="*" element={<NotFoundPage />} />
             <Route path="basic" element={<OnboardingBasicPage />} />
@@ -43,7 +53,6 @@ function App() {
             </Route>
             <Route path="complete" element={<OnboardingCompletePage />} />
           </Route>
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/oauth/google" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />

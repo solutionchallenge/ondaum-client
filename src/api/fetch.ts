@@ -1,12 +1,12 @@
-import { useAuthStore } from "../store/auth";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const baseFetch = async (url: RequestInfo, init?: RequestInit) => {
-  const accessToken = useAuthStore.getState().accessToken;
+const accessToken = localStorage.getItem("access_token");
+
   const res = await fetch(`${API_BASE_URL}${url}`, {
     ...init,
     headers: {
-      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      Authorization: accessToken ?? `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
   });

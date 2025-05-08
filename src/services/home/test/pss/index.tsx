@@ -1,12 +1,12 @@
 ﻿import { useState } from "react";
-import CautionTypo from "../../components/test/cautiontypo";
-import StartCard from "../../components/test/startcard";
-import QuestionStepper from "../../components/test/questionstepper";
-import QuestionCard from "../../components/test/questioncard";
-import { AnswerGroup } from "../../components/test/answertoggle/group";
-import TestResultCard from "../../components/test/testresultcard";
-import SolutionGroup from "../../components/test/solutioncard/group";
-import SolutionModal from "../../components/test/solutionmodal";
+import CautionTypo from "../CautionTypo";
+import StartCard from "../StartCard";
+import QuestionStepper from "../QuestionStepper";
+import QuestionCard from "../QuestionCard";
+import { AnswerGroup } from "../AnswerToggle/group";
+import TestResultCard from "../TestResultCard";
+import SolutionGroup from "../SolutionCard/group";
+import SolutionModal from "../SolutionModal";
 
 const questions = [
   "Upset by unexpected events?",

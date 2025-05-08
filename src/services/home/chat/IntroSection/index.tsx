@@ -1,6 +1,6 @@
 ﻿import UmAvatar from "../../../../commons/data-display/Avatar";
 import InitChatList from "../../../../commons/data-display/List/initgroup";
-import ChatToggle from "../chattoggle";
+import ChatToggle from "../ChatToggle";
 import { ChatEvent } from "../../../../store/chat";
 
 interface Props {

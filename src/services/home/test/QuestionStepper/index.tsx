@@ -1,5 +1,5 @@
 import IconBack from "../../../../../assets/images/icon_arrow_back.svg?react";
-import Progress from "../../../../../commons/feedback/Progress";
+import Progress from "../../../../commons/feedback/Progress";
 interface QuestionStepperProps {
   currentStep: number; // 1-based index
   totalSteps: number;

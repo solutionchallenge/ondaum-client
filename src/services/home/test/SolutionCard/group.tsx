@@ -1,6 +1,6 @@
 ﻿import SolutionCard from "./item";
 import solutionMap from "./solutionConfigs";
-import levelThresholds from "../testresultcard/levelThresholds";
+import levelThresholds from "../TestResultCard/levelThresholds";
 import { resultPolarityMap } from "./solutionLevelMap";
 import { useNavigate } from "react-router-dom";
 

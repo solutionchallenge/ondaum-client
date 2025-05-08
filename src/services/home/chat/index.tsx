@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import DateChip from "../../commons/data-display/Chip";
+import DateChip from "../../../commons/data-display/Chip";
 
-import ChatResultModal from "./components/modal/resultsession";
-import EndSessionModal from "./components/modal/endsession";
-import HeaderCard from "./components/headercard";
-import IntroSection from "./components/introsection";
-import ChatSection from "./components/chatsection";
-import TestSection from "./components/testsection";
-import ChatInputBox from "./components/chatinputbox";
-import { ChatEvent } from "../../store/chat";
+import ChatResultModal from "./ResultSessionModal";
+import EndSessionModal from "./EndSessionModal";
+import HeaderCard from "./HeaderCard";
+import IntroSection from "./IntroSection";
+import ChatSection from "./ChatSection";
+import TestSection from "./TestSection";
+import ChatInputBox from "./ChatInputBox";
+import { ChatEvent } from "../../../store/chat";
 
 function HomePage() {
   const [selectedOption, setSelectedOption] = useState<"Chat" | "Test" | "">(

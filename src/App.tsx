@@ -13,11 +13,15 @@ import PhqPage from "./services/home/test/phq/index.tsx";
 import SettingPage from "./services/setting/index.tsx";
 import GadPage from "./services/home/test/gad/index.tsx";
 import PssPage from "./services/home/test/pss/index.tsx";
+import RootRedirect from "./services/redirect/rootRedirect.tsx";
+import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
 import ReportMainPage from "./services/report/main/index.tsx";
 import ReportDetailPage from "./services/report/detail/index.tsx";
 
 function App() {
   const location = useLocation();
+  RootRedirect();
+  useTokenMonitor();
 
   return (
     <AnimatePresence mode="wait">

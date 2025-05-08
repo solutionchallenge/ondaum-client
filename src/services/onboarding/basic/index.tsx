@@ -2,19 +2,24 @@ import Toggle from "../../../commons/inputs/ToggleButton";
 import ToggleGroup from "../../../commons/inputs/ToggleButton/group";
 import { DatePickers } from "../../../commons/mui-x/DatePickers";
 import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional";
-import { useAuthStore } from "../../../store/auth";
+import { updateUserPrivacy } from "../../../api/onboarding/basic";
+import { useAuthStore } from "../../../store/auth/index";
 import OnboardingAdditionalLayout from "../layout";
 import { useState } from "react";
-
-const GENDER_LIST = ["male", "female", "etc"];
+import { GENDERS } from "./constant";
 
 function OnboardingBasicPage() {
   const { user } = useAuthStore();
   const { goConcernPage } = useOnboardingAdditional();
-  const [concern, setConcern] = useState<Record<string, string>>({});
+  const [privacy, setPrivacy] = useState<Record<string, string>>({});
   const [isBirthModalOpen, setIsBirthModalOpen] = useState(false);
-  const updateConcern = (newConcern: Record<string, string>) => {
-    setConcern(newConcern);
+
+  const handleConfirm = () => {
+    if (privacy.birth && privacy.gender) {
+      const response = updateUserPrivacy(privacy.birth, privacy.gender);
+      console.log("response", response);
+      goConcernPage();
+    }
   };
 
   return (
@@ -40,33 +45,40 @@ function OnboardingBasicPage() {
       }
       button={{
         name: "Enter your information",
-        onPress: goConcernPage,
+        onPress: handleConfirm,
       }}
     >
       <article className="mb-6">
         <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Sex</h5>
         <ToggleGroup
-          options={GENDER_LIST}
-          selectedOption={concern.gender || ""}
-          onSelect={(value) => updateConcern({ ...concern, gender: value })}
+          options={GENDERS}
+          selectedOption={privacy.gender || ""}
+          onSelect={(value) =>
+            setPrivacy((prev) => ({ ...prev, gender: value }))
+          }
         />
       </article>
       <article className="mb-6">
         <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Birth</h5>
         <Toggle
-          selected={!!concern.birth}
+          selected={!!privacy.birth}
           onClick={() => setIsBirthModalOpen(true)}
         >
-          {concern.birth ? concern.birth : "Select birth"}
+          {privacy.birth ? privacy.birth : "Select birth"}
         </Toggle>
         {isBirthModalOpen && (
           <DatePickers
-            selectedDate={concern.birth ? new Date(concern.birth) : undefined}
+            selectedDate={privacy.birth ? new Date(privacy.birth) : undefined}
             onSelectDate={(date) => {
-              updateConcern({
-                ...concern,
-                birth: `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`,
-              });
+              setPrivacy((prev) => ({
+                ...prev,
+                birth: `${date.getFullYear()}-${(date.getMonth() + 1)
+                  .toString()
+                  .padStart(
+                    2,
+                    "0"
+                  )}-${date.getDate().toString().padStart(2, "0")}`,
+              }));
               setIsBirthModalOpen(false);
             }}
           />

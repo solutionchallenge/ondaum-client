@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFetchUser } from "../../../hooks/auth/useFetchUser";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { exchangeGoogleCode } from "../../../api/auth/login";
 
 function OAuthCallback() {
   const redirectUri = `${window.location.origin}/oauth/google`;
@@ -18,20 +18,7 @@ function OAuthCallback() {
       return;
     }
 
-    fetch(
-      `${API_BASE_URL}/oauth/google/auth?redirect=${encodeURIComponent(redirectUri)}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code }),
-      }
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to exchange code for token");
-        return res.json();
-      })
+    exchangeGoogleCode(code, redirectUri)
       .then(({ access_token, refresh_token }) => {
         setAccessToken(access_token);
         setRefreshToken(refresh_token);

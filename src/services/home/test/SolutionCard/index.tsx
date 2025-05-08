@@ -1,10 +1,10 @@
-﻿import SolutionCard from "./item";
+﻿import Card from "../../../../commons/surfaces/Card";
 import solutionMap from "./solutionConfigs";
 import levelThresholds from "../TestResultCard/levelThresholds";
 import { resultPolarityMap } from "./solutionLevelMap";
 import { useNavigate } from "react-router-dom";
 
-type SolutionGroupProps = {
+type SolutionCardProps = {
   type: string;
   score: number;
   selectedId: string | null;
@@ -12,13 +12,13 @@ type SolutionGroupProps = {
   openSolutionModal: () => void;
 };
 
-const SolutionGroup = ({
+const SolutionCard = ({
   type,
   score,
   selectedId,
   onSelect,
   openSolutionModal,
-}: SolutionGroupProps) => {
+}: SolutionCardProps) => {
   const navigate = useNavigate();
   const thresholds = levelThresholds[type] ?? [];
   const level =
@@ -33,15 +33,19 @@ const SolutionGroup = ({
   return (
     <div className="flex flex-col gap-4 w-full">
       {items.map(({ id, title, description, icon }) => {
-        const isModalTarget = id === "stress-negative-1"; // 필요 조건에 따라 확장 가능
+        const isModalTarget = id === "stress-negative-1";
 
         return (
-          <SolutionCard
+          <Card
             key={id}
             title={title}
             description={description}
             icon={icon}
-            selected={selectedId === id}
+            styleType={
+              selectedId === id
+                ? "fill-main/outline-main"
+                : "fill-white/outline-white"
+            }
             onClick={() => {
               onSelect(id);
               if (isModalTarget) {
@@ -57,4 +61,4 @@ const SolutionGroup = ({
   );
 };
 
-export default SolutionGroup;
+export default SolutionCard;

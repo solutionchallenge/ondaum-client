@@ -5,7 +5,7 @@ import QuestionStepper from "../QuestionStepper";
 import QuestionCard from "../QuestionCard";
 import { AnswerGroup } from "../AnswerToggle/group";
 import TestResultCard from "../TestResultCard";
-import SolutionGroup from "../SolutionCard/group";
+import SolutionCard from "../SolutionCard";
 import SolutionModal from "../SolutionModal";
 
 const questions = [
@@ -95,7 +95,7 @@ export default function GAD() {
                 <div className="justify-start mb-3 text-font-color text-xl font-bold font-pretendard leading-7">
                   What can you do next?
                 </div>
-                <SolutionGroup
+                <SolutionCard
                   type="GAD-7"
                   score={score}
                   selectedId={selectedSolutionId}

@@ -5,7 +5,7 @@ import QuestionStepper from "../QuestionStepper";
 import QuestionCard from "../QuestionCard";
 import { AnswerGroup } from "../AnswerToggle/group";
 import TestResultCard from "../TestResultCard";
-import SolutionGroup from "../SolutionCard/group";
+import SolutionCard from "../SolutionCard";
 import SolutionModal from "../SolutionModal";
 
 const questions = [
@@ -104,7 +104,7 @@ export default function PSS() {
           <div className="justify-start mb-3 text-font-color text-xl font-bold font-pretendard leading-7">
             What can you do next?
           </div>
-          <SolutionGroup
+          <SolutionCard
             type="PSS"
             score={answers.reduce((sum, val, idx) => {
               const reverseIndices = [3, 4, 6, 7];

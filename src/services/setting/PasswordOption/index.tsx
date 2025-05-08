@@ -1,9 +1,11 @@
 ﻿import { useState } from "react";
 import IconArrow from "../../../assets/images/icon_arrow_right.svg?react";
 import IconEmail from "../../../assets/images/icon_email.svg?react";
+import IconInput from "../../../commons/inputs/TextField/icon";
 
 const PasswordResetDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
   return (
     <div className="w-full bg-third rounded-xl border border-main px-4 py-3">
@@ -30,17 +32,13 @@ const PasswordResetDropdown = () => {
             your password.
           </p>
           <div className="w-full">
-            <label className="block text-sm text-font-color mb-1">
-              Email address
-            </label>
-            <div className="relative w-full">
-              <IconEmail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-font-color2" />
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="w-full pl-10 pr-3 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-main hover:border-main"
-              />
-            </div>
+            <IconInput
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={<IconEmail />}
+              type="email"
+              placeholder="Enter your email address"
+            />
           </div>
           <button className="w-full bg-main text-white py-2 rounded-md font-semibold text-base">
             Send Reset Link

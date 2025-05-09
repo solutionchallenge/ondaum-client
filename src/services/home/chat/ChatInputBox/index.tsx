@@ -1,36 +1,24 @@
 ﻿import ChatField from "../../../../commons/inputs/TextField";
 
-interface ChatEvent {
-  sender: "user" | "server";
-  text: string;
-  bold: boolean;
+export interface ChatEvent {
+  type: "user" | "bot";
+  content: string;
+  messageId: string;
 }
 
 interface Props {
   chatInput: string;
   setChatInput: (value: string) => void;
   setChatEvents: React.Dispatch<React.SetStateAction<ChatEvent[]>>;
+  onSubmit: (text: string) => void;
 }
 
-const ChatInputBox = ({ chatInput, setChatInput, setChatEvents }: Props) => {
+const ChatInputBox = ({ chatInput, setChatInput, onSubmit }: Props) => {
   const handleSend = () => {
-    if (chatInput.trim()) {
-      setChatEvents((prev) => [
-        ...prev,
-        { sender: "user", text: chatInput.trim(), bold: false },
-      ]);
+    const trimmed = chatInput.trim();
+    if (trimmed) {
+      onSubmit(trimmed);
       setChatInput("");
-
-      setTimeout(() => {
-        setChatEvents((prev) => [
-          ...prev,
-          {
-            sender: "server",
-            text: "This is a server reply.",
-            bold: false,
-          },
-        ]);
-      }, 1000);
     }
   };
 

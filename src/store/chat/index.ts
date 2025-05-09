@@ -1,5 +1,5 @@
 ﻿export interface ChatEvent {
-  sender: "user" | "server";
-  text: string;
-  bold: boolean;
+  type: "user" | "bot";
+  content: string;
+  messageId: string;
 }

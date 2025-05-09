@@ -19,7 +19,6 @@ const IntroSection = ({
   hasselectedOption,
   setSelectedOption,
   setHasSelectedOption,
-  setChatEvents,
   setIsChatFinished,
 }: Props) => {
   return (
@@ -45,14 +44,6 @@ const IntroSection = ({
               onClick={() => {
                 setSelectedOption("Chat");
                 setHasSelectedOption(true);
-                setChatEvents((prev) => [
-                  ...prev,
-                  {
-                    sender: "server",
-                    text: "How’s your heart these days?",
-                    bold: false,
-                  },
-                ]);
               }}
             >
               Chat

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { sendWebSocketMessage } from "../../../api/chat/websocket";
 import DateChip from "../../../commons/data-display/Chip";
 
 import ChatResultModal from "./ResultSessionModal";
@@ -9,6 +10,7 @@ import ChatSection from "./ChatSection";
 import TestSection from "./TestSection";
 import ChatInputBox from "./ChatInputBox";
 import { ChatEvent } from "../../../store/chat";
+import { useChatSocket } from "../../../hooks/chat/useChatSocket";
 
 function HomePage() {
   const [selectedOption, setSelectedOption] = useState<"Chat" | "Test" | "">(
@@ -28,6 +30,12 @@ function HomePage() {
 
   const [selectedTest, setSelectedTest] = useState("phq-9");
 
+  useChatSocket({
+    enabled: selectedOption === "Chat",
+    setChatEvents,
+    onSessionFinished: () => setShowEndSessionModal(true),
+  });
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -39,7 +47,7 @@ function HomePage() {
     if (selectedOption === "Chat") {
       const timer = setTimeout(() => {
         setShowEndSessionModal(true);
-      }, 1000);
+      }, 5000);
 
       return () => clearTimeout(timer);
     }
@@ -92,6 +100,13 @@ function HomePage() {
           chatInput={chatInput}
           setChatInput={setChatInput}
           setChatEvents={setChatEvents}
+          onSubmit={(text) => {
+            setChatEvents((prev) => [
+              ...prev,
+              { type: "user", content: text, messageId: "" },
+            ]);
+            sendWebSocketMessage({ action: "chat", payload: text });
+          }}
         />
       </div>
 

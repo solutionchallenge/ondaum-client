@@ -65,7 +65,7 @@ function ReportMainPage() {
         <h1 className="font-semibold mb-2 text-font-color">
           Overall Mood
         </h1>
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-4">
           <div className="relative w-24 h-24">
             {(() => {
               const moodData = [

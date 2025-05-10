@@ -4,7 +4,7 @@ import DisgustIcon from "../../../../assets/images/chatresult/icon_disgust.svg?r
 import SadnessIcon from "../../../../assets/images/chatresult/icon_sadness.svg?react";
 import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
 import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
-import HappinessIcon from "../../../../assets/images/chatresult/icon_happiness.svg?react";
+import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
 import { JSX } from "react";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
@@ -29,9 +29,9 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
       icon: <SurpriseIcon className="w-5 h-5" />,
       color: "bg-surprise text-surprise",
     },
-    Happiness: {
-      icon: <HappinessIcon className="w-5 h-5" />,
-      color: "bg-happiness text-happiness",
+    Joy: {
+      icon: <JoyIcon className="w-5 h-5" />,
+      color: "bg-joy text-joy",
     },
   };
 

@@ -1,5 +1,15 @@
 ﻿import IconModal from "../../../../assets/images/icon_modal.svg?react";
 
+// You may want to call an API or update session status here
+const handleEndSession = (onConfirm: () => void) => {
+  // Call a function such as endSession() here to mark the session as ended
+  onConfirm();
+};
+
+const handleContinueTalk = (onClose: () => void) => {
+  onClose();
+};
+
 const EndSessionModal = ({
   onClose,
   onConfirm,
@@ -27,13 +37,13 @@ const EndSessionModal = ({
         </div>
         <div className="w-full flex flex-col gap-3">
           <button
-            onClick={onConfirm}
+            onClick={() => handleEndSession(onConfirm)}
             className="w-full h-12 bg-main rounded-[20px] text-white font-semibold text-base font-['Pretendard'] leading-snug"
           >
             End Session
           </button>
           <button
-            onClick={onClose}
+            onClick={() => handleContinueTalk(onClose)}
             className="w-full h-12 bg-gray-1 rounded-[20px] text-gray-700 font-semibold text-base font-['Pretendard'] leading-snug"
           >
             Continue talk

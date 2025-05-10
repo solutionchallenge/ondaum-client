@@ -20,24 +20,16 @@ function HomePage() {
   const sessionId = useChatStore((state) => state.sessionId);
   const suggestedTest = useChatStore((state) => state.suggestedTest);
 
-  // const setConnectionStatus = useChatStore(
-  //   (state) => state.setConnectionStatus
-  // );
   const setSessionId = useChatStore((state) => state.setSessionId);
   const addChatEvent = useChatStore((state) => state.addChatEvent);
   const clearChatEvents = useChatStore((state) => state.clearChatEvents);
+  const chatEvents = useChatStore((state) => state.chatEvents);
 
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
   const [isNewSession, setIsNewSession] = useState(true);
-  //const [shouldReconnect, setShouldReconnect] = useState(false);
   const [pendingSessionId, setPendingSessionId] = useState<string | null>(null);
 
-  // const handleSessionFinished = useCallback(() => {
-  //   setShowEndSessionModal(true);
-  // }, []);
-
-  // 페이지 마운트 시 바로 WebSocket 연결
   useEffect(() => {
     const initializeChat = () => {
       setSelectedOption("Chat");
@@ -86,6 +78,16 @@ function HomePage() {
       document.body.style.overflow = "auto";
     };
   }, []);
+
+  useEffect(() => {
+    const latestEvent = chatEvents[chatEvents.length - 1];
+    if (
+      latestEvent?.action === "notify" &&
+      latestEvent?.payload === "conversation_finished"
+    ) {
+      setShowEndSessionModal(true);
+    }
+  }, [chatEvents]);
 
   return (
     <main className="relative flex flex-col h-screen overflow-hidden bg-white">

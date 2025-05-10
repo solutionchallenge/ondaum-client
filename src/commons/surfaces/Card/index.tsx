@@ -1,4 +1,4 @@
-﻿import { ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface CardProps {
   onClick?: () => void;
@@ -6,37 +6,31 @@ interface CardProps {
   title?: string;
   description?: string;
   styleType?:
-    | "filled_primary"
-    | "outlined_primary"
-    | "filled_third"
-    | "outlined_third"
-    | "filled_white"
-    | "outlined_white";
+    | "fill-white/outline-main"
+    | "fill-main/outline-main"
+    | "fill-third/outline-main"
+    | "fill-white/outline-white"
+    | "fill-white/outline-third";
   size?: "small" | "middle" | "large";
 }
 
 export default function Card({
   icon,
-  styleType = "outlined_third",
+  styleType = "fill-third/outline-main",
   size = "middle",
   onClick,
   title,
   description,
 }: CardProps) {
-  const [style, color] = styleType.split("_") as [
-    "filled" | "outlined",
-    "primary" | "third" | "white",
-  ];
+  const styleMap: Record<NonNullable<typeof styleType>, string> = {
+    "fill-white/outline-main": "bg-white text-font-color outline-second",
+    "fill-main/outline-main": "bg-second text-white outline-second",
+    "fill-third/outline-main": "bg-third text-font-color outline-second",
+    "fill-white/outline-white": "bg-white text-font-color outline-white",
+    "fill-white/outline-third": "bg-white text-font-color outline-third",
+  };
 
-  const colorStyle = {
-    primary: "bg-second text-white",
-    third: "bg-third text-font-color",
-    white: "bg-[#ffffff] text-font-color",
-  };
-  const contentStyle = {
-    filled: "",
-    outlined: "outline-second outline outline-1 ",
-  };
+  const cardStyle = `${styleMap[styleType ?? "fill-third/outline-main"]} outline outline-1`;
 
   const sizeStyle = {
     small: "text-xl",
@@ -47,7 +41,7 @@ export default function Card({
   return (
     <div
       onClick={() => onClick?.()}
-      className={`w-full px-5 py-4 rounded-xl ${colorStyle[color]} ${contentStyle[style]} flex items-center gap-4 ${onClick && 'cursor-pointer'}`}
+      className={`w-full px-5 py-4 rounded-xl ${cardStyle} flex items-center gap-4 cursor-pointer`}
     >
       {icon && icon}
       <div className="w-full flex flex-col gap-2">

@@ -1,8 +1,8 @@
 ﻿import BottomNavigation from "../../commons/navigation/BottomNavigation";
 import GlobalNavigation from "../../commons/navigation/GlobalNavigation";
-import LanguageSetting from "./component/languagesetting";
-import PolicySection from "./component/policy";
-import FAQSection from "./component/question";
+import LanguageSetting from "./LanguageSetting";
+import PolicySection from "./Policy";
+import FAQSection from "./Question";
 
 function SettingPage() {
   return (

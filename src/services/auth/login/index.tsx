@@ -1,12 +1,12 @@
 import GlobalNavigation from "../../../commons/navigation/GlobalNavigation";
 import AuthBg from "../../../assets/images/img_login.svg?react";
 import LoginButton from "../../../commons/inputs/Button/login";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { startGoogleLogin } from "../../../api/auth/login";
 
 function LoginPage() {
   const handleGoogleLogin = () => {
     const redirectUri = `${window.location.origin}/oauth/google`;
-    window.location.href = `${API_BASE_URL}/oauth/google/start?redirect=${encodeURIComponent(redirectUri)}`;
+    window.location.href = startGoogleLogin(redirectUri);
   };
 
   return (

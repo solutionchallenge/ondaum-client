@@ -48,6 +48,7 @@ function ReportMainPage() {
     <ReportLayout>
       <Card
         title="Storage box management"
+        styleType="fill-third/outline-main"
         description={`Let's take a look at your conversation\nrecords together.`}
       />
       <section className="flex flex-col gap-4 p-4 bg-[#ffffff] rounded-lg border border-third mt-5 mb-4">
@@ -109,7 +110,7 @@ function ReportMainPage() {
       <Card
         icon={<UmStressImage />}
         title="Your Stress level seems high."
-        styleType="outlined_white"
+        styleType="fill-white/outline-main"
         description="Talking to someone you trust can lift the weight off your heart"
       />
 
@@ -119,7 +120,7 @@ function ReportMainPage() {
           icon={<QuestionMarkIcon />}
           title="When anxiety is high"
           description={`Try 10 minutes of daily meditation`}
-          styleType="filled_primary"
+          styleType="fill-main/outline-main"
           size="large"
           onClick={() => {
             setMeditationModalVisible(true);
@@ -130,11 +131,10 @@ function ReportMainPage() {
           icon={<AngerPersonIcon />}
           title="When anger builds up"
           description={`Release through physical exercise`}
-          styleType="filled_primary"
+          styleType="fill-main/outline-main"
           size="large"
           onClick={() => {
             setMeditationModalVisible(true);
-
           }}
         />
       </section>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { sendWebSocketMessage } from "../../../api/chat/websocket";
 import DateChip from "../../../commons/data-display/Chip";
 
@@ -30,10 +30,39 @@ function HomePage() {
 
   const [selectedTest, setSelectedTest] = useState("phq-9");
 
+  const handleSessionFinished = useCallback(() => {
+    setShowEndSessionModal(true);
+  }, []);
+
+  const handleMessage = useCallback((event: ChatEvent) => {
+    setChatEvents((prev) => {
+      if (event.action === "data") {
+        try {
+          const parsed = JSON.parse(event.payload);
+          if (parsed.type === "text") {
+            return [
+              ...prev,
+              {
+                action: "data",
+                payload: parsed.data,
+                session_id: event.session_id,
+                message_id: event.message_id,
+              },
+            ];
+          }
+        } catch (e) {
+          console.error("Invalid payload:", e);
+        }
+        return prev;
+      }
+      return [...prev, event];
+    });
+  }, []);
+
   useChatSocket({
     enabled: selectedOption === "Chat",
-    setChatEvents,
-    onSessionFinished: () => setShowEndSessionModal(true),
+    onSessionFinished: handleSessionFinished,
+    onMessage: handleMessage,
   });
 
   useEffect(() => {
@@ -42,16 +71,6 @@ function HomePage() {
       document.body.style.overflow = "auto";
     };
   }, []);
-
-  useEffect(() => {
-    if (selectedOption === "Chat") {
-      const timer = setTimeout(() => {
-        setShowEndSessionModal(true);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [chatEvents, selectedOption]);
 
   //더미 서버 api 요청
   useEffect(() => {
@@ -101,11 +120,15 @@ function HomePage() {
           setChatInput={setChatInput}
           setChatEvents={setChatEvents}
           onSubmit={(text) => {
+            sendWebSocketMessage({ action: "chat", payload: text });
             setChatEvents((prev) => [
               ...prev,
-              { type: "user", content: text, messageId: "" },
+              {
+                action: "chat",
+                payload: text,
+                message_id: "",
+              },
             ]);
-            sendWebSocketMessage({ action: "chat", payload: text });
           }}
         />
       </div>

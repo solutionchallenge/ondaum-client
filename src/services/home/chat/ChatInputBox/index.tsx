@@ -1,10 +1,5 @@
 ﻿import ChatField from "../../../../commons/inputs/TextField";
-
-export interface ChatEvent {
-  type: "user" | "bot";
-  content: string;
-  messageId: string;
-}
+import { ChatEvent } from "../../../../store/chat";
 
 interface Props {
   chatInput: string;
@@ -16,6 +11,7 @@ interface Props {
 const ChatInputBox = ({ chatInput, setChatInput, onSubmit }: Props) => {
   const handleSend = () => {
     const trimmed = chatInput.trim();
+    console.log("[handleSend] text:", chatInput, "trimmed:", trimmed);
     if (trimmed) {
       onSubmit(trimmed);
       setChatInput("");

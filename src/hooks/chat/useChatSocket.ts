@@ -1,58 +1,75 @@
 ﻿// src/hooks/useChatSocket.ts
-import { useEffect } from "react";
-import { connectChatWebSocket, pingWebSocket } from "../../api/chat/websocket";
+import { useEffect, useRef } from "react";
+import { connectChatWebSocket } from "../../api/chat/websocket";
 import { ChatEvent } from "../../store/chat";
 
 type UseChatSocketParams = {
   enabled: boolean;
-  setChatEvents: React.Dispatch<React.SetStateAction<ChatEvent[]>>;
+  onMessage: (event: ChatEvent) => void;
   onSessionFinished?: () => void;
 };
 
 export function useChatSocket({
   enabled,
-  setChatEvents,
+  onMessage,
   onSessionFinished,
 }: UseChatSocketParams) {
+  const socketRef = useRef<WebSocket | null>(null);
+
   useEffect(() => {
-    if (!enabled) return;
+    (async () => {
+      if (!enabled) return;
 
-    let isMounted = true;
-
-    connectChatWebSocket((data) => {
-      if (!isMounted) return;
-
-      if (data.action === "data") {
-        try {
-          const parsed = JSON.parse(data.payload);
-          if (parsed.type === "text") {
-            setChatEvents((prev) => [
-              ...prev,
-              {
-                type: "bot",
-                content: parsed.data,
-                messageId: data.message_id,
-              },
-            ]);
-          }
-        } catch (err) {
-          console.error("Invalid payload", err);
-        }
-      } else if (
-        data.action === "notify" &&
-        data.payload === "conversation_finished"
+      if (
+        socketRef.current &&
+        (socketRef.current.readyState === WebSocket.CONNECTING ||
+          socketRef.current.readyState === WebSocket.OPEN)
       ) {
-        onSessionFinished?.();
+        console.warn("WebSocket already connecting or open");
+        return;
       }
-    });
 
-    const interval = setInterval(() => {
-      pingWebSocket();
-    }, 10000);
+      let isMounted = true;
 
-    return () => {
-      isMounted = false;
-      clearInterval(interval);
-    };
-  }, [enabled, onSessionFinished, setChatEvents]);
+      const ws = await connectChatWebSocket((data) => {
+        if (!isMounted) return;
+
+        onMessage(data);
+
+        if (data.action === "data") {
+          try {
+            const parsed = JSON.parse(data.payload);
+            if (parsed.type === "text") {
+              onMessage({
+                action: "data",
+                payload: parsed.data,
+                session_id: data.session_id,
+                message_id: data.message_id,
+              });
+            }
+          } catch (err) {
+            console.error("Invalid payload", err);
+          }
+        } else if (
+          data.action === "notify" &&
+          data.payload === "conversation_finished"
+        ) {
+          onSessionFinished?.();
+        }
+      });
+
+      if (!ws) {
+        console.error("WebSocket connection failed.");
+        return;
+      }
+
+      socketRef.current = ws;
+
+      return () => {
+        isMounted = false;
+        ws?.close();
+        socketRef.current = null;
+      };
+    })();
+  }, [enabled, onSessionFinished, onMessage]);
 }

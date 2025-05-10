@@ -1,12 +1,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const baseFetch = async (url: RequestInfo, init?: RequestInit) => {
-const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("access_token");
 
   const res = await fetch(`${API_BASE_URL}${url}`, {
     ...init,
     headers: {
-      Authorization: accessToken ?? `Bearer ${accessToken}`,
+      ...(accessToken && {
+        Authorization: `Bearer ${accessToken}`,
+      }),
       "Content-Type": "application/json",
     },
   });

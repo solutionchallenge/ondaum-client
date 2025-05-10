@@ -47,7 +47,7 @@ export default function Card({
   return (
     <div
       onClick={() => onClick?.()}
-      className={`w-full px-5 py-4 rounded-xl ${colorStyle[color]} ${contentStyle[style]} flex items-center gap-4 cursor-pointer`}
+      className={`w-full px-5 py-4 rounded-xl ${colorStyle[color]} ${contentStyle[style]} flex items-center gap-4 ${onClick && 'cursor-pointer'}`}
     >
       {icon && icon}
       <div className="w-full flex flex-col gap-2">

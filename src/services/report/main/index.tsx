@@ -47,12 +47,11 @@ function ReportMainPage() {
   return (
     <ReportLayout>
       <Card
-        onClick={() => {}}
         title="Storage box management"
         description={`Let's take a look at your conversation\nrecords together.`}
       />
       <section className="flex flex-col gap-4 p-4 bg-[#ffffff] rounded-lg border border-third mt-5 mb-4">
-        <h1 className="text-md font-semibold">Monthly Overview</h1>
+        <h1 className="font-semibold">Monthly Overview</h1>
         <BarChart width={300} height={200} data={data}>
           <Bar dataKey="joy" fill="#34D399" />
           <Bar dataKey="sadness" fill="#60A5FA" />
@@ -62,11 +61,10 @@ function ReportMainPage() {
           <Bar dataKey="disgust" fill="#FB923C" />
           <Legend />
         </BarChart>
-    
-        <h1 className="text-md font-semibold mb-2 text-font-color">
+        <h1 className="font-semibold mb-2 text-font-color">
           Overall Mood
         </h1>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div className="relative w-24 h-24">
             {(() => {
               const moodData = [
@@ -86,7 +84,6 @@ function ReportMainPage() {
                     startAngle={90}
                     endAngle={90 - 360 * (75 / 100)}
                   >
-                    {/* <PolarAngleAxis type="number" domain={[0, 100]} tick={false} /> */}
                     <RadialBar background dataKey="value" cornerRadius={8} />
                   </RadialBarChart>
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-sm">
@@ -109,7 +106,6 @@ function ReportMainPage() {
           </div>
         </div>
       </section>
-
       <Card
         icon={<UmStressImage />}
         title="Your Stress level seems high."
@@ -117,8 +113,8 @@ function ReportMainPage() {
         description="Talking to someone you trust can lift the weight off your heart"
       />
 
-      <section className="flex flex-col gap-4">
-        <h1 className="text-md font-semibold">Recommendations</h1>
+      <section className="flex flex-col gap-4 mt-4 mb-4">
+        <h1 className="font-semibold">Recommendations</h1>
         <Card
           icon={<QuestionMarkIcon />}
           title="When anxiety is high"
@@ -142,8 +138,8 @@ function ReportMainPage() {
           }}
         />
       </section>
-      <section className="flex flex-col gap-4">
-        <h1 className="text-md font-semibold">Conversations</h1>
+      <section className="flex flex-col gap-4 mt-4 mb-4">
+        <h1 className="font-semibold">Conversations</h1>
         <section className="py-2 px-2">
           <div className="flex items-center justify-between gap-2">
             <SearchIcon
@@ -163,8 +159,11 @@ function ReportMainPage() {
           </div>
           <span className="block text-main">2025.04.29 - 2025.04.29</span>
         </section>
-        <ConversationCard />
+        {['1','2','3'].map((item)=>(
+          <ConversationCard key={item} id={item} />
+        ))}
       </section>
+
       <SearchFilterBottomSheet
         isOpen={searchFilterBottomSheetVisible}
         onClose={() => {

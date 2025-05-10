@@ -1,7 +1,7 @@
 import ReportLayout from "../layout";
 import Card from "../../../commons/surfaces/Card";
 import PhoneIcon from "../../../assets/images/icon_phone.svg?react";
-import SadnessIcon from "../../../assets/images/chatresult/icon_sadness.svg?react";
+// import SadnessIcon from "../../../assets/images/chatresult/icon_sadness.svg?react";
 import { useState } from "react";
 import SolutionModal from "../../home/components/test/solutionmodal";
 function ReportDetailPage() {
@@ -43,8 +43,9 @@ function ReportDetailPage() {
       <div className="border border-orange-100 rounded-xl p-4 mb-4 bg-white">
         <h2 className="font-semibold text-md mb-1">Mood of the Day</h2>
         <div className="flex items-center gap-2">
-          <span className={`text-${"sadness"} text-sm`}>
-            <SadnessIcon /> Sadness
+        <img src={'../../../assets/images/chatresult/icon_sadness.svg'} alt="Sadness" className="w-4 h-4" />
+          <span className={`text-black text-sm`}>
+            Sadness
           </span>
           <div className="flex-1">
             <div className="h-2 bg-gray-200 rounded-full overflow-hidden">

@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
-import BookMarkIcon from "../../../../assets/images/icon_bookmark.svg?react";
+import {  useNavigate } from "react-router-dom";
 
-export default function ConversationCard() {
+export default function ConversationCard({id}: {id: string}) {
+  const navigate = useNavigate();
   return (
-    <div className="rounded-xl p-4 shadow-sm border border-third space-y-2 relative">
+    <div className="rounded-xl p-4 shadow-sm border border-third space-y-2 cursor-pointer" onClick={() => {
+      navigate(`/report/detail/${id}`);
+    }}>
       <div className="flex justify-between items-start">
         <div>
           <h2 className="font-semibold text-black">Morning Check-in</h2>
@@ -30,11 +32,8 @@ export default function ConversationCard() {
         ))}
       </div>
       <div className="flex justify-between items-center pt-1">
-        <Link to="/report/detail/1" className="text-sm text-main ">
+        <button className="text-sm text-main">
           View Details
-        </Link>
-        <button>
-          <BookMarkIcon />
         </button>
       </div>
     </div>

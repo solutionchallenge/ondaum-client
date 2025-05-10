@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { sendWebSocketMessage } from "../../../api/chat/websocket";
 import DateChip from "../../../commons/data-display/Chip";
 
 import ChatResultModal from "./ResultSessionModal";
@@ -9,61 +8,77 @@ import IntroSection from "./IntroSection";
 import ChatSection from "./ChatSection";
 import TestSection from "./TestSection";
 import ChatInputBox from "./ChatInputBox";
-import { ChatEvent } from "../../../store/chat";
-import { useChatSocket } from "../../../hooks/chat/useChatSocket";
+import { useChatConnection } from "../../../hooks/chat/useChatSocket";
+import { useChatStore } from "../../../store/chat";
 
 function HomePage() {
-  const [selectedOption, setSelectedOption] = useState<"Chat" | "Test" | "">(
-    ""
-  );
-  const [hasselectedOption, hasSetSelectedOption] = useState(false);
-  const [isChatFinished, setIsChatFinished] = useState(false);
+  const selectedOption = useChatStore((state) => state.selectedOption);
+  const setSelectedOption = useChatStore((state) => state.setSelectedOption);
+
   const [chatInput, setChatInput] = useState("");
-  const [chatEvents, setChatEvents] = useState<ChatEvent[]>([]);
+
+  const sessionId = useChatStore((state) => state.sessionId);
+  const suggestedTest = useChatStore((state) => state.suggestedTest);
+
+  // const setConnectionStatus = useChatStore(
+  //   (state) => state.setConnectionStatus
+  // );
+  const setSessionId = useChatStore((state) => state.setSessionId);
+  const addChatEvent = useChatStore((state) => state.addChatEvent);
+  const clearChatEvents = useChatStore((state) => state.clearChatEvents);
+
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
+  const [isNewSession, setIsNewSession] = useState(true);
+  //const [shouldReconnect, setShouldReconnect] = useState(false);
+  const [pendingSessionId, setPendingSessionId] = useState<string | null>(null);
 
-  const [summary, setSummary] = useState("");
-  const [mood, setMood] = useState("");
-  const [themes, setThemes] = useState<string[]>([]);
-  const [moodScore, setMoodScore] = useState(0);
+  // const handleSessionFinished = useCallback(() => {
+  //   setShowEndSessionModal(true);
+  // }, []);
 
-  const [selectedTest, setSelectedTest] = useState("phq-9");
+  // 페이지 마운트 시 바로 WebSocket 연결
+  useEffect(() => {
+    const initializeChat = () => {
+      setSelectedOption("Chat");
+      clearChatEvents();
+      setSessionId(null);
+      setIsNewSession(true);
+    };
 
-  const handleSessionFinished = useCallback(() => {
-    setShowEndSessionModal(true);
+    initializeChat();
+  }, [clearChatEvents, setSessionId, setSelectedOption]);
+
+  const { sendMessage } = useChatConnection(true);
+
+  const handleSendMessage = useCallback(
+    (text: string) => {
+      const messageId = `user-${Date.now()}`;
+      sendMessage(text);
+      addChatEvent({
+        action: "chat",
+        payload: text,
+        message_id: messageId,
+        session_id: sessionId || "",
+      });
+    },
+    [sendMessage, sessionId, addChatEvent]
+  );
+
+  const handleContinueChat = useCallback(() => {
+    if (pendingSessionId) {
+      setSessionId(pendingSessionId);
+      setIsNewSession(false);
+      setShouldReconnect(true);
+      setPendingSessionId(null);
+    }
+    setShowEndSessionModal(false);
+  }, [pendingSessionId, setSessionId]);
+
+  const handleEndChat = useCallback(() => {
+    setShowEndSessionModal(false);
+    setShowChatResultModal(true);
   }, []);
-
-  const handleMessage = useCallback((event: ChatEvent) => {
-    setChatEvents((prev) => {
-      if (event.action === "data") {
-        try {
-          const parsed = JSON.parse(event.payload);
-          if (parsed.type === "text") {
-            return [
-              ...prev,
-              {
-                action: "data",
-                payload: parsed.data,
-                session_id: event.session_id,
-                message_id: event.message_id,
-              },
-            ];
-          }
-        } catch (e) {
-          console.error("Invalid payload:", e);
-        }
-        return prev;
-      }
-      return [...prev, event];
-    });
-  }, []);
-
-  useChatSocket({
-    enabled: selectedOption === "Chat",
-    onSessionFinished: handleSessionFinished,
-    onMessage: handleMessage,
-  });
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -72,74 +87,33 @@ function HomePage() {
     };
   }, []);
 
-  //더미 서버 api 요청
-  useEffect(() => {
-    if (showChatResultModal) {
-      setTimeout(() => {
-        setSummary(
-          "The consultation revealed signs of moderate anxiety, suggesting a need for continued emotional support and stress management"
-        );
-        setMood("Fear");
-        setThemes(["#overthinking", "#feelinglow", "#selfreflection"]);
-        setMoodScore(70);
-      }, 500);
-    }
-  }, [showChatResultModal]);
-
   return (
     <main className="relative flex flex-col h-screen overflow-hidden bg-white">
       <div className="h-32 flex-shrink-0">
         <HeaderCard />
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
         <DateChip date={new Date()} />
-        <IntroSection
-          isChatFinished={isChatFinished}
-          hasselectedOption={hasselectedOption}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          setHasSelectedOption={hasSetSelectedOption}
-          setChatEvents={setChatEvents}
-          setIsChatFinished={setIsChatFinished}
-        />
-        {selectedOption === "Chat" && <ChatSection chatEvents={chatEvents} />}
+        {(isNewSession || selectedOption === "") && <IntroSection />}
+        {selectedOption === "Chat" && <ChatSection />}
 
-        {selectedOption === "Test" && (
-          <TestSection
-            selectedTest={selectedTest}
-            setSelectedTest={setSelectedTest}
-            setIsChatFinished={setIsChatFinished}
-          />
-        )}
+        {selectedOption === "Test" && suggestedTest !== null && <TestSection />}
       </div>
 
       <div className="h-[120px] flex-shrink-0">
         <ChatInputBox
           chatInput={chatInput}
           setChatInput={setChatInput}
-          setChatEvents={setChatEvents}
-          onSubmit={(text) => {
-            sendWebSocketMessage({ action: "chat", payload: text });
-            setChatEvents((prev) => [
-              ...prev,
-              {
-                action: "chat",
-                payload: text,
-                message_id: "",
-              },
-            ]);
-          }}
+          setChatEvents={clearChatEvents}
+          onSubmit={handleSendMessage}
         />
       </div>
 
       {showEndSessionModal && (
         <EndSessionModal
-          onClose={() => setShowEndSessionModal(false)}
-          onConfirm={() => {
-            setShowEndSessionModal(false);
-            setShowChatResultModal(true);
-          }}
+          onClose={handleContinueChat}
+          onConfirm={handleEndChat}
         />
       )}
       {showChatResultModal && (
@@ -147,15 +121,11 @@ function HomePage() {
           onClose={() => {
             setShowChatResultModal(false);
             setSelectedOption("");
-            hasSetSelectedOption(false);
-            setIsChatFinished(false);
             setChatInput("");
-            setChatEvents([]);
+            clearChatEvents();
+            setSessionId(null);
+            setIsNewSession(true);
           }}
-          summary={summary}
-          mood={mood}
-          themes={themes}
-          moodScore={moodScore}
         />
       )}
     </main>
@@ -163,3 +133,7 @@ function HomePage() {
 }
 
 export default HomePage;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function setShouldReconnect(_arg0: boolean) {
+  throw new Error("Function not implemented.");
+}

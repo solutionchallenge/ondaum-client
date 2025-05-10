@@ -2,19 +2,13 @@
 import UmAvatar from "../../../../commons/data-display/Avatar";
 import TestChatList from "../../../../commons/data-display/List/testgroup";
 import TestToggle from "../TestToggle";
+import { useChatStore } from "../../../../store/chat";
 
-interface Props {
-  selectedTest: string;
-  setSelectedTest: (key: string) => void;
-  setIsChatFinished: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const TestSection = ({
-  selectedTest,
-  setSelectedTest,
-  setIsChatFinished,
-}: Props) => {
+const TestSection = () => {
   const [isListFinished, setIsListFinished] = useState(false);
+  const selectedTest = useChatStore((state) => state.suggestedTest || "phq-9");
+  const setSelectedTest = useChatStore((state) => state.setSuggestedTest);
+
   return (
     <div className="w-full flex flex-row gap-2 ml-3">
       <UmAvatar />
@@ -22,7 +16,6 @@ const TestSection = ({
         <div className="text-main font-semibold font-['Pretendard']">Um</div>
         <TestChatList
           onFinish={() => {
-            setIsChatFinished(true);
             setIsListFinished(true);
           }}
         />

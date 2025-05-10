@@ -1,25 +1,26 @@
-﻿// src/hooks/useChatSocket.ts
-import { useEffect, useRef } from "react";
-import { connectChatWebSocket } from "../../api/chat/websocket";
-import { ChatEvent } from "../../store/chat";
+﻿import { useEffect, useRef } from "react";
+import {
+  connectChatWebSocket,
+  sendWebSocketMessage,
+} from "../../api/chat/websocket";
+import { useChatStore } from "../../store/chat";
 
-type UseChatSocketParams = {
-  enabled: boolean;
-  onMessage: (event: ChatEvent) => void;
-  onSessionFinished?: () => void;
-};
-
-export function useChatSocket({
-  enabled,
-  onMessage,
-  onSessionFinished,
-}: UseChatSocketParams) {
+export function useChatConnection(enabled: boolean) {
   const socketRef = useRef<WebSocket | null>(null);
+  const {
+    addChatEvent,
+    clearChatEvents,
+    setSessionId,
+    setConnectionStatus,
+    setSuggestedTest,
+  } = useChatStore();
 
   useEffect(() => {
-    (async () => {
-      if (!enabled) return;
+    if (!enabled) return;
 
+    let isMounted = true;
+
+    const setupWebSocket = async () => {
       if (
         socketRef.current &&
         (socketRef.current.readyState === WebSocket.CONNECTING ||
@@ -29,32 +30,47 @@ export function useChatSocket({
         return;
       }
 
-      let isMounted = true;
-
       const ws = await connectChatWebSocket((data) => {
         if (!isMounted) return;
 
-        onMessage(data);
+        addChatEvent(data);
 
         if (data.action === "data") {
           try {
             const parsed = JSON.parse(data.payload);
             if (parsed.type === "text") {
-              onMessage({
+              addChatEvent({
                 action: "data",
                 payload: parsed.data,
                 session_id: data.session_id,
                 message_id: data.message_id,
               });
+            } else if (
+              parsed.type === "action" &&
+              parsed.data.startsWith("suggest_test_")
+            ) {
+              const testType = parsed.data.replace("suggest_test_", "");
+              setSuggestedTest(testType);
             }
           } catch (err) {
             console.error("Invalid payload", err);
           }
-        } else if (
-          data.action === "notify" &&
-          data.payload === "conversation_finished"
-        ) {
-          onSessionFinished?.();
+        } else if (data.action === "notify") {
+          switch (data.payload) {
+            case "new_conversation":
+            case "existing_conversation":
+              if (data.session_id) {
+                setSessionId(data.session_id);
+              }
+              break;
+            case "conversation_archived":
+              setSessionId(null);
+              clearChatEvents();
+              break;
+            case "conversation_finished":
+              setSessionId(null);
+              break;
+          }
         }
       });
 
@@ -64,12 +80,28 @@ export function useChatSocket({
       }
 
       socketRef.current = ws;
+      setConnectionStatus(true);
+    };
 
-      return () => {
-        isMounted = false;
-        ws?.close();
-        socketRef.current = null;
-      };
-    })();
-  }, [enabled, onSessionFinished, onMessage]);
+    setupWebSocket();
+
+    return () => {
+      isMounted = false;
+      socketRef.current?.close();
+      socketRef.current = null;
+      setConnectionStatus(false);
+    };
+  }, [enabled]);
+
+  const sendMessage = (payload: string) => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      sendWebSocketMessage({ action: "chat", payload });
+    } else {
+      console.warn("Cannot send message: WebSocket is not open.");
+    }
+  };
+
+  return {
+    sendMessage,
+  };
 }

@@ -6,6 +6,7 @@ import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
 import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
 import HappinessIcon from "../../../../assets/images/chatresult/icon_happiness.svg?react";
 import { JSX } from "react";
+import { useChatStore } from "../../../../store/chat";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   const moodStyles: Record<string, { icon: JSX.Element; color: string }> = {
@@ -65,19 +66,12 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   );
 };
 
-const ChatResultModal = ({
-  onClose,
-  summary,
-  mood,
-  themes,
-  moodScore,
-}: {
-  onClose: () => void;
-  summary: string;
-  mood: string;
-  themes: string[];
-  moodScore: number;
-}) => {
+const ChatResultModal = ({ onClose }: { onClose: () => void }) => {
+  const summary = useChatStore((state) => state.summary);
+  const mood = useChatStore((state) => state.mood);
+  const themes = useChatStore((state) => state.themes);
+  const moodScore = useChatStore((state) => state.moodScore);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="w-[90%] max-w-md px-6 py-8 bg-white rounded-2xl shadow-lg border border-gray-200 flex flex-col items-center gap-6">

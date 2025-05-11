@@ -6,7 +6,11 @@ import QuestionStepper from "./QuestionStepper";
 import SolutionCard from "./SolutionCard";
 import StartCard from "./StartCard";
 import TestResultCard from "./TestResultCard";
-import { getDiagnosis } from "../../../api/test/diagnosis";
+import {
+  getDiagnosis,
+  postDiagnosisResult,
+  getDiagnosisResult,
+} from "../../../api/test/diagnosis";
 import SolutionModal from "./SolutionModal";
 import QuestionStepperText from "./QuestionStepperText";
 
@@ -21,9 +25,9 @@ export default function DiagnosisTest({
   const [questions, setQuestions] = useState<
     { question: string; answers: { score: number; text: string }[] }[]
   >([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [results, setResults] = useState<any[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [scoring, setScoring] = useState<{ min: number; max: number }>({
     min: 0,
     max: 0,
@@ -32,11 +36,13 @@ export default function DiagnosisTest({
     null
   );
   const [showSolutionModal, setShowSolutionModal] = useState(false);
+  const [, setResultId] = useState<number | null>(null);
+  const [postedResult, setPostedResult] = useState<any>(null);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await getDiagnosis({ diagnosis_id: type });
+        const data = await getDiagnosis({ paper_id: type });
         setQuestions(
           data.questions.map((q) => ({
             question: q.question,
@@ -63,6 +69,30 @@ export default function DiagnosisTest({
       }
     }, 400);
   };
+
+  useEffect(() => {
+    if (step !== "result" || results.length === 0) return;
+
+    const score = answers.reduce((sum, val) => sum + val, 0);
+    const matched = results.find((r) => score >= r.min && score <= r.max);
+
+    if (matched) {
+      postDiagnosisResult({
+        diagnosis: type,
+        result_score: score,
+        total_score: scoring.max,
+        result_name: matched.name,
+        result_description: matched.description,
+        result_critical: matched.critical,
+      })
+        .then(async (res) => {
+          setResultId(res.id);
+          const result = await getDiagnosisResult(res.id);
+          setPostedResult(result);
+        })
+        .catch((e) => console.error("Failed to post diagnosis result:", e));
+    }
+  }, [answers, results, scoring.max, step, type]);
 
   return (
     <main className="flex flex-col min-h-screen items-center bg-white mb-16">
@@ -121,6 +151,16 @@ export default function DiagnosisTest({
           <div className="justify-start text-font-color text-xl font-bold font-pretendard leading-7">
             Your Mental Health Check-In Result
           </div>
+          {postedResult && (
+            <>
+              <div className="text-main text-lg font-bold mt-2">
+                {postedResult.result_name}
+              </div>
+              <div className="text-sm text-gray-500 mb-4">
+                {postedResult.result_description}
+              </div>
+            </>
+          )}
           {(() => {
             const score = answers.reduce((sum, val) => sum + val, 0);
             return (

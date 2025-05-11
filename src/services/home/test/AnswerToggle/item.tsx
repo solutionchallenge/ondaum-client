@@ -1,4 +1,5 @@
 ﻿import React from "react";
+import IconNever from "../../../../assets/images/test/answer/icon_never.svg?react";
 import IconNot from "../../../../assets/images/test/answer/icon_not.svg?react";
 import IconSeveral from "../../../../assets/images/test/answer/icon_several.svg?react";
 import IconMore from "../../../../assets/images/test/answer/icon_more.svg?react";
@@ -11,7 +12,7 @@ interface AnswerItemProps {
   onClick?: () => void;
 }
 
-const orderIcons = [IconNot, IconSeveral, IconMore, IconEvery];
+const orderIcons = [IconNever, IconNot, IconSeveral, IconMore, IconEvery];
 
 const AnswerItem: React.FC<AnswerItemProps> = ({
   title,

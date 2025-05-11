@@ -6,7 +6,7 @@ import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
 import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
 import HappinessIcon from "../../../../assets/images/chatresult/icon_happiness.svg?react";
 import { JSX } from "react";
-import { useChatStore } from "../../../../store/chat";
+import { ChatSummary } from "../../../../api/chat";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   const moodStyles: Record<string, { icon: JSX.Element; color: string }> = {
@@ -30,7 +30,7 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
       icon: <SurpriseIcon className="w-5 h-5" />,
       color: "bg-surprise text-surprise",
     },
-    Happiness: {
+    Joy: {
       icon: <HappinessIcon className="w-5 h-5" />,
       color: "bg-happiness text-happiness",
     },
@@ -66,12 +66,13 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   );
 };
 
-const ChatResultModal = ({ onClose }: { onClose: () => void }) => {
-  const summary = useChatStore((state) => state.summary);
-  const mood = useChatStore((state) => state.mood);
-  const themes = useChatStore((state) => state.themes);
-  const moodScore = useChatStore((state) => state.moodScore);
-
+const ChatResultModal = ({
+  summary,
+  onClose,
+}: {
+  summary: ChatSummary;
+  onClose: () => void;
+}) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="w-[90%] max-w-md px-6 py-8 bg-white rounded-2xl shadow-lg border border-gray-200 flex flex-col items-center gap-6">
@@ -85,13 +86,16 @@ const ChatResultModal = ({ onClose }: { onClose: () => void }) => {
           <div className="text-main text-sm font-bold leading-tight">
             Conversation Summary
           </div>
-          <Card onClick={() => {}} description={summary} />
+          <Card onClick={() => {}} description={summary.title} />
         </div>
         <div className="flex flex-col gap-2 w-full">
           <div className="text-main text-sm font-bold leading-tight">
             Mood of the Day
           </div>
-          <MoodCard mood={mood} moodScore={moodScore} />
+          <MoodCard
+            mood={summary.emotions[0]?.emotion || "Joy"}
+            moodScore={Math.round(summary.emotions[0]?.rate * 100) || 0}
+          />
         </div>
 
         <div className="flex flex-col gap-3 w-full">
@@ -99,8 +103,11 @@ const ChatResultModal = ({ onClose }: { onClose: () => void }) => {
             Key Themes
           </div>
           <div className="flex flex-wrap gap-3">
-            {themes.map((theme) => (
-              <div className="w-auto h-9 px-4 py-2 bg-third rounded-[15px] outline outline-1 outline-main text-main text-sm">
+            {summary.keywords.map((theme) => (
+              <div
+                key={theme}
+                className="w-auto h-9 px-4 py-2 bg-third rounded-[15px] outline outline-1 outline-main text-main text-sm"
+              >
                 {theme}
               </div>
             ))}

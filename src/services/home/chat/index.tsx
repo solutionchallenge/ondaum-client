@@ -1,11 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import DateChip from "../../../commons/data-display/Chip";
-
 import {
   connectChatWebSocket,
   sendWebSocketMessage,
 } from "../../../api/chat/websocket";
-
+import { getChatSessionId, Chat } from "../../../api/chat";
 import ChatResultModal from "./ResultSessionModal";
 import EndSessionModal from "./EndSessionModal";
 import HeaderCard from "./HeaderCard";
@@ -17,138 +16,86 @@ import { useChatStore } from "../../../store/chat";
 import { listChats } from "../../../api/chat";
 
 function HomePage() {
-  const selectedOption = useChatStore((state) => state.selectedOption);
-  const setSelectedOption = useChatStore((state) => state.setSelectedOption);
-
   const [chatInput, setChatInput] = useState("");
-
   const sessionId = useChatStore((state) => state.sessionId);
   const setSessionId = useChatStore((state) => state.setSessionId);
   const addChatEvent = useChatStore((state) => state.addChatEvent);
   const chatEvents = useChatStore((state) => state.chatEvents);
-
-  const suggestedTest = useChatStore((state) => state.suggestedTest);
+  const setSuggestedTest = useChatStore((state) => state.setSuggestedTest);
+  const [showTestSection, setShowTestSection] = useState(false);
 
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
   const [isNewSession, setIsNewSession] = useState(true);
+  const [chatSummary, setChatSummary] = useState<Chat | null>(null);
 
-  // Ref to persist the latest sessionId for websocket reconnection logic
-  const wsSessionRef = useRef<string | null>(null);
-  const socketRef = useRef<WebSocket | null>(null);
-  const pingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    const fetchExistingSession = async () => {
-      if (!sessionId) {
-        const { chats } = await listChats();
-        const ongoing = chats.find((c) => !c.is_finished);
-        if (ongoing) {
-          setSessionId(ongoing.session_id);
-          setIsNewSession(false);
-        } else {
-          setIsNewSession(true);
-        }
-      }
-    };
-    fetchExistingSession();
-  }, [sessionId, setSessionId]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const initiateWebSocket = async (sessionIdOverride?: string) => {
-      const isAccessTokenConnection = !sessionIdOverride;
-      if (
-        sessionIdOverride &&
-        wsSessionRef.current &&
-        socketRef.current?.readyState === WebSocket.OPEN &&
-        wsSessionRef.current === sessionIdOverride
-      ) {
-        return; // Prevent reconnect only if currently connected to the same session
-      }
-      // 1. 이전 소켓 종료
-      if (socketRef.current?.readyState === WebSocket.OPEN) {
-        socketRef.current.close();
-      }
-
-      // 2. 기존 ping 중단
-      if (pingIntervalRef.current) {
-        clearInterval(pingIntervalRef.current);
-        pingIntervalRef.current = null;
-      }
-
-      const ws = await connectChatWebSocket((data) => {
-        if (!isMounted) return;
-
-        addChatEvent(data);
-
-        if (
-          data.action === "notify" &&
-          data.payload === "conversation_finished"
-        ) {
-          setShowEndSessionModal(true);
-        }
-
-        if (data.action === "notify") {
-          if (data.session_id && isAccessTokenConnection) {
-            wsSessionRef.current = data.session_id;
-            socketRef.current?.close();
-            if (pingIntervalRef.current) {
-              clearInterval(pingIntervalRef.current);
-              pingIntervalRef.current = null;
-            }
-            initiateWebSocket(data.session_id);
+  const handleWebSocketMessage = useCallback(
+    (data: any) => {
+      if (data.action === "data") {
+        try {
+          const parsed = JSON.parse(data.payload);
+          if (
+            parsed.type === "action" &&
+            parsed.data?.startsWith("suggest_test_")
+          ) {
+            const testType = parsed.data.replace("suggest_test_", "");
+            setSuggestedTest(testType);
+            setShowTestSection(true);
             return;
           }
-
-          if (
-            (data.payload === "existing_conversation" ||
-              data.payload === "new_conversation") &&
-            data.session_id
-          ) {
-            if (
-              !wsSessionRef.current ||
-              wsSessionRef.current !== data.session_id
-            ) {
-              wsSessionRef.current = data.session_id;
-              socketRef.current?.close();
-              if (pingIntervalRef.current) {
-                clearInterval(pingIntervalRef.current);
-                pingIntervalRef.current = null;
-              }
-              initiateWebSocket(data.session_id);
-            }
-            setSessionId(data.session_id);
-          } else if (data.payload === "conversation_archived") {
-            setSessionId(null);
-          }
+        } catch (error) {
+          console.error("Error parsing payload:", error);
         }
-      }, sessionIdOverride);
-
-      // 3. 새 소켓 저장
-      socketRef.current = ws;
-
-      // 4. ping 시작
-      pingIntervalRef.current = setInterval(() => {
-        if (socketRef.current?.readyState === WebSocket.OPEN) {
-          socketRef.current.send(JSON.stringify({ action: "ping" }));
-        }
-      }, 10000);
-    };
-
-    // Initialize wsSessionRef.current and call initiateWebSocket
-    wsSessionRef.current = sessionId ?? null;
-    initiateWebSocket(sessionId ?? undefined);
-
-    return () => {
-      isMounted = false;
-      socketRef.current?.close();
-      if (pingIntervalRef.current) {
-        clearInterval(pingIntervalRef.current);
+        addChatEvent(data);
+        return;
       }
+
+      if (
+        data.action === "notify" &&
+        (data.payload === "new_conversation" ||
+          data.payload === "existing_conversation") &&
+        data.session_id
+      ) {
+        setSessionId(data.session_id);
+        return;
+      }
+
+      if (
+        data.action === "notify" &&
+        data.payload === "conversation_archived"
+      ) {
+        setSessionId(null);
+      }
+
+      if (
+        data.action === "notify" &&
+        data.payload === "conversation_finished"
+      ) {
+        setShowEndSessionModal(true);
+      }
+
+      addChatEvent(data);
+    },
+    [addChatEvent, setSessionId, setSuggestedTest]
+  );
+
+  useEffect(() => {
+    const setup = async () => {
+      const { chats } = await listChats();
+      const ongoing = chats.find((c) => !c.is_finished);
+      if (ongoing) {
+        setSessionId(ongoing.session_id);
+        setIsNewSession(false);
+      } else {
+        setIsNewSession(true);
+      }
+
+      connectChatWebSocket(handleWebSocketMessage);
     };
-  }, [addChatEvent, setSessionId, sessionId]);
+
+    setup();
+  }, [handleWebSocketMessage, setSessionId]);
+
   const handleSendMessage = useCallback(
     (text: string) => {
       const messageId = `user-${Date.now()}`;
@@ -168,10 +115,18 @@ function HomePage() {
     setShowEndSessionModal(false);
   }, []);
 
-  const handleEndChat = useCallback(() => {
+  const handleEndChat = useCallback(async () => {
+    if (sessionId) {
+      try {
+        const full = await getChatSessionId(sessionId);
+        setChatSummary(full);
+      } catch (error) {
+        console.error("Failed to fetch chat summary", error);
+      }
+    }
     setShowEndSessionModal(false);
     setShowChatResultModal(true);
-  }, []);
+  }, [sessionId]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -199,7 +154,11 @@ function HomePage() {
       <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
         <DateChip date={new Date()} />
         {isNewSession ? <IntroSection /> : <ChatSection />}
-        {selectedOption === "Test" && suggestedTest !== null && <TestSection />}
+        {!isNewSession && showTestSection && (
+          <div className="mt-4">
+            <TestSection />
+          </div>
+        )}
       </div>
 
       <div className="h-[120px] flex-shrink-0">
@@ -216,14 +175,14 @@ function HomePage() {
           onConfirm={handleEndChat}
         />
       )}
-      {showChatResultModal && (
+      {showChatResultModal && chatSummary && (
         <ChatResultModal
+          summary={chatSummary.summary}
           onClose={() => {
             setShowChatResultModal(false);
-            setSelectedOption("");
-            setChatInput("");
             setSessionId(null);
             setIsNewSession(true);
+            setChatSummary(null);
           }}
         />
       )}

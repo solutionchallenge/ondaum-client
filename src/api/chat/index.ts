@@ -34,19 +34,8 @@ export const listChats = async () => {
   return response;
 };
 
-export const getChatSummary = async (
-  sessionId: string
-): Promise<{ session_id: string }> => {
-  const { response } = await http.get<{ session_id: string }>(
-    `/chat/session-id?session_id=${sessionId}`
-  );
-  return response;
-};
-
-export const getChatSessionId = async (
-  sessionId: string
-): Promise<{ session_id: string }> => {
-  const { response } = await http.get<{ session_id: string }>(
+export const getChatSessionId = async (sessionId: string): Promise<Chat> => {
+  const { response } = await http.get<Chat>(
     `/chat/session-id?session_id=${sessionId}`
   );
   return response;

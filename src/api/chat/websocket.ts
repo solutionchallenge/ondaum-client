@@ -1,62 +1,143 @@
 ﻿import type { ChatEvent } from "../../store/chat";
 
-let socket: WebSocket | null = null;
-
-const messageQueue: string[] = [];
-
 type MessageHandler = (data: any) => void;
 
+let initialSocket: WebSocket | null = null;
+let sessionSocket: WebSocket | null = null;
+let pingInterval: number | null = null;
+
+const messageQueue: string[] = [];
 let messageHandler: MessageHandler | null = null;
 
 const getAccessToken = (): string | null => {
   return localStorage.getItem("access_token");
 };
 
-export const connectWebSocket = (
-  baseUrl: string,
-  onMessage: MessageHandler
+const startPingInterval = () => {
+  if (pingInterval) clearInterval(pingInterval);
+
+  let retryCount = 0;
+
+  pingInterval = setInterval(() => {
+    if (
+      sessionSocket &&
+      sessionSocket.readyState === WebSocket.OPEN &&
+      sessionSocket.url.startsWith("wss://ondaum.revimal.me")
+    ) {
+      sessionSocket.send(JSON.stringify({ action: "ping", payload: "" }));
+      console.log("✅ Ping sent to session WebSocket:", sessionSocket.url);
+      retryCount = 0;
+    } else {
+      retryCount++;
+      console.warn("❌ Ping failed or invalid socket URL:", sessionSocket?.url);
+      if (retryCount >= 5) {
+        console.warn("❌ Ping aborted: retry limit exceeded");
+        clearInterval(pingInterval!);
+        pingInterval = null;
+      }
+    }
+  }, 30000); // every 30s
+};
+
+export const connectChatWebSocket = (
+  onMessage: (data: any) => void
 ): WebSocket | null => {
-  if (socket) {
-    socket.close();
-    socket = null;
+  const token = getAccessToken();
+  if (!token) throw new Error("No access token found");
+
+  // 기존 연결 정리
+  if (initialSocket) {
+    initialSocket.close();
+    initialSocket = null;
+  }
+  if (sessionSocket) {
+    sessionSocket.close();
+    sessionSocket = null;
+  }
+  if (pingInterval) {
+    clearInterval(pingInterval);
+    pingInterval = null;
   }
 
-  const url = new URL(baseUrl);
-  // session_id is already included in baseUrl if needed
+  // 초기 연결 생성
+  const url = new URL("wss://ondaum.revimal.me/api/v1/_ws/chat");
+  url.searchParams.set("access_token", token);
 
   const newSocket = new WebSocket(url.toString());
+  initialSocket = newSocket;
   messageHandler = onMessage;
 
   newSocket.onopen = () => {
-    socket = newSocket;
-    console.log("WebSocket connected");
-    console.log("[WebSocket][QUEUE_FLUSH]", messageQueue.length);
-    while (messageQueue.length > 0) {
-      const msg = messageQueue.shift();
-      if (msg) socket?.send(msg);
-    }
+    console.log("Initial WebSocket connected");
   };
 
   newSocket.onmessage = (event) => {
-    if (socket !== newSocket) return;
     try {
       const data = JSON.parse(event.data);
-      messageHandler?.(data);
-    } catch (error) {
-      console.error("Error parsing WebSocket message:", error);
+
+      // session_id를 받으면 초기 연결을 종료하고 세션 연결 생성
+      if (data.session_id) {
+        const sessionId = data.session_id;
+        console.log("Received session_id:", sessionId);
+
+        // 초기 연결 종료
+        if (initialSocket) {
+          initialSocket.close();
+          initialSocket = null;
+        }
+
+        const sessionUrl = new URL(`wss://ondaum.revimal.me/api/v1/_ws/chat`);
+        sessionUrl.searchParams.set("session_id", sessionId);
+        sessionUrl.searchParams.set("access_token", token);
+
+        const sessionWS = new WebSocket(sessionUrl.toString());
+        messageHandler = onMessage;
+        sessionWS.onopen = () => {
+          console.log("Session WebSocket connected");
+          sessionSocket = sessionWS; // move assignment here
+          startPingInterval();
+        };
+
+        sessionWS.onmessage = (e) => {
+          try {
+            const msg = JSON.parse(e.data);
+            messageHandler?.(msg);
+          } catch (err) {
+            console.error("Error parsing session WS message:", err);
+          }
+        };
+
+        sessionWS.onclose = () => {
+          if (sessionSocket === sessionWS) {
+            sessionSocket = null;
+          }
+          if (pingInterval) {
+            clearInterval(pingInterval);
+            pingInterval = null;
+          }
+          console.log("Session WebSocket disconnected");
+        };
+
+        sessionWS.onerror = (err) => {
+          console.error("Session WebSocket error:", err);
+        };
+      } else {
+        messageHandler?.(data);
+      }
+    } catch (e) {
+      console.error("Error parsing WebSocket message:", e);
     }
   };
 
   newSocket.onclose = () => {
-    if (socket === newSocket) {
-      socket = null;
+    if (initialSocket === newSocket) {
+      initialSocket = null;
     }
-    console.log("WebSocket disconnected");
+    console.log("Initial WebSocket disconnected");
   };
 
   newSocket.onerror = (error) => {
-    if (socket !== newSocket) return;
-    console.error("WebSocket error:", error);
+    console.error("Initial WebSocket error:", error);
   };
 
   return newSocket;
@@ -64,11 +145,14 @@ export const connectWebSocket = (
 
 export const sendWebSocketMessage = (message: Partial<ChatEvent>) => {
   const msg = JSON.stringify(message);
-  console.log("[WebSocket][SEND]", socket?.readyState, message);
+  console.log("[WebSocket][SEND]", sessionSocket?.readyState, message);
 
-  if (socket && socket.readyState === WebSocket.OPEN) {
-    socket.send(msg);
-  } else if (socket && socket.readyState === WebSocket.CONNECTING) {
+  if (sessionSocket && sessionSocket.readyState === WebSocket.OPEN) {
+    sessionSocket.send(msg);
+  } else if (
+    sessionSocket &&
+    sessionSocket.readyState === WebSocket.CONNECTING
+  ) {
     console.log("[WebSocket][QUEUE_PUSH]", msg);
     messageQueue.push(msg);
   } else {
@@ -77,34 +161,16 @@ export const sendWebSocketMessage = (message: Partial<ChatEvent>) => {
 };
 
 export const closeWebSocket = () => {
-  if (socket) {
-    socket.close();
-    socket = null;
+  if (initialSocket) {
+    initialSocket.close();
+    initialSocket = null;
   }
-};
-
-export const connectChatWebSocket = async (
-  onMessage: MessageHandler,
-  sessionId?: string
-): Promise<WebSocket | null> => {
-  const token = getAccessToken();
-  if (!token) throw new Error("No access token found");
-
-  const baseUrl = `wss://ondaum.revimal.me/api/v1/_ws/chat`;
-  const url = new URL(baseUrl);
-
-  if (sessionId) {
-    url.searchParams.set("session_id", sessionId);
+  if (sessionSocket) {
+    sessionSocket.close();
+    sessionSocket = null;
   }
-
-  url.searchParams.set("access_token", token);
-
-  return connectWebSocket(url.toString(), onMessage);
-};
-
-export const pingWebSocket = () => {
-  sendWebSocketMessage({
-    action: "ping",
-    payload: "",
-  });
+  if (pingInterval) {
+    clearInterval(pingInterval);
+    pingInterval = null;
+  }
 };

@@ -95,9 +95,9 @@ export default function DiagnosisTest({
   }, [answers, results, scoring.max, step, type]);
 
   return (
-    <main className="flex flex-col min-h-screen items-center bg-white mb-16">
+    <main className="flex flex-col max-h-screen items-center bg-white mt-16 mb-16">
       {step === "intro" && (
-        <div className="mt-16 flex flex-col items-center">
+        <div className="mt-16 z-10 flex flex-col items-center">
           <StartCard type={type} />
           <CautionTypo />
           <div className="w-full px-4">
@@ -112,7 +112,7 @@ export default function DiagnosisTest({
       )}
 
       {step === "question" && questions.length > 0 && (
-        <div className="w-full h-[88%] pt-24 flex flex-col items-center justify-between">
+        <div className="w-full h-[85%] z-10 absolute top-0 pt-24 pb-8 flex flex-col justify-between items-center">
           <div className="w-full">
             <QuestionStepper
               currentStep={currentIndex + 1}
@@ -147,7 +147,7 @@ export default function DiagnosisTest({
       )}
 
       {step === "result" && (
-        <div className="w-full px-5 pt-24">
+        <div className="w-full flex-1 z-10 px-5 pt-16 flex flex-col">
           <div className="justify-start text-font-color text-xl font-bold font-pretendard leading-7">
             Your Mental Health Check-In Result
           </div>
@@ -184,6 +184,7 @@ export default function DiagnosisTest({
           )}
         </div>
       )}
+      <div className="absolute z-0 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
     </main>
   );
 }

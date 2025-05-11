@@ -7,27 +7,22 @@ import SolutionModal from "../../home/test/SolutionModal";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import CheckIcon from "../../../assets/images/icon_check.svg?react";
-import SadnessIcon from "../../../assets/images/chatresult/icon_sadness.svg?react";
-import FearIcon from "../../../assets/images/chatresult/icon_fear.svg?react";
-import DisgustIcon from "../../../assets/images/chatresult/icon_disgust.svg?react";
-import AngerIcon from "../../../assets/images/chatresult/icon_anger.svg?react";
-import NeutralIcon from "../../../assets/images/chatresult/icon_neutral.svg?react";
 
 function ReportDetailPage() {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigate = useNavigate();
-  const [emotion, setEmotion] = useState<string>("fear");
+  const [emotion] = useState<string>("fear");
 
   return (
     <ReportLayout>
       <h1 className="text-2xl font-bold whitespace-pre-line flex gap-4">
-        <BackIcon className="w-6 h-6 mt-2" onClick={() => navigate(-1)}/>
+        <BackIcon className="w-6 h-6 mt-2" onClick={() => navigate(-1)} />
         {`Here's your\nTalking summary`}
-        </h1>
+      </h1>
 
       {/* Date */}
       <div className="w-full text-xs text-center bg-second text-white py-1 rounded-full mb-8 mt-12">
-        {dayjs().format('ddd, MMM DD, hh:mm a')}
+        {dayjs().format("ddd, MMM DD, hh:mm a")}
       </div>
 
       {/* Summary */}
@@ -56,10 +51,12 @@ function ReportDetailPage() {
       <div className="border border-orange-100 rounded-xl p-4 mb-6 bg-white">
         <h2 className="font-semibold text-md mb-1">Mood of the Day</h2>
         <div className="flex items-center gap-2">
-        <img src={`../../../assets/images/chatresult/icon_${emotion}.svg?react`} alt={emotion} className="w-4 h-4" />
-          <span className={`text-black text-sm`}>
-            {emotion}
-          </span>
+          <img
+            src={`../../../assets/images/chatresult/icon_${emotion}.svg?react`}
+            alt={emotion}
+            className="w-4 h-4"
+          />
+          <span className={`text-black text-sm`}>{emotion}</span>
           <div className="flex-1">
             <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
               <div className={`h-full bg-${"emotion"} w-[70%]`} />
@@ -73,9 +70,18 @@ function ReportDetailPage() {
       <div className="border border-orange-100 rounded-xl p-4 mb-8 bg-white">
         <h2 className="font-semibold text-md mb-2">Recommendations</h2>
         <ul className="text-sm list-none space-y-3">
-          <li className="flex items-center gap-2"><CheckIcon className="w-4 h-4"/>Take 3 quiet minutes each day</li>
-          <li className="flex items-center gap-2"><CheckIcon className="w-4 h-4"/>Stop working at least 2 hours before bed</li>
-          <li className="flex items-center gap-2"><CheckIcon className="w-4 h-4"/>Take a 10minute break every 90 minutes</li>
+          <li className="flex items-center gap-2">
+            <CheckIcon className="w-4 h-4" />
+            Take 3 quiet minutes each day
+          </li>
+          <li className="flex items-center gap-2">
+            <CheckIcon className="w-4 h-4" />
+            Stop working at least 2 hours before bed
+          </li>
+          <li className="flex items-center gap-2">
+            <CheckIcon className="w-4 h-4" />
+            Take a 10minute break every 90 minutes
+          </li>
         </ul>
       </div>
 

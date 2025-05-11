@@ -9,14 +9,12 @@ import LoginPage from "./services/auth/login";
 import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
-import PHQPage from "./services/home/test/phq/index.tsx"; //error 수정
 import SettingPage from "./services/setting/index.tsx";
-import GADPage from "./services/home/test/gad/index.tsx";
-import PSSPage from "./services/home/test/pss/index.tsx";
 import RootRedirect from "./services/redirect/rootRedirect.tsx";
 import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
 import ReportMainPage from "./services/report/main/index.tsx";
 import ReportDetailPage from "./services/report/detail/index.tsx";
+import DiagnosisTest from "./services/home/test/index.tsx";
 
 function App() {
   const location = useLocation();
@@ -30,9 +28,9 @@ function App() {
           <Route path="home">
             <Route index path="*" element={<HomePage />} />
             <Route path="test">
-              <Route path="phq" element={<PHQPage />} />
-              <Route path="pss" element={<PSSPage />} />
-              <Route path="gad" element={<GADPage />} />
+              <Route path="phq" element={<DiagnosisTest type="phq-9" />} />
+              <Route path="pss" element={<DiagnosisTest type="pss" />} />
+              <Route path="gad" element={<DiagnosisTest type="gad-7" />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

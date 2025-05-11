@@ -1,10 +1,8 @@
 ﻿import ChatField from "../../../../commons/inputs/TextField";
-import { ChatEvent } from "../../../../store/chat";
 
 interface Props {
   chatInput: string;
   setChatInput: (value: string) => void;
-  setChatEvents: React.Dispatch<React.SetStateAction<ChatEvent[]>>;
   onSubmit: (text: string) => void;
 }
 

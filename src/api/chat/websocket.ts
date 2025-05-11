@@ -1,5 +1,4 @@
-﻿import { http } from "../fetch";
-import type { ChatEvent } from "../../store/chat";
+﻿import type { ChatEvent } from "../../store/chat";
 
 let socket: WebSocket | null = null;
 
@@ -82,13 +81,6 @@ export const closeWebSocket = () => {
     socket.close();
     socket = null;
   }
-};
-
-export const getChatSessionId = async (): Promise<{ session_id: string }> => {
-  const { response } = await http.get<{ session_id: string }>(
-    "/chat/session-id"
-  );
-  return response;
 };
 
 export const connectChatWebSocket = async (

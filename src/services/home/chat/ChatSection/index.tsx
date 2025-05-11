@@ -5,6 +5,19 @@ import { UserChatGroup } from "../../../../commons/data-display/List/usergroup";
 import { useAuthStore } from "../../../../store/auth";
 import { useChatStore } from "../../../../store/chat";
 
+// payload가 JSON 문자열이면 data만 반환, 아니면 그대로 반환
+const getDisplayText = (payload: string) => {
+  try {
+    const parsed = JSON.parse(payload);
+    if (parsed && typeof parsed === "object" && "data" in parsed) {
+      return parsed.data;
+    }
+    return payload;
+  } catch {
+    return payload;
+  }
+};
+
 const ChatSection = () => {
   const { user } = useAuthStore();
   const { chatEvents } = useChatStore();
@@ -37,7 +50,9 @@ const ChatSection = () => {
                     Um
                   </div>
                   <ChatGroup
-                    messages={[[{ text: event.payload, bold: false }]]}
+                    messages={[
+                      [{ text: getDisplayText(event.payload), bold: false }],
+                    ]}
                   />
                 </div>
               </div>
@@ -48,7 +63,9 @@ const ChatSection = () => {
                   {user?.username}
                 </div>
                 <UserChatGroup
-                  messages={[[{ text: event.payload, bold: false }]]}
+                  messages={[
+                    [{ text: getDisplayText(event.payload), bold: false }],
+                  ]}
                 />
               </div>
             )}

@@ -1,13 +1,40 @@
 ﻿import IconModal from "../../../../assets/images/icon_modal.svg?react";
+import { archiveChat } from "../../../../api/chat";
+import { useChatStore } from "../../../../store/chat";
+import { connectChatWebSocket } from "../../../../api/chat/websocket";
 
 // You may want to call an API or update session status here
-const handleEndSession = (onConfirm: () => void) => {
-  // Call a function such as endSession() here to mark the session as ended
-  onConfirm();
+const handleEndSession = async (onConfirm: () => void) => {
+  const sessionId = useChatStore.getState().sessionId;
+  if (sessionId) {
+    try {
+      await archiveChat(sessionId);
+      onConfirm();
+    } catch (error) {
+      console.error("Failed to archive chat:", error);
+      // 에러 처리 로직 추가 가능
+    }
+  } else {
+    onConfirm();
+  }
 };
 
-const handleContinueTalk = (onClose: () => void) => {
-  onClose();
+const handleContinueTalk = async (onClose: () => void) => {
+  const sessionId = useChatStore.getState().sessionId;
+  if (sessionId) {
+    try {
+      await connectChatWebSocket((data) => {
+        // WebSocket 메시지 핸들러
+        console.log("WebSocket message received:", data);
+      }, sessionId);
+      onClose();
+    } catch (error) {
+      console.error("Failed to reconnect chat:", error);
+      // 에러 처리 로직 추가 가능
+    }
+  } else {
+    onClose();
+  }
 };
 
 const EndSessionModal = ({

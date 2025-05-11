@@ -1,5 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import DateChip from "../../../commons/data-display/Chip";
+
+import {
+  connectChatWebSocket,
+  sendWebSocketMessage,
+} from "../../../api/chat/websocket";
 
 import ChatResultModal from "./ResultSessionModal";
 import EndSessionModal from "./EndSessionModal";
@@ -8,8 +13,8 @@ import IntroSection from "./IntroSection";
 import ChatSection from "./ChatSection";
 import TestSection from "./TestSection";
 import ChatInputBox from "./ChatInputBox";
-import { useChatConnection } from "../../../hooks/chat/useChatSocket";
 import { useChatStore } from "../../../store/chat";
+import { listChats } from "../../../api/chat";
 
 function HomePage() {
   const selectedOption = useChatStore((state) => state.selectedOption);
@@ -18,35 +23,136 @@ function HomePage() {
   const [chatInput, setChatInput] = useState("");
 
   const sessionId = useChatStore((state) => state.sessionId);
-  const suggestedTest = useChatStore((state) => state.suggestedTest);
-
   const setSessionId = useChatStore((state) => state.setSessionId);
   const addChatEvent = useChatStore((state) => state.addChatEvent);
-  const clearChatEvents = useChatStore((state) => state.clearChatEvents);
   const chatEvents = useChatStore((state) => state.chatEvents);
+
+  const suggestedTest = useChatStore((state) => state.suggestedTest);
 
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
   const [isNewSession, setIsNewSession] = useState(true);
-  const [pendingSessionId, setPendingSessionId] = useState<string | null>(null);
+
+  // Ref to persist the latest sessionId for websocket reconnection logic
+  const wsSessionRef = useRef<string | null>(null);
+  const socketRef = useRef<WebSocket | null>(null);
+  const pingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const initializeChat = () => {
-      setSelectedOption("Chat");
-      clearChatEvents();
-      setSessionId(null);
-      setIsNewSession(true);
+    const fetchExistingSession = async () => {
+      if (!sessionId) {
+        const { chats } = await listChats();
+        const ongoing = chats.find((c) => !c.is_finished);
+        if (ongoing) {
+          setSessionId(ongoing.session_id);
+          setIsNewSession(false);
+        } else {
+          setIsNewSession(true);
+        }
+      }
+    };
+    fetchExistingSession();
+  }, [sessionId, setSessionId]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const initiateWebSocket = async (sessionIdOverride?: string) => {
+      const isAccessTokenConnection = !sessionIdOverride;
+      if (
+        sessionIdOverride &&
+        wsSessionRef.current &&
+        socketRef.current?.readyState === WebSocket.OPEN &&
+        wsSessionRef.current === sessionIdOverride
+      ) {
+        return; // Prevent reconnect only if currently connected to the same session
+      }
+      // 1. 이전 소켓 종료
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        socketRef.current.close();
+      }
+
+      // 2. 기존 ping 중단
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+        pingIntervalRef.current = null;
+      }
+
+      const ws = await connectChatWebSocket((data) => {
+        if (!isMounted) return;
+
+        addChatEvent(data);
+
+        if (
+          data.action === "notify" &&
+          data.payload === "conversation_finished"
+        ) {
+          setShowEndSessionModal(true);
+        }
+
+        if (data.action === "notify") {
+          if (data.session_id && isAccessTokenConnection) {
+            wsSessionRef.current = data.session_id;
+            socketRef.current?.close();
+            if (pingIntervalRef.current) {
+              clearInterval(pingIntervalRef.current);
+              pingIntervalRef.current = null;
+            }
+            initiateWebSocket(data.session_id);
+            return;
+          }
+
+          if (
+            (data.payload === "existing_conversation" ||
+              data.payload === "new_conversation") &&
+            data.session_id
+          ) {
+            if (
+              !wsSessionRef.current ||
+              wsSessionRef.current !== data.session_id
+            ) {
+              wsSessionRef.current = data.session_id;
+              socketRef.current?.close();
+              if (pingIntervalRef.current) {
+                clearInterval(pingIntervalRef.current);
+                pingIntervalRef.current = null;
+              }
+              initiateWebSocket(data.session_id);
+            }
+            setSessionId(data.session_id);
+          } else if (data.payload === "conversation_archived") {
+            setSessionId(null);
+          }
+        }
+      }, sessionIdOverride);
+
+      // 3. 새 소켓 저장
+      socketRef.current = ws;
+
+      // 4. ping 시작
+      pingIntervalRef.current = setInterval(() => {
+        if (socketRef.current?.readyState === WebSocket.OPEN) {
+          socketRef.current.send(JSON.stringify({ action: "ping" }));
+        }
+      }, 10000);
     };
 
-    initializeChat();
-  }, [clearChatEvents, setSessionId, setSelectedOption]);
+    // Initialize wsSessionRef.current and call initiateWebSocket
+    wsSessionRef.current = sessionId ?? null;
+    initiateWebSocket(sessionId ?? undefined);
 
-  const { sendMessage } = useChatConnection(true);
-
+    return () => {
+      isMounted = false;
+      socketRef.current?.close();
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+      }
+    };
+  }, [addChatEvent, setSessionId, sessionId]);
   const handleSendMessage = useCallback(
     (text: string) => {
       const messageId = `user-${Date.now()}`;
-      sendMessage(text);
+      sendWebSocketMessage({ action: "chat", payload: text });
       addChatEvent({
         action: "chat",
         payload: text,
@@ -54,18 +160,13 @@ function HomePage() {
         session_id: sessionId || "",
       });
     },
-    [sendMessage, sessionId, addChatEvent]
+    [addChatEvent, sessionId]
   );
 
   const handleContinueChat = useCallback(() => {
-    if (pendingSessionId) {
-      setSessionId(pendingSessionId);
-      setIsNewSession(false);
-      setShouldReconnect(true);
-      setPendingSessionId(null);
-    }
+    setIsNewSession(false);
     setShowEndSessionModal(false);
-  }, [pendingSessionId, setSessionId]);
+  }, []);
 
   const handleEndChat = useCallback(() => {
     setShowEndSessionModal(false);
@@ -97,9 +198,7 @@ function HomePage() {
 
       <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
         <DateChip date={new Date()} />
-        {(isNewSession || selectedOption === "") && <IntroSection />}
-        {selectedOption === "Chat" && <ChatSection />}
-
+        {isNewSession ? <IntroSection /> : <ChatSection />}
         {selectedOption === "Test" && suggestedTest !== null && <TestSection />}
       </div>
 
@@ -107,7 +206,6 @@ function HomePage() {
         <ChatInputBox
           chatInput={chatInput}
           setChatInput={setChatInput}
-          setChatEvents={clearChatEvents}
           onSubmit={handleSendMessage}
         />
       </div>
@@ -124,7 +222,6 @@ function HomePage() {
             setShowChatResultModal(false);
             setSelectedOption("");
             setChatInput("");
-            clearChatEvents();
             setSessionId(null);
             setIsNewSession(true);
           }}
@@ -135,7 +232,3 @@ function HomePage() {
 }
 
 export default HomePage;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function setShouldReconnect(_arg0: boolean) {
-  throw new Error("Function not implemented.");
-}

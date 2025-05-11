@@ -151,7 +151,7 @@ function HomePage() {
         <HeaderCard />
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
+      <div className="flex-1 w-full min-h-0 overflow-y-auto overflow-x-hidden mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
         <DateChip date={new Date()} />
         {isNewSession ? <IntroSection /> : <ChatSection />}
         {!isNewSession && showTestSection && (
@@ -186,6 +186,7 @@ function HomePage() {
           }}
         />
       )}
+      <div className="absolute z-0 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
     </main>
   );
 }

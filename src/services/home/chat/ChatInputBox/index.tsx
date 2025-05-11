@@ -17,7 +17,7 @@ const ChatInputBox = ({ chatInput, setChatInput, onSubmit }: Props) => {
   };
 
   return (
-    <div className="fixed bottom-[70px] left-0 w-full px-4 z-10 bg-white">
+    <div className="fixed bottom-[70px] left-0 w-full px-4 z-10">
       <ChatField
         value={chatInput}
         onChange={(e) => setChatInput(e.target.value)}

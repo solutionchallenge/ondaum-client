@@ -1,7 +1,8 @@
 import BottomSheet from "../../../../commons/feedback/BottomSheet";
 import Button from "../../../../commons/inputs/Button";
 import { useState } from "react";
-import TextField from "../../../../commons/inputs/TextField";
+import SearchIcon from "../../../../assets/images/icon_search.svg?react";
+import IconInput from "../../../../commons/inputs/TextField/icon";
 export default function SearchBottomSheet({
   isOpen,
   onClose,
@@ -26,13 +27,14 @@ export default function SearchBottomSheet({
         </div>
       }
     >
-      <section>
-        <TextField
-          onSend={() => {}}
+      <section className="mb-8">
+        <IconInput
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value);
           }}
+          icon={<SearchIcon />}
+          placeholder="Enter search terms"
         />
       </section>
     </BottomSheet>

@@ -6,7 +6,6 @@ const baseFetch = async (url: RequestInfo, init?: RequestInit) => {
   const res = await fetch(`${API_BASE_URL}${url}`, {
     ...init,
     headers: {
-      Authorization: accessToken ?? `Bearer ${accessToken}`,
       ...(accessToken && {
         Authorization: `Bearer ${accessToken}`,
       }),

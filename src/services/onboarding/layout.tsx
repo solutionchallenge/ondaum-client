@@ -56,7 +56,7 @@ function OnboardingAdditionalLayout({
         backgroundPosition: "50% 200px",
       }}
     >
-      <nav className="flex gap-4">
+      <nav className="flex gap-4 px-5">
         {navigation && (
           <button onClick={navigation}>
             <BackIcon />
@@ -68,9 +68,9 @@ function OnboardingAdditionalLayout({
           </div>
         )}
       </nav>
-      {title}
+      <div className="px-5">{title}</div>
       <motion.div
-        className="pb-52"
+        className="pb-52 px-5"
         initial={variants[direction].initial}
         animate={variants[direction].animate}
         exit={variants[direction].exit}
@@ -79,7 +79,7 @@ function OnboardingAdditionalLayout({
         {children}
       </motion.div>
       {button && (
-        <div className="fixed left-0 w-screen bottom-0 py-4 px-4 text-center bg-linear-gradient-to-[#FFBF7D80] from-white to-transparent">
+        <div className="fixed left-0 w-screen bottom-0 py-4 px-4 text-center bg-gradient-to-t from-[#FFBF7D80] to-transparent">
           {toast && (
             <div className="mb-3 inline-block">
               <Toast message={toast.message} type={toast.type} />

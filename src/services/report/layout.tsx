@@ -5,7 +5,7 @@ export interface ReportLayout {
 }
 
 function ReportLayout({ children }: ReportLayout) {
-  return <main className="pb-52 pt-16">{children}</main>;
+  return <main className="pb-52 pt-16 px-5 mt-5">{children}</main>;
 }
 
 export default ReportLayout;

@@ -1,6 +1,6 @@
 import { create } from "zustand/react";
 
-type User = {
+export type User = {
   id: number;
   email: string;
   username: string;

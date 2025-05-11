@@ -1,4 +1,4 @@
-﻿import { useEffect } from "react";
+﻿import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/auth/index";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -9,6 +9,7 @@ export const useFetchUser = (
   onSuccess?: () => void
 ) => {
   const { login, logout } = useAuthStore();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (!accessToken || !refreshToken) return;
@@ -28,7 +29,10 @@ export const useFetchUser = (
       .then((user) => {
         if (!user) return;
         login(user, accessToken, refreshToken);
+        setUser(user);
         if (onSuccess) onSuccess();
       });
   }, [accessToken, refreshToken, login, logout, onSuccess]);
+
+  return { user };
 };

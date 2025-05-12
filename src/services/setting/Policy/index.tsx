@@ -1,6 +1,6 @@
 ﻿const PolicySection = () => {
   return (
-    <div className="w-full max-w-md px-5 py-4 bg-white rounded-xl border border-main flex flex-col gap-4">
+    <div className="w-full z-10 max-w-md px-5 py-4 bg-white rounded-xl border border-main flex flex-col gap-4">
       <div className="text-lg font-medium text-font-color">
         Terms and Policies
       </div>

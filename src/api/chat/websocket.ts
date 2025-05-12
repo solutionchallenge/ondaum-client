@@ -1,4 +1,5 @@
 ﻿import type { ChatEvent } from "../../store/chat";
+import { useChatStore } from "../../store/chat";
 
 type MessageHandler = (data: any) => void;
 
@@ -45,6 +46,17 @@ export const connectChatWebSocket = (
   const token = getAccessToken();
   if (!token) throw new Error("No access token found");
 
+  if (
+    initialSocket &&
+    (initialSocket.readyState === WebSocket.CONNECTING ||
+      initialSocket.readyState === WebSocket.OPEN)
+  ) {
+    console.warn(
+      "WebSocket already connecting or open. Skipping new connection."
+    );
+    return initialSocket;
+  }
+
   // 기존 연결 정리
   if (initialSocket) {
     initialSocket.close();
@@ -64,6 +76,10 @@ export const connectChatWebSocket = (
   url.searchParams.set("access_token", token);
 
   const newSocket = new WebSocket(url.toString());
+  if (newSocket.url.includes("localhost:5173")) {
+    console.warn("❌ Prevented accidental connection to Vite HMR WebSocket");
+    return null;
+  }
   initialSocket = newSocket;
   messageHandler = onMessage;
 
@@ -79,6 +95,7 @@ export const connectChatWebSocket = (
       if (data.session_id) {
         const sessionId = data.session_id;
         console.log("Received session_id:", sessionId);
+        useChatStore.getState().setSessionId(sessionId);
 
         // 초기 연결 종료
         if (initialSocket) {

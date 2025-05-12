@@ -13,7 +13,7 @@ const TestSection = () => {
     <div className="w-full flex flex-row gap-2 ml-3">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
-        <div className="text-main font-semibold font-['Pretendard']">Um</div>
+        <div className="text-main font-semibold font-pretendard">Um</div>
         <TestChatList
           onFinish={() => {
             setIsListFinished(true);

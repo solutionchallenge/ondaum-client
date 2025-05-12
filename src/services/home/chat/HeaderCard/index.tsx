@@ -1,13 +1,14 @@
-﻿import Card from "../../../../commons/surfaces/Card";
-
-const HeaderCard = () => {
+﻿const HeaderCard = () => {
   return (
-    <div className="fixed top-14 mt-8 mb-8 left-0 px-4 right-0 z-10 bg-white">
-      <Card
-        onClick={() => {}}
-        title="Let's chat with Umi!"
-        description="Feel free to share your worries with Umi!"
-      />
+    <div className="w-full mt-16 px-5 py-1.5 bg-second rounded-xl outline outline-1 outline-third z-10">
+      <div className="w-full">
+        <div className="text-white text-base font-semibold">
+          Let's chat with Um!
+        </div>
+        <div className="text-neutral-50 text-sm">
+          Feel free to share your worries with Um!
+        </div>
+      </div>
     </div>
   );
 };

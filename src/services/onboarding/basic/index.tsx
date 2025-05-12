@@ -49,7 +49,7 @@ function OnboardingBasicPage() {
       }}
     >
       <article className="mb-6">
-        <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Sex</h5>
+        <h5 className="text-xl font-pretendard font-bold mb-2">Sex</h5>
         <ToggleGroup
           options={GENDERS}
           selectedOption={privacy.gender || ""}
@@ -59,10 +59,10 @@ function OnboardingBasicPage() {
         />
       </article>
       <article className="mb-6">
-        <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Birth</h5>
+        <h5 className="text-xl font-pretendard font-bold mb-2">Birth</h5>
         <Toggle
           selected={!!privacy.birth}
-          onClick={() => setIsBirthModalOpen(true)}
+          onClick={() => setIsBirthModalOpen((prev) => !prev)}
         >
           {privacy.birth ? privacy.birth : "Select birth"}
         </Toggle>

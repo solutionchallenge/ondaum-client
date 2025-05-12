@@ -34,13 +34,16 @@ export const listChats = async () => {
   return response;
 };
 
-export const getChatSessionId = async (sessionId: string): Promise<Chat> => {
-  const { response } = await http.get<Chat>(
-    `/chat/session-id?session_id=${sessionId}`
+export const getChatSummary = async (
+  sessionId: string
+): Promise<ChatSummary> => {
+  const { response } = await http.get<ChatSummary>(
+    `/chat/session-id?session_id=${sessionId}/summary`
   );
   return response;
 };
 
 export const archiveChat = async (sessionId: string): Promise<void> => {
-  await http.post(`/chats/${sessionId}/archive`);
+  const { response } = await http.post(`/chats/${sessionId}/archive`);
+  return response;
 };

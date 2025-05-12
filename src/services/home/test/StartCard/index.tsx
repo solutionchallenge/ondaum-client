@@ -52,7 +52,7 @@ const StartCard: React.FC<StartCardProps> = ({ type }) => {
             Check in with <br />
             <span className="text-main">your self</span>
           </h2>
-          <p className="text-font-color text-lg sm:text-lg font-bold font-[pretendard] leading-relaxed mt-2">
+          <p className="text-font-color text-lg sm:text-lg font-bold font-pretendard leading-relaxed mt-2">
             {description}
           </p>
         </div>

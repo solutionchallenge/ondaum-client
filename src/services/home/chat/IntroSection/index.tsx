@@ -4,7 +4,7 @@ import InitChatList from "../../../../commons/data-display/List/initgroup";
 import ChatToggle from "../ChatToggle";
 import { useChatStore } from "../../../../store/chat";
 
-const IntroSection = () => {
+const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
   const [isListFinished, setIsListFinished] = useState(false);
   const selectedOption = useChatStore((state) => state.selectedOption);
   const hasSelectedOption = useChatStore((state) => state.hasSelectedOption);
@@ -17,24 +17,26 @@ const IntroSection = () => {
     <div className="w-full flex flex-row justify-center gap-2 ml-3">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
-        <div className="text-main font-semibold font-['Pretendard']">Um</div>
+        <div className="text-main font-semibold font-pretendards">Um</div>
         <div className="min-h-[200px] w-full">
           <InitChatList onFinish={() => setIsListFinished(true)} />
         </div>
 
         <div
           className={`flex mt-5 gap-2 transition-all duration-1000 transform origin-top ${
-            isListFinished && !hasSelectedOption
-              ? "opacity-100 scale-y-100 h-auto"
-              : "opacity-0 scale-y-0 h-0 pointer-events-none"
+            isListFinished
+              ? "opacity-100 scale-y-100"
+              : "opacity-0 scale-y-0 pointer-events-none"
           }`}
         >
           <ChatToggle
             key="Chat"
             selected={selectedOption === "Chat"}
+            disabled={hasSelectedOption && selectedOption !== "Chat"}
             onClick={() => {
               setSelectedOption("Chat");
               setHasSelectedOption(true);
+              onProceed();
             }}
           >
             Chat
@@ -42,6 +44,7 @@ const IntroSection = () => {
           <ChatToggle
             key="Test"
             selected={selectedOption === "Test"}
+            disabled={hasSelectedOption && selectedOption !== "Test"}
             onClick={() => {
               setSelectedOption("Test");
               setHasSelectedOption(true);

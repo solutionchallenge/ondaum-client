@@ -42,5 +42,6 @@ export const getChatSessionId = async (sessionId: string): Promise<Chat> => {
 };
 
 export const archiveChat = async (sessionId: string): Promise<void> => {
-  await http.post(`/chats/${sessionId}/archive`);
+  const { response } = await http.post(`/chats/${sessionId}/archive`);
+  return response;
 };

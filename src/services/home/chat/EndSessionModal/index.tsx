@@ -4,15 +4,20 @@ import { useChatStore } from "../../../../store/chat";
 import { connectChatWebSocket } from "../../../../api/chat/websocket";
 
 const handleEndSession = async (onConfirm: () => void) => {
+  console.log("handleEndSession triggered");
   const sessionId = useChatStore.getState().sessionId;
+  console.log("Current sessionId:", sessionId);
+
   if (sessionId) {
     try {
-      await archiveChat(sessionId);
+      const response = await archiveChat(sessionId);
+      console.log("Chat archived successfully:", response);
       onConfirm();
     } catch (error) {
       console.error("Failed to archive chat:", error);
     }
   } else {
+    console.warn("No sessionId found, calling onConfirm directly");
     onConfirm();
   }
 };

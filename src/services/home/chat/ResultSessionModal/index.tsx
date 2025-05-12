@@ -6,6 +6,7 @@ import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
 import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
 import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
 import { JSX } from "react";
+import { ChatSummary } from "../../../../api/chat";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   const moodStyles: Record<string, { icon: JSX.Element; color: string }> = {
@@ -66,17 +67,11 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
 };
 
 const ChatResultModal = ({
-  onClose,
   summary,
-  mood,
-  themes,
-  moodScore,
+  onClose,
 }: {
+  summary: ChatSummary;
   onClose: () => void;
-  summary: string;
-  mood: string;
-  themes: string[];
-  moodScore: number;
 }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -91,13 +86,16 @@ const ChatResultModal = ({
           <div className="text-main text-sm font-bold leading-tight">
             Conversation Summary
           </div>
-          <Card onClick={() => {}} description={summary} />
+          <Card onClick={() => {}} description={summary.title} />
         </div>
         <div className="flex flex-col gap-2 w-full">
           <div className="text-main text-sm font-bold leading-tight">
             Mood of the Day
           </div>
-          <MoodCard mood={mood} moodScore={moodScore} />
+          <MoodCard
+            mood={summary.emotions[0]?.emotion || "Joy"}
+            moodScore={Math.round(summary.emotions[0]?.rate * 100) || 0}
+          />
         </div>
 
         <div className="flex flex-col gap-3 w-full">
@@ -105,8 +103,11 @@ const ChatResultModal = ({
             Key Themes
           </div>
           <div className="flex flex-wrap gap-3">
-            {themes.map((theme) => (
-              <div className="w-auto h-9 px-4 py-2 bg-third rounded-[15px] outline outline-1 outline-main text-main text-sm">
+            {summary.keywords.map((theme) => (
+              <div
+                key={theme}
+                className="w-auto h-9 px-4 py-2 bg-third rounded-[15px] outline outline-1 outline-main text-main text-sm"
+              >
                 {theme}
               </div>
             ))}

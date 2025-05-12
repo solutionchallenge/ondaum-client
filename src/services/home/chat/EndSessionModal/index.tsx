@@ -1,4 +1,37 @@
 ﻿import IconModal from "../../../../assets/images/icon_modal.svg?react";
+import { archiveChat } from "../../../../api/chat";
+import { useChatStore } from "../../../../store/chat";
+import { connectChatWebSocket } from "../../../../api/chat/websocket";
+
+const handleEndSession = async (onConfirm: () => void) => {
+  const sessionId = useChatStore.getState().sessionId;
+  if (sessionId) {
+    try {
+      await archiveChat(sessionId);
+      onConfirm();
+    } catch (error) {
+      console.error("Failed to archive chat:", error);
+    }
+  } else {
+    onConfirm();
+  }
+};
+
+const handleContinueTalk = async (onClose: () => void) => {
+  const sessionId = useChatStore.getState().sessionId;
+  if (sessionId) {
+    try {
+      await connectChatWebSocket((data) => {
+        console.log("WebSocket message received:", data);
+      });
+      onClose();
+    } catch (error) {
+      console.error("Failed to reconnect chat:", error);
+    }
+  } else {
+    onClose();
+  }
+};
 
 const EndSessionModal = ({
   onClose,
@@ -27,13 +60,13 @@ const EndSessionModal = ({
         </div>
         <div className="w-full flex flex-col gap-3">
           <button
-            onClick={onConfirm}
+            onClick={() => handleEndSession(onConfirm)}
             className="w-full h-12 bg-main rounded-[20px] text-white font-semibold text-base font-['Pretendard'] leading-snug"
           >
             End Session
           </button>
           <button
-            onClick={onClose}
+            onClick={() => handleContinueTalk(onClose)}
             className="w-full h-12 bg-gray-1 rounded-[20px] text-gray-700 font-semibold text-base font-['Pretendard'] leading-snug"
           >
             Continue talk

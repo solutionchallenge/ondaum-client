@@ -38,7 +38,7 @@ export const getChatSummary = async (
   sessionId: string
 ): Promise<ChatSummary> => {
   const { response } = await http.get<ChatSummary>(
-    `/chat/session-id?session_id=${sessionId}`
+    `/chat/session-id?session_id=${sessionId}/summary`
   );
   return response;
 };

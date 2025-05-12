@@ -10,7 +10,7 @@ import {
   connectChatWebSocket,
   sendWebSocketMessage,
 } from "../../../api/chat/websocket";
-import { ChatSummary, getChatSummary } from "../../../api/chat";
+import { archiveChat, ChatSummary, getChatSummary } from "../../../api/chat";
 import ChatResultModal from "./ResultSessionModal";
 import EndSessionModal from "./EndSessionModal";
 import HeaderCard from "./HeaderCard";
@@ -242,7 +242,11 @@ function HomePage() {
       {showChatResultModal && chatSummary && (
         <ChatResultModal
           summary={chatSummary}
-          onClose={() => {
+          onClose={async () => {
+            if (sessionId) {
+              await archiveChat(sessionId);
+              console.log("Chat archived successfully");
+            }
             setShowChatResultModal(false);
             setSessionId(null);
             setIsNewSession(true);

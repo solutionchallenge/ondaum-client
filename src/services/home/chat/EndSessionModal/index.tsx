@@ -1,5 +1,4 @@
 ﻿import IconModal from "../../../../assets/images/icon_modal.svg?react";
-import { archiveChat } from "../../../../api/chat";
 import { useChatStore } from "../../../../store/chat";
 import { connectChatWebSocket } from "../../../../api/chat/websocket";
 
@@ -10,8 +9,6 @@ const handleEndSession = async (onConfirm: () => void) => {
 
   if (sessionId) {
     try {
-      const response = await archiveChat(sessionId);
-      console.log("Chat archived successfully:", response);
       onConfirm();
     } catch (error) {
       console.error("Failed to archive chat:", error);

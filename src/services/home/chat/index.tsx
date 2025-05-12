@@ -16,6 +16,19 @@ import { useChatStore } from "../../../store/chat";
 import { listChats } from "../../../api/chat";
 
 function HomePage() {
+  // Set --vh CSS variable for accurate mobile viewport height
+  useEffect(() => {
+    const setViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    setViewportHeight();
+    window.addEventListener("resize", setViewportHeight);
+    return () => window.removeEventListener("resize", setViewportHeight);
+  }, []);
+
+  // Ref to scroll to bottom of chat section
+  const bottomRef = useRef<HTMLDivElement>(null);
   const alreadyInitialized = useRef(false);
   const [chatInput, setChatInput] = useState("");
   const sessionId = useChatStore((state) => state.sessionId);
@@ -149,18 +162,37 @@ function HomePage() {
     }
   }, [chatEvents]);
 
-  return (
-    <main className="relative flex flex-col h-screen overflow-hidden bg-white">
-      <div className="h-32 flex-shrink-0">
-        <HeaderCard />
-      </div>
+  useEffect(() => {
+    const scrollToBottom = () => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+    window.addEventListener("resize", scrollToBottom);
+    return () => window.removeEventListener("resize", scrollToBottom);
+  }, []);
 
-      <div className="flex-1 w-full min-h-0 overflow-y-auto overflow-x-hidden mt-16 flex flex-col gap-4 px-4 py-4 mb-8">
+  // Scroll to bottom on input focus
+  useEffect(() => {
+    const handleFocus = () => {
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    };
+    const input = document.querySelector("input");
+    input?.addEventListener("focus", handleFocus);
+    return () => input?.removeEventListener("focus", handleFocus);
+  }, []);
+
+  return (
+    <main className="relative flex flex-col h-screen mt-16 bg-white">
+      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-8">
+        <HeaderCard />
         <DateChip date={new Date()} />
         {isNewSession && (
           <IntroSection onProceed={() => setShowChatSection(true)} />
         )}
         {(showChatSection || !isNewSession) && <ChatSection />}
+        <div className="flex flex-col h-16" />
+        <div ref={bottomRef} />
         {!showChatSection && showTestSection && (
           <div className="mt-4 z-10">
             <TestSection />
@@ -168,7 +200,7 @@ function HomePage() {
         )}
       </div>
 
-      <div className="h-[120px] flex-shrink-0">
+      <div className="sticky bottom-0 z-10 bg-white px-4 pt-2 pb-10">
         <ChatInputBox
           chatInput={chatInput}
           setChatInput={setChatInput}

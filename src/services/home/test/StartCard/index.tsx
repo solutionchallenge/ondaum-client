@@ -4,11 +4,11 @@ import pssIcon from "../../../../assets/images/test/img_pss_start.svg?react";
 import gadIcon from "../../../../assets/images/test/img_gad_start.svg?react";
 
 interface StartCardProps {
-  type: "phq" | "pss" | "gad";
+  type: "phq-9" | "pss" | "gad-7";
 }
 
 const CONTENT = {
-  phq: {
+  "phq-9": {
     description:
       "PHQ-9 is a clinically validated questionnaire used to screen for depression.",
     icon: phqIcon,
@@ -28,7 +28,7 @@ const CONTENT = {
       "Your answers will stay private.",
     ],
   },
-  gad: {
+  "gad-7": {
     description:
       "GAD-7 is a tool used to identify general anxiety disorder symptoms.",
     icon: gadIcon,

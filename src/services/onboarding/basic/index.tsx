@@ -62,7 +62,7 @@ function OnboardingBasicPage() {
         <h5 className="text-xl font-['Pretendard'] font-bold mb-2">Birth</h5>
         <Toggle
           selected={!!privacy.birth}
-          onClick={() => setIsBirthModalOpen(true)}
+          onClick={() => setIsBirthModalOpen((prev) => !prev)}
         >
           {privacy.birth ? privacy.birth : "Select birth"}
         </Toggle>

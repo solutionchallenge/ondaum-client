@@ -34,8 +34,10 @@ export const listChats = async () => {
   return response;
 };
 
-export const getChatSessionId = async (sessionId: string): Promise<Chat> => {
-  const { response } = await http.get<Chat>(
+export const getChatSummary = async (
+  sessionId: string
+): Promise<ChatSummary> => {
+  const { response } = await http.get<ChatSummary>(
     `/chat/session-id?session_id=${sessionId}`
   );
   return response;

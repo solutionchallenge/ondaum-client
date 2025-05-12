@@ -4,7 +4,7 @@ import {
   connectChatWebSocket,
   sendWebSocketMessage,
 } from "../../../api/chat/websocket";
-import { getChatSessionId, Chat } from "../../../api/chat";
+import { ChatSummary, getChatSummary } from "../../../api/chat";
 import ChatResultModal from "./ResultSessionModal";
 import EndSessionModal from "./EndSessionModal";
 import HeaderCard from "./HeaderCard";
@@ -29,7 +29,7 @@ function HomePage() {
   const [showChatResultModal, setShowChatResultModal] = useState(false);
 
   const [isNewSession, setIsNewSession] = useState(true);
-  const [chatSummary, setChatSummary] = useState<Chat | null>(null);
+  const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
 
   const [showChatSection, setShowChatSection] = useState(false);
 
@@ -122,7 +122,7 @@ function HomePage() {
   const handleEndChat = useCallback(async () => {
     if (sessionId) {
       try {
-        const full = await getChatSessionId(sessionId);
+        const full = await getChatSummary(sessionId);
         setChatSummary(full);
       } catch (error) {
         console.error("Failed to fetch chat summary", error);
@@ -184,7 +184,7 @@ function HomePage() {
       )}
       {showChatResultModal && chatSummary && (
         <ChatResultModal
-          summary={chatSummary.summary}
+          summary={chatSummary}
           onClose={() => {
             setShowChatResultModal(false);
             setSessionId(null);

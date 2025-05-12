@@ -4,8 +4,8 @@ import { ChatGroup } from "../../../../commons/data-display/List/servergroup";
 import { UserChatGroup } from "../../../../commons/data-display/List/usergroup";
 import { useAuthStore } from "../../../../store/auth";
 import { useChatStore } from "../../../../store/chat";
+import TestSection from "../TestSection";
 
-// payload가 JSON 문자열이면 data만 반환, 아니면 그대로 반환
 const getDisplayText = (payload: string) => {
   try {
     const parsed = JSON.parse(payload);
@@ -32,48 +32,70 @@ const ChatSection = () => {
   }, [chatEvents]);
 
   return (
-    <div className="flex flex-col gap-4 w-full px-4">
+    <>
       {chatEvents.map((event, idx) => {
         const isUser = event.action === "chat";
         const isBot = event.action === "data";
 
+        if (
+          event.action === "data" &&
+          typeof event.payload === "string" &&
+          event.payload.startsWith("{")
+        ) {
+          const parsed = JSON.parse(event.payload);
+          if (
+            parsed.type === "action" &&
+            parsed.data?.startsWith("suggest_test_")
+          ) {
+            return (
+              <div key={`event-${idx}`} className="flex flex-col gap-4 w-full">
+                <div className="z-10">
+                  <TestSection />
+                  <div ref={messagesEndRef} />
+                </div>
+              </div>
+            );
+          }
+        }
+
         return (
-          <div
-            key={`event-${idx}`}
-            className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
-          >
-            {isBot && (
-              <div className="flex flex-row gap-2 max-w-[90%]">
-                <UmAvatar />
-                <div className="flex flex-col">
-                  <div className="text-main font-semibold font-pretendard">
-                    Um
+          <div key={`event-${idx}`} className="flex flex-col gap-4 w-full">
+            <div
+              className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
+            >
+              {isBot && (
+                <div className="flex flex-row gap-2 max-w-[90%]">
+                  <UmAvatar />
+                  <div className="flex flex-col">
+                    <div className="text-main font-semibold font-pretendard">
+                      Um
+                    </div>
+                    <ChatGroup
+                      messages={[
+                        [{ text: getDisplayText(event.payload), bold: false }],
+                      ]}
+                    />
                   </div>
-                  <ChatGroup
+                </div>
+              )}
+              {isUser && (
+                <div className="flex flex-col items-end gap-2 max-w-[90%]">
+                  <div className="text-main font-semibold font-pretendard">
+                    {user?.username}
+                  </div>
+                  <UserChatGroup
                     messages={[
                       [{ text: getDisplayText(event.payload), bold: false }],
                     ]}
                   />
                 </div>
-              </div>
-            )}
-            {isUser && (
-              <div className="flex flex-col items-end gap-2 max-w-[90%]">
-                <div className="text-main font-semibold font-pretendard">
-                  {user?.username}
-                </div>
-                <UserChatGroup
-                  messages={[
-                    [{ text: getDisplayText(event.payload), bold: false }],
-                  ]}
-                />
-              </div>
-            )}
+              )}
+            </div>
+            <div ref={messagesEndRef} />
           </div>
         );
       })}
-      <div ref={messagesEndRef} />
-    </div>
+    </>
   );
 };
 

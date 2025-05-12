@@ -10,7 +10,7 @@ const TestSection = () => {
   const setSelectedTest = useChatStore((state) => state.setSuggestedTest);
 
   return (
-    <div className="w-full flex flex-row gap-2 ml-3">
+    <div className="w-full flex flex-row gap-2 mb-4">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
         <div className="text-main font-semibold font-pretendard">Um</div>
@@ -20,7 +20,7 @@ const TestSection = () => {
           }}
         />
         {isListFinished && (
-          <div className="overflow-x-auto mt-2 mr-2">
+          <div className="overflow-x-auto mt-2 mr-10">
             <div className="flex flex-nowrap gap-2 w-max max-w-[347px]">
               <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
             </div>

@@ -16,13 +16,11 @@ import EndSessionModal from "./EndSessionModal";
 import HeaderCard from "./HeaderCard";
 import IntroSection from "./IntroSection";
 import ChatSection from "./ChatSection";
-import TestSection from "./TestSection";
 import ChatInputBox from "./ChatInputBox";
 import { useChatStore } from "../../../store/chat";
 import { listChats } from "../../../api/chat";
 
 function HomePage() {
-  // Set --vh CSS variable for accurate mobile viewport height
   useEffect(() => {
     const setViewportHeight = () => {
       const vh = window.innerHeight * 0.01;
@@ -36,7 +34,7 @@ function HomePage() {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   useLayoutEffect(() => {
-    const threshold = 150; // pixels of height change to detect keyboard
+    const threshold = 150;
     const lastHeight = window.innerHeight;
 
     const onResize = () => {
@@ -48,7 +46,6 @@ function HomePage() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Ref to scroll to bottom of chat section
   const bottomRef = useRef<HTMLDivElement>(null);
   const alreadyInitialized = useRef(false);
   const [chatInput, setChatInput] = useState("");
@@ -56,33 +53,16 @@ function HomePage() {
   const setSessionId = useChatStore((state) => state.setSessionId);
   const addChatEvent = useChatStore((state) => state.addChatEvent);
   const chatEvents = useChatStore((state) => state.chatEvents);
-  const setSuggestedTest = useChatStore((state) => state.setSuggestedTest);
-  const [showTestSection, setShowTestSection] = useState(false);
 
+  const [, setShowChatSection] = useState(false);
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
 
   const [isNewSession, setIsNewSession] = useState(true);
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
 
-  const [showChatSection, setShowChatSection] = useState(false);
-
   const handleWebSocketMessage = useCallback((data: any) => {
     if (data.action === "data") {
-      try {
-        const parsed = JSON.parse(data.payload);
-        if (
-          parsed.type === "action" &&
-          parsed.data?.startsWith("suggest_test_")
-        ) {
-          const testType = parsed.data.replace("suggest_test_", "");
-          setSuggestedTest(testType);
-          setShowTestSection(true);
-          return;
-        }
-      } catch (error) {
-        console.error("Error parsing payload:", error);
-      }
       addChatEvent(data);
       return;
     }
@@ -183,44 +163,21 @@ function HomePage() {
     }
   }, [chatEvents]);
 
-  useEffect(() => {
-    const scrollToBottom = () => {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-    window.addEventListener("resize", scrollToBottom);
-    return () => window.removeEventListener("resize", scrollToBottom);
-  }, []);
-
-  // Scroll to bottom on input focus
-  useEffect(() => {
-    const handleFocus = () => {
-      setTimeout(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    };
-    const input = document.querySelector("input");
-    input?.addEventListener("focus", handleFocus);
-    return () => input?.removeEventListener("focus", handleFocus);
-  }, []);
-
   return (
-    <main className="relative flex flex-col h-screen bg-white">
-      <div className="flex w-full gap-4 px-4 py-4">
+    <main
+      className="relative flex flex-col bg-white"
+      style={{ height: "calc(var(--vh, 1vh) * 100)" }}
+    >
+      <div className="sticky top-0 w-full gap-4 px-4 py-4">
         <HeaderCard />
       </div>
-      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-8">
+      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-12">
         <DateChip date={new Date()} />
         {isNewSession && (
           <IntroSection onProceed={() => setShowChatSection(true)} />
         )}
-        {(showChatSection || !isNewSession) && <ChatSection />}
-        <div className="flex flex-col h-16" />
+        <ChatSection />
         <div ref={bottomRef} />
-        {!showChatSection && showTestSection && (
-          <div className="mt-4 z-10">
-            <TestSection />
-          </div>
-        )}
       </div>
 
       {!isKeyboardOpen && (

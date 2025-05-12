@@ -17,7 +17,7 @@ const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
     <div className="w-full flex flex-row justify-center gap-2 ml-3">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
-        <div className="text-main font-semibold font-['Pretendard']">Um</div>
+        <div className="text-main font-semibold font-pretendards">Um</div>
         <div className="min-h-[200px] w-full">
           <InitChatList onFinish={() => setIsListFinished(true)} />
         </div>

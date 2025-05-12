@@ -46,7 +46,7 @@ const ChatSection = () => {
               <div className="flex flex-row gap-2 max-w-[90%]">
                 <UmAvatar />
                 <div className="flex flex-col">
-                  <div className="text-main font-semibold font-['Pretendard']">
+                  <div className="text-main font-semibold font-pretendard">
                     Um
                   </div>
                   <ChatGroup
@@ -59,7 +59,7 @@ const ChatSection = () => {
             )}
             {isUser && (
               <div className="flex flex-col items-end gap-2 max-w-[90%]">
-                <div className="text-main font-semibold font-['Pretendard']">
+                <div className="text-main font-semibold font-pretendard">
                   {user?.username}
                 </div>
                 <UserChatGroup

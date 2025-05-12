@@ -33,7 +33,7 @@ const AnswerItem: React.FC<AnswerItemProps> = ({
         <IconComponent fill={selected ? "#FAFAFA" : "#E5E7EB"} />
       </div>
       <div className="flex-1">
-        <div className="text-lg font-medium leading-tight font-['Pretendard'] truncate">
+        <div className="text-lg font-medium leading-tight font-pretendard truncate">
           {title}
         </div>
       </div>

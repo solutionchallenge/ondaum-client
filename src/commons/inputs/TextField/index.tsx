@@ -36,7 +36,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
             });
           }, 300);
         }}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[calc(100%-80px)] bg-transparent text-font-color2 text-lg font-medium font-['Pretendard'] leading-[25.2px] outline-none"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[calc(100%-80px)] bg-transparent text-font-color2 text-lg font-medium font-pretendard leading-[25.2px] outline-none"
       />
 
       {/* Send button (orange circle) */}

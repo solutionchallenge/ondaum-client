@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import DateChip from "../../../commons/data-display/Chip";
 import {
   connectChatWebSocket,
@@ -25,6 +31,21 @@ function HomePage() {
     setViewportHeight();
     window.addEventListener("resize", setViewportHeight);
     return () => window.removeEventListener("resize", setViewportHeight);
+  }, []);
+
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    const threshold = 150; // pixels of height change to detect keyboard
+    const lastHeight = window.innerHeight;
+
+    const onResize = () => {
+      const delta = lastHeight - window.innerHeight;
+      setIsKeyboardOpen(delta > threshold);
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   // Ref to scroll to bottom of chat section
@@ -183,9 +204,11 @@ function HomePage() {
   }, []);
 
   return (
-    <main className="relative flex flex-col h-screen mt-16 bg-white">
-      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-8">
+    <main className="relative flex flex-col h-screen bg-white">
+      <div className="flex w-full gap-4 px-4 py-4">
         <HeaderCard />
+      </div>
+      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-8">
         <DateChip date={new Date()} />
         {isNewSession && (
           <IntroSection onProceed={() => setShowChatSection(true)} />
@@ -200,13 +223,15 @@ function HomePage() {
         )}
       </div>
 
-      <div className="sticky bottom-0 z-10 bg-white px-4 pt-2 pb-10">
-        <ChatInputBox
-          chatInput={chatInput}
-          setChatInput={setChatInput}
-          onSubmit={handleSendMessage}
-        />
-      </div>
+      {!isKeyboardOpen && (
+        <div className="sticky bottom-0 z-10 bg-white px-4 pt-2 pb-10">
+          <ChatInputBox
+            chatInput={chatInput}
+            setChatInput={setChatInput}
+            onSubmit={handleSendMessage}
+          />
+        </div>
+      )}
 
       {showEndSessionModal && (
         <EndSessionModal

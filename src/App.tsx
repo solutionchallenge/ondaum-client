@@ -15,16 +15,19 @@ import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
 import ReportMainPage from "./services/report/main/index.tsx";
 import ReportDetailPage from "./services/report/detail/index.tsx";
 import DiagnosisTest from "./services/home/test/index.tsx";
+import useKeyboardVisible from "./hooks/keyboard/useKeyboardVisible.ts";
 
 function App() {
   const location = useLocation();
   RootRedirect();
   useTokenMonitor();
 
+  const isKeyboardVisible = useKeyboardVisible();
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route element={<Layout />}>
+        <Route element={<Layout bottomNavigation={!isKeyboardVisible} />}>
           <Route path="home">
             <Route index path="*" element={<HomePage />} />
             <Route path="test">

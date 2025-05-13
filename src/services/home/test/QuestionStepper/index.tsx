@@ -2,7 +2,7 @@ import IconBack from "../../../../assets/images/icon_arrow_back.svg?react";
 import Progress from "../../../../commons/feedback/Progress";
 
 interface QuestionStepperProps {
-  currentStep: number; // 1-based index
+  currentStep: number;
   totalSteps: number;
   onBack: () => void;
 }

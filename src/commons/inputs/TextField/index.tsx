@@ -15,10 +15,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
 
   return (
     <div className="w-full h-[51px] relative">
-      {/* Background field */}
       <div className="absolute inset-0 bg-gray-2 rounded-[20px] border border-gray-1" />
-
-      {/* Real input */}
       <input
         value={value}
         onChange={onChange}
@@ -38,8 +35,6 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
         }}
         className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[calc(100%-80px)] bg-transparent text-font-color2 text-lg font-medium font-pretendard leading-[25.2px] outline-none"
       />
-
-      {/* Send button (orange circle) */}
       <button
         type="button"
         onClick={() => {

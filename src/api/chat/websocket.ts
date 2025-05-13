@@ -38,7 +38,7 @@ const startPingInterval = () => {
         pingInterval = null;
       }
     }
-  }, 30000); // every 30s
+  }, 30000);
 };
 
 export const connectChatWebSocket = (
@@ -62,7 +62,6 @@ export const connectChatWebSocket = (
     return initialSocket;
   }
 
-  // 기존 연결 정리
   if (initialSocket) {
     initialSocket.close();
     initialSocket = null;
@@ -76,7 +75,6 @@ export const connectChatWebSocket = (
     pingInterval = null;
   }
 
-  // 초기 연결 생성
   const url = new URL("wss://ondaum.revimal.me/api/v1/_ws/chat");
   url.searchParams.set("access_token", token);
 
@@ -97,13 +95,11 @@ export const connectChatWebSocket = (
     try {
       const data = JSON.parse(event.data);
 
-      // session_id를 받으면 초기 연결을 종료하고 세션 연결 생성
       if (data.session_id) {
         const sessionId = data.session_id;
         console.log("Received session_id:", sessionId);
         useChatStore.getState().setSessionId(sessionId);
 
-        // 초기 연결 종료
         if (initialSocket) {
           initialSocket.close();
           initialSocket = null;
@@ -117,7 +113,7 @@ export const connectChatWebSocket = (
         messageHandler = onMessage;
         sessionWS.onopen = () => {
           console.log("Session WebSocket connected");
-          sessionSocket = sessionWS; // move assignment here
+          sessionSocket = sessionWS;
           startPingInterval();
         };
 

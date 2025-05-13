@@ -18,18 +18,15 @@ export const useTokenMonitor = () => {
         setTokens(access_token, refresh_token);
       } catch (error) {
         console.error("Token refresh failed:", error);
-        // 토큰 리프레시 실패 시 로그아웃 처리
         setTokens(null, null);
       }
     };
 
-    // 주기적으로 토큰 체크
     refreshTimerRef.current = window.setInterval(
       checkAndRefreshToken,
       TOKEN_REFRESH_INTERVAL
     );
 
-    // 컴포넌트 언마운트 시 타이머 정리
     return () => {
       if (refreshTimerRef.current) {
         window.clearInterval(refreshTimerRef.current);

@@ -97,7 +97,7 @@ export default function DiagnosisTest({
   return (
     <main className="pt-16 mt-5">
       {step === "intro" && (
-        <div className="z-10 flex flex-col items-center">
+        <div className="z-10 pb-32 flex flex-col items-center">
           <StartCard type={type} />
           <CautionTypo />
           <div className="w-full px-4">

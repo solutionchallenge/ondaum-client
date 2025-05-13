@@ -97,7 +97,7 @@ export default function DiagnosisTest({
   return (
     <main className="pt-16 mt-5">
       {step === "intro" && (
-        <div className="z-10 pb-32 flex flex-col items-center">
+        <div className="z-10 flex flex-col items-center">
           <StartCard type={type} />
           <CautionTypo />
           <div className="w-full px-4">
@@ -108,7 +108,7 @@ export default function DiagnosisTest({
               Start the Test
             </button>
           </div>
-          <div className="absolute -z-10 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
+          <div className="sticky bottom-0 -z-10 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
         </div>
       )}
 

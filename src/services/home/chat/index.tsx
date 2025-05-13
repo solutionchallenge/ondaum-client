@@ -17,21 +17,17 @@ import { listChats } from "../../../api/chat";
 import TestSection from "./TestSection";
 
 function HomePage() {
+  const [viewportHeight, setViewportHeight] = useState(
+    window.visualViewport?.height || window.innerHeight
+  );
   useEffect(() => {
-    const setViewportHeight = () => {
-      const height = window.visualViewport?.height || window.innerHeight;
-      const vh = height * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    const updateHeight = () => {
+      setViewportHeight(window.visualViewport?.height || window.innerHeight);
     };
-
-    setViewportHeight();
-    window.visualViewport?.addEventListener("resize", setViewportHeight);
-    window.addEventListener("resize", setViewportHeight);
-
-    return () => {
-      window.visualViewport?.removeEventListener("resize", setViewportHeight);
-      window.removeEventListener("resize", setViewportHeight);
-    };
+    updateHeight();
+    window.visualViewport?.addEventListener("resize", updateHeight);
+    return () =>
+      window.visualViewport?.removeEventListener("resize", updateHeight);
   }, []);
 
   const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
@@ -179,14 +175,18 @@ function HomePage() {
   return (
     <main
       className="relative flex flex-col bg-white overflow-hidden"
-      style={{ height: "calc(var(--vh, 1vh) * 100)" }}
+      style={{ height: `${viewportHeight}px` }}
     >
       <div className="sticky top-0 w-full gap-4 px-4 py-4">
         <HeaderCard />
       </div>
       <div
-        className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-12"
-        style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "none" }}
+        className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4"
+        style={{
+          WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "none",
+          marginBottom: isKeyboardOpen ? 0 : "3rem",
+        }}
       >
         <DateChip date={new Date()} />
         {isNewSession && (

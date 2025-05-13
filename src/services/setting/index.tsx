@@ -6,11 +6,13 @@ import FAQSection from "./Question";
 
 function SettingPage() {
   return (
-    <main className="flex flex-col gap-5 pb-52 pt-16 px-5 mt-5 bg-white">
-      <GlobalNavigation />
-      <LanguageSetting />
-      <FAQSection />
-      <PolicySection />
+    <main className="pb-52 pt-16 mt-5 bg-white">
+      <div className="flex flex-col items-center gap-5 w-full px-5">
+        <GlobalNavigation />
+        <LanguageSetting />
+        <FAQSection />
+        <PolicySection />
+      </div>
       <BottomNavigation />
     </main>
   );

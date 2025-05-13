@@ -90,11 +90,11 @@ function HomePage() {
             session_id: ongoing.session_id,
           });
         }
+        connectChatWebSocket(handleWebSocketMessage);
         setShowChatSection(true);
       } else {
         setIsNewSession(true);
       }
-      // connectChatWebSocket(handleWebSocketMessage);
     };
 
     setup();

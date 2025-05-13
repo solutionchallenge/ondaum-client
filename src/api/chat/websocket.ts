@@ -6,6 +6,7 @@ type MessageHandler = (data: any) => void;
 let initialSocket: WebSocket | null = null;
 let sessionSocket: WebSocket | null = null;
 let pingInterval: number | null = null;
+let connectionAttempted = false;
 
 const messageQueue: string[] = [];
 let messageHandler: MessageHandler | null = null;
@@ -43,6 +44,10 @@ const startPingInterval = () => {
 export const connectChatWebSocket = (
   onMessage: (data: any) => void
 ): WebSocket | null => {
+  if (connectionAttempted) {
+    console.warn("WebSocket connection previously attempted. Skipping retry.");
+    return null;
+  }
   const token = getAccessToken();
   if (!token) throw new Error("No access token found");
 
@@ -84,6 +89,7 @@ export const connectChatWebSocket = (
   messageHandler = onMessage;
 
   newSocket.onopen = () => {
+    connectionAttempted = true;
     console.log("Initial WebSocket connected");
   };
 
@@ -147,6 +153,7 @@ export const connectChatWebSocket = (
   };
 
   newSocket.onclose = () => {
+    connectionAttempted = false;
     if (initialSocket === newSocket) {
       initialSocket = null;
     }
@@ -154,6 +161,7 @@ export const connectChatWebSocket = (
   };
 
   newSocket.onerror = (error) => {
+    connectionAttempted = false;
     console.error("Initial WebSocket error:", error);
   };
 

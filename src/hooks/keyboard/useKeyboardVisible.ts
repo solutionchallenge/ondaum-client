@@ -1,30 +1,31 @@
 ﻿import { useEffect, useState } from "react";
+import { useKeyboardStore } from "../../store/keyboard";
 
 const useKeyboardVisible = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const setKeyboardOpen = useKeyboardStore((state) => state.setKeyboardOpen);
 
   useEffect(() => {
-    const threshold = 100; // 화면 줄어든 정도 (픽셀 기준)
-
+    const threshold = 100;
     const handleResize = () => {
       const viewportHeight =
         window.visualViewport?.height ?? window.innerHeight;
-      const windowHeight = window.innerHeight;
-      const keyboardIsOpen = windowHeight - viewportHeight > threshold;
+      const keyboardIsOpen = window.innerHeight - viewportHeight > threshold;
 
       setIsVisible(keyboardIsOpen);
+      setKeyboardOpen(keyboardIsOpen);
     };
 
     window.visualViewport?.addEventListener("resize", handleResize);
-    window.addEventListener("resize", handleResize); // fallback
+    window.addEventListener("resize", handleResize);
 
     return () => {
       window.visualViewport?.removeEventListener("resize", handleResize);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [setKeyboardOpen]);
 
   return isVisible;
 };
 
-export default useKeyboardVisible;
+export { useKeyboardVisible };

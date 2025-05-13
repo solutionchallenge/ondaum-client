@@ -19,12 +19,19 @@ import TestSection from "./TestSection";
 function HomePage() {
   useEffect(() => {
     const setViewportHeight = () => {
-      const vh = window.innerHeight * 0.01;
+      const height = window.visualViewport?.height || window.innerHeight;
+      const vh = height * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
+
     setViewportHeight();
+    window.visualViewport?.addEventListener("resize", setViewportHeight);
     window.addEventListener("resize", setViewportHeight);
-    return () => window.removeEventListener("resize", setViewportHeight);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", setViewportHeight);
+      window.removeEventListener("resize", setViewportHeight);
+    };
   }, []);
 
   const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
@@ -202,8 +209,8 @@ function HomePage() {
       <div
         className="z-10 bg-white px-4 pt-2"
         style={{
-          position: isKeyboardOpen ? "absolute" : "sticky",
-          bottom: isKeyboardOpen ? "0" : undefined,
+          position: "fixed",
+          bottom: 0,
           width: "100%",
           paddingBottom: isKeyboardOpen
             ? "env(safe-area-inset-bottom)"

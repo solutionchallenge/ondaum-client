@@ -95,7 +95,7 @@ export default function DiagnosisTest({
   }, [answers, results, scoring.max, step, type]);
 
   return (
-    <main className="pb-32 pt-16 mt-5">
+    <main className="pt-16 mt-5">
       {step === "intro" && (
         <div className="z-10 flex flex-col items-center">
           <StartCard type={type} />
@@ -180,11 +180,11 @@ export default function DiagnosisTest({
               </div>
             );
           })()}
-          {showSolutionModal && (
-            <SolutionModal onClose={() => setShowSolutionModal(false)} />
-          )}
           <div className="sticky -z-10 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
         </div>
+      )}
+      {showSolutionModal && (
+        <SolutionModal onClose={() => setShowSolutionModal(false)} />
       )}
     </main>
   );

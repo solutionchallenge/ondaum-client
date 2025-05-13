@@ -35,15 +35,15 @@ export const listChats = async () => {
 };
 
 export const getChatSummary = async (
-  sessionId: string
+  session_id: string
 ): Promise<ChatSummary> => {
   const { response } = await http.get<ChatSummary>(
-    `/chats/${sessionId}/summary`
+    `/chats/${session_id}/summary`
   );
   return response;
 };
 
-export const archiveChat = async (sessionId: string): Promise<void> => {
-  const { response } = await http.post(`/chats/${sessionId}/archive`);
+export const archiveChat = async (session_id: string): Promise<void> => {
+  const { response } = await http.post(`/chats/${session_id}/archive`);
   return response;
 };

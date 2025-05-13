@@ -7,6 +7,11 @@ function OnboardingCompletePage() {
   const { user } = useAuthStore();
   const { goHomePage } = useOnboardingAdditional();
 
+  const goToHomePage = () => {
+    goHomePage();
+    window.location.reload();
+  };
+
   return (
     <OnboardingAdditionalLayout
       backgroundImage={UmWithFriendImage}
@@ -26,7 +31,7 @@ function OnboardingCompletePage() {
       }
       button={{
         name: "Start OnDaum",
-        onPress: goHomePage,
+        onPress: goToHomePage,
       }}
     >
       {/* <div className="w-screen h-[470px] bg-no-repeat bg-cover bg-center" style={{ backgroundImage: `url(${UmWithFriendImage})` }}/> */}

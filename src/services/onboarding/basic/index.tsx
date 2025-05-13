@@ -16,7 +16,11 @@ function OnboardingBasicPage() {
 
   const handleConfirm = () => {
     if (privacy.birth && privacy.gender) {
-      const response = updateUserPrivacy(privacy.birth, privacy.gender);
+      const response = updateUserPrivacy(privacy.birth, privacy.gender).then(
+        () => {
+          window.location.reload();
+        }
+      );
       console.log("response", response);
       goConcernPage();
     }

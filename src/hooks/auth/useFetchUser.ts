@@ -1,7 +1,7 @@
-﻿import type { User } from "../../store/auth";
-import { useEffect, useState } from "react";
-import { useAuthStore } from "../../store/auth/index";
-import { getUserInfo } from "../../api/auth/login";
+﻿import { useEffect, useState } from "react";
+import { useAuthStore, User } from "../../store/auth/index";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useFetchUser = (
   accessToken: string | null,
@@ -14,15 +14,24 @@ export const useFetchUser = (
   useEffect(() => {
     if (!accessToken || !refreshToken) return;
 
-    getUserInfo().then((user) => {
-      if (!user) {
-        logout();
-        return;
-      }
-      login(user, accessToken, refreshToken);
-      setUser(user);
-      if (onSuccess) onSuccess();
-    });
+    fetch(`${API_BASE_URL}/user/self`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          logout();
+          return null;
+        }
+        return res.json();
+      })
+      .then((user) => {
+        if (!user) return;
+        login(user as User, accessToken, refreshToken);
+        setUser(user);
+        if (onSuccess) onSuccess();
+      });
   }, [accessToken, refreshToken, login, logout, onSuccess]);
 
   return { user };

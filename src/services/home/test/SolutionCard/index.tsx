@@ -15,7 +15,6 @@ type SolutionCardProps = {
 const SolutionCard = ({
   type,
   score,
-  selectedId,
   onSelect,
   openSolutionModal,
 }: SolutionCardProps) => {
@@ -32,7 +31,7 @@ const SolutionCard = ({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {items.map(({ id, title, description, icon }) => {
+      {items.map(({ id, title, description, icon }, index) => {
         const isModalTarget = id === "stress-negative-1";
 
         return (
@@ -42,7 +41,7 @@ const SolutionCard = ({
             description={description}
             icon={icon}
             styleType={
-              selectedId === id
+              index === 0
                 ? "fill-main/outline-main"
                 : "fill-white/outline-white"
             }

@@ -20,7 +20,7 @@ export default function TestChatList({ onFinish }: { onFinish?: () => void }) {
     if (visibleCount < chatContents.length) {
       const timer = setTimeout(() => {
         setVisibleCount((prev) => prev + 1);
-      }, 1000); // 1초에 하나씩
+      }, 1000);
 
       return () => clearTimeout(timer);
     } else if (visibleCount === chatContents.length && onFinish) {

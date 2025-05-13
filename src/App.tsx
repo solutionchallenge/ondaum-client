@@ -15,14 +15,14 @@ import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
 import ReportMainPage from "./services/report/main/index.tsx";
 import ReportDetailPage from "./services/report/detail/index.tsx";
 import DiagnosisTest from "./services/home/test/index.tsx";
-import useKeyboardVisible from "./hooks/keyboard/useKeyboardVisible.ts";
+import { useKeyboardStore } from "./store/keyboard";
 
 function App() {
   const location = useLocation();
   RootRedirect();
   useTokenMonitor();
 
-  const isKeyboardVisible = useKeyboardVisible();
+  const isKeyboardVisible = useKeyboardStore((state) => state.isKeyboardOpen);
 
   return (
     <AnimatePresence mode="wait">

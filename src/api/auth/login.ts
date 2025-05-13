@@ -1,4 +1,5 @@
-﻿import { http } from "../fetch";
+﻿import { User } from "../../store/auth";
+import { http } from "../fetch";
 
 interface OAuthResponse {
   access_token: string;
@@ -22,4 +23,9 @@ export const refreshToken = async (refresh_token: string) => {
     refresh_token,
   });
   return response.response;
+};
+
+export const getUserInfo = async (): Promise<User> => {
+  const { response } = await http.get<User>(`/user/self`);
+  return response;
 };

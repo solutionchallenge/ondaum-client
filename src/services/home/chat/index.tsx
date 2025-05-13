@@ -1,10 +1,5 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useLayoutEffect,
-} from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useKeyboardStore } from "../../../store/keyboard";
 import DateChip from "../../../commons/data-display/Chip";
 import {
   connectChatWebSocket,
@@ -19,32 +14,27 @@ import ChatSection from "./ChatSection";
 import ChatInputBox from "./ChatInputBox";
 import { useChatStore } from "../../../store/chat";
 import { listChats } from "../../../api/chat";
+import TestSection from "./TestSection";
 
 function HomePage() {
   useEffect(() => {
     const setViewportHeight = () => {
-      const vh = window.innerHeight * 0.01;
+      const height = window.visualViewport?.height || window.innerHeight;
+      const vh = height * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
+
     setViewportHeight();
+    window.visualViewport?.addEventListener("resize", setViewportHeight);
     window.addEventListener("resize", setViewportHeight);
-    return () => window.removeEventListener("resize", setViewportHeight);
-  }, []);
 
-  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-
-  useLayoutEffect(() => {
-    const threshold = 150;
-    const lastHeight = window.innerHeight;
-
-    const onResize = () => {
-      const delta = lastHeight - window.innerHeight;
-      setIsKeyboardOpen(delta > threshold);
+    return () => {
+      window.visualViewport?.removeEventListener("resize", setViewportHeight);
+      window.removeEventListener("resize", setViewportHeight);
     };
-
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const alreadyInitialized = useRef(false);
@@ -54,12 +44,14 @@ function HomePage() {
   const addChatEvent = useChatStore((state) => state.addChatEvent);
   const chatEvents = useChatStore((state) => state.chatEvents);
 
-  const [, setShowChatSection] = useState(false);
+  const [showChatSection, setShowChatSection] = useState(false);
+  const [showTestSection, setShowTestSection] = useState(false);
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
 
   const [isNewSession, setIsNewSession] = useState(true);
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
+  const selectedOption = useChatStore((state) => state.selectedOption);
 
   const handleWebSocketMessage = useCallback((data: any) => {
     if (data.action === "data") {
@@ -97,22 +89,23 @@ function HomePage() {
       alreadyInitialized.current = true;
       if (ongoing) {
         setIsNewSession(false);
-        addChatEvent({
-          action: "data",
-          payload: "How’s your heart these days?",
-          message_id: `um-init-${Date.now()}`,
-          session_id: ongoing.session_id,
-        });
+        if (chatEvents.length === 0) {
+          addChatEvent({
+            action: "data",
+            payload: "How’s your heart these days?",
+            message_id: `um-init-${Date.now()}`,
+            session_id: ongoing.session_id,
+          });
+        }
+        connectChatWebSocket(handleWebSocketMessage);
         setShowChatSection(true);
       } else {
         setIsNewSession(true);
       }
-
-      connectChatWebSocket(handleWebSocketMessage);
     };
 
     setup();
-  }, [handleWebSocketMessage, setSessionId, addChatEvent]);
+  }, [handleWebSocketMessage, setSessionId, addChatEvent, chatEvents.length]);
 
   const handleSendMessage = useCallback(
     (text: string) => {
@@ -147,10 +140,14 @@ function HomePage() {
   }, [sessionId]);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
+    const handleResize = () => {
+      document.body.style.overflow =
+        window.innerHeight < window.outerHeight ? "auto" : "hidden";
     };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -163,32 +160,69 @@ function HomePage() {
     }
   }, [chatEvents]);
 
+  useEffect(() => {
+    const inputEl = document.querySelector("input");
+
+    if (!inputEl) return;
+    const handleFocus = () => {
+      setTimeout(() => {
+        inputEl.scrollIntoView({ block: "end", behavior: "smooth" });
+      }, 100);
+    };
+
+    inputEl.addEventListener("focus", handleFocus);
+    return () => {
+      inputEl.removeEventListener("focus", handleFocus);
+    };
+  }, []);
+
   return (
     <main
-      className="relative flex flex-col bg-white"
+      className="relative flex flex-col bg-white overflow-hidden"
       style={{ height: "calc(var(--vh, 1vh) * 100)" }}
     >
       <div className="sticky top-0 w-full gap-4 px-4 py-4">
         <HeaderCard />
       </div>
-      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-12">
+      <div
+        className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4 mb-12"
+        style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "none" }}
+      >
         <DateChip date={new Date()} />
         {isNewSession && (
-          <IntroSection onProceed={() => setShowChatSection(true)} />
+          <IntroSection
+            onProceed={() => {
+              if (selectedOption === "Chat") {
+                setShowChatSection(true);
+                connectChatWebSocket(handleWebSocketMessage);
+              } else if (selectedOption === "Test") {
+                setShowTestSection(true);
+              }
+            }}
+          />
         )}
-        <ChatSection />
+        {showChatSection && <ChatSection />}
+        {showTestSection && <TestSection />}
         <div ref={bottomRef} />
       </div>
 
-      {!isKeyboardOpen && (
-        <div className="sticky bottom-0 z-10 bg-white px-4 pt-2 pb-10">
-          <ChatInputBox
-            chatInput={chatInput}
-            setChatInput={setChatInput}
-            onSubmit={handleSendMessage}
-          />
-        </div>
-      )}
+      <div
+        className="z-10 bg-white px-4 pt-2"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          width: "100%",
+          paddingBottom: isKeyboardOpen
+            ? "env(safe-area-inset-bottom)"
+            : "2.5rem",
+        }}
+      >
+        <ChatInputBox
+          chatInput={chatInput}
+          setChatInput={setChatInput}
+          onSubmit={handleSendMessage}
+        />
+      </div>
 
       {showEndSessionModal && (
         <EndSessionModal

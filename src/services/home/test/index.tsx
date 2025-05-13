@@ -79,11 +79,11 @@ export default function DiagnosisTest({
     if (matched) {
       postDiagnosisResult({
         diagnosis: type,
+        result_critical: matched.critical,
+        result_description: matched.description,
+        result_name: matched.name,
         result_score: score,
         total_score: scoring.max,
-        result_name: matched.name,
-        result_description: matched.description,
-        result_critical: matched.critical,
       })
         .then(async (res) => {
           setResultId(res.id);
@@ -95,24 +95,25 @@ export default function DiagnosisTest({
   }, [answers, results, scoring.max, step, type]);
 
   return (
-    <main className="flex flex-col max-h-screen items-center bg-white mt-16 mb-16">
+    <main className="pt-16 mt-5">
       {step === "intro" && (
-        <div className="mt-16 z-10 flex flex-col items-center">
+        <div className="z-10 pb-32 flex flex-col items-center">
           <StartCard type={type} />
           <CautionTypo />
           <div className="w-full px-4">
             <button
               onClick={() => setStep("question")}
-              className="w-full h-14 bg-main rounded-[20px] text-white font-semibold text-base font-pretendard leading-snug"
+              className="sticky z-10 bottom-0 w-full h-14 bg-main rounded-[20px] text-white font-semibold text-base font-pretendard leading-snug"
             >
               Start the Test
             </button>
           </div>
+          <div className="absolute -z-10 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
         </div>
       )}
 
       {step === "question" && questions.length > 0 && (
-        <div className="w-full h-[85%] z-10 absolute top-0 pt-24 pb-8 flex flex-col justify-between items-center">
+        <div className="sticky h-screen top-0 pb-52 flex flex-col justify-between">
           <div className="w-full">
             <QuestionStepper
               currentStep={currentIndex + 1}
@@ -147,8 +148,8 @@ export default function DiagnosisTest({
       )}
 
       {step === "result" && (
-        <div className="w-full flex-1 z-10 px-5 pt-16 flex flex-col">
-          <div className="justify-start text-font-color text-xl font-bold font-pretendard leading-7">
+        <div className="z-10 flex flex-col">
+          <div className="justify-start px-5 text-font-color text-xl font-bold font-pretendard leading-7">
             Your Mental Health Check-In Result
           </div>
           {postedResult && (
@@ -164,7 +165,7 @@ export default function DiagnosisTest({
           {(() => {
             const score = answers.reduce((sum, val) => sum + val, 0);
             return (
-              <>
+              <div className="px-5">
                 <TestResultCard type={type.toUpperCase()} score={score} />
                 <div className="justify-start mb-3 text-font-color text-xl font-bold font-pretendard leading-7">
                   What can you do next?
@@ -176,15 +177,15 @@ export default function DiagnosisTest({
                   onSelect={setSelectedSolutionId}
                   openSolutionModal={() => setShowSolutionModal(true)}
                 />
-              </>
+              </div>
             );
           })()}
-          {showSolutionModal && (
-            <SolutionModal onClose={() => setShowSolutionModal(false)} />
-          )}
+          <div className="sticky -z-10 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
         </div>
       )}
-      <div className="absolute z-0 bottom-0 w-full h-72 bg-gradient-to-b from-[#fffaf4]/20 to-[#f57c00]/20 pointer-events-none" />
+      {showSolutionModal && (
+        <SolutionModal onClose={() => setShowSolutionModal(false)} />
+      )}
     </main>
   );
 }

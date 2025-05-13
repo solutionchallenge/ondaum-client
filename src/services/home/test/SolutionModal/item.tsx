@@ -1,4 +1,7 @@
-﻿interface SolutionModalItemProps {
+﻿import IconWalk from "../../../../assets/images/test/solution/icon_walk.svg?react";
+import IconTime from "../../../../assets/images/test/solution/icon_time.svg?react";
+
+interface SolutionModalItemProps {
   title: string;
   distance: string;
   time: string;
@@ -14,11 +17,11 @@ const SolutionModalItem = ({
       <div className="flex flex-col gap-2 text-sm text-gray-800 font-pretendard">
         <div className="font-medium">{title}</div>
         <div className="flex items-center gap-2 text-gray-600">
-          <div className="w-2.5 h-2.5 bg-gray-600 rounded-full" />
+          <IconWalk className="w-4 h-4" />
           <span>{distance}</span>
         </div>
         <div className="flex items-center gap-2 text-gray-600">
-          <div className="w-2.5 h-2.5 bg-gray-600 rounded-full" />
+          <IconTime className="w-4 h-4" />
           <span>{time}</span>
         </div>
       </div>

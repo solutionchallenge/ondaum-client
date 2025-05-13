@@ -4,7 +4,11 @@ import InitChatList from "../../../../commons/data-display/List/initgroup";
 import ChatToggle from "../ChatToggle";
 import { useChatStore } from "../../../../store/chat";
 
-const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
+const IntroSection = ({
+  onProceed,
+}: {
+  onProceed: (option: "Chat" | "Test") => void;
+}) => {
   const [isListFinished, setIsListFinished] = useState(false);
   const selectedOption = useChatStore((state) => state.selectedOption);
   const hasSelectedOption = useChatStore((state) => state.hasSelectedOption);
@@ -14,7 +18,7 @@ const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
   );
 
   return (
-    <div className="w-full flex flex-row justify-center gap-2 ml-3">
+    <div className="w-full flex flex-row justify-center gap-2">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
         <div className="text-main font-semibold font-pretendards">Um</div>
@@ -36,7 +40,7 @@ const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
             onClick={() => {
               setSelectedOption("Chat");
               setHasSelectedOption(true);
-              onProceed();
+              onProceed("Chat");
             }}
           >
             Chat
@@ -48,7 +52,7 @@ const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
             onClick={() => {
               setSelectedOption("Test");
               setHasSelectedOption(true);
-              onProceed();
+              onProceed("Test");
             }}
           >
             Test

@@ -14,6 +14,7 @@ import ChatSection from "./ChatSection";
 import ChatInputBox from "./ChatInputBox";
 import { useChatStore } from "../../../store/chat";
 import { listChats } from "../../../api/chat";
+import TestSection from "./TestSection";
 
 function HomePage() {
   useEffect(() => {
@@ -36,12 +37,14 @@ function HomePage() {
   const addChatEvent = useChatStore((state) => state.addChatEvent);
   const chatEvents = useChatStore((state) => state.chatEvents);
 
-  const [, setShowChatSection] = useState(false);
+  const [showChatSection, setShowChatSection] = useState(false);
+  const [showTestSection, setShowTestSection] = useState(false);
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
 
   const [isNewSession, setIsNewSession] = useState(true);
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
+  const selectedOption = useChatStore((state) => state.selectedOption);
 
   const handleWebSocketMessage = useCallback((data: any) => {
     if (data.action === "data") {
@@ -91,8 +94,7 @@ function HomePage() {
       } else {
         setIsNewSession(true);
       }
-
-      connectChatWebSocket(handleWebSocketMessage);
+      // connectChatWebSocket(handleWebSocketMessage);
     };
 
     setup();
@@ -181,9 +183,19 @@ function HomePage() {
       >
         <DateChip date={new Date()} />
         {isNewSession && (
-          <IntroSection onProceed={() => setShowChatSection(true)} />
+          <IntroSection
+            onProceed={() => {
+              if (selectedOption === "Chat") {
+                setShowChatSection(true);
+                connectChatWebSocket(handleWebSocketMessage);
+              } else if (selectedOption === "Test") {
+                setShowTestSection(true);
+              }
+            }}
+          />
         )}
-        <ChatSection />
+        {showChatSection && <ChatSection />}
+        {showTestSection && <TestSection />}
         <div ref={bottomRef} />
       </div>
 

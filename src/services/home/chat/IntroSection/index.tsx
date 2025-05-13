@@ -48,6 +48,7 @@ const IntroSection = ({ onProceed }: { onProceed: () => void }) => {
             onClick={() => {
               setSelectedOption("Test");
               setHasSelectedOption(true);
+              onProceed();
             }}
           >
             Test

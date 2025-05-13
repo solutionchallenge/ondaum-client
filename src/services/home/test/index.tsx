@@ -79,11 +79,11 @@ export default function DiagnosisTest({
     if (matched) {
       postDiagnosisResult({
         diagnosis: type,
+        result_critical: matched.critical,
+        result_description: matched.description,
+        result_name: matched.name,
         result_score: score,
         total_score: scoring.max,
-        result_name: matched.name,
-        result_description: matched.description,
-        result_critical: matched.critical,
       })
         .then(async (res) => {
           setResultId(res.id);

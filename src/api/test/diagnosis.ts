@@ -55,8 +55,8 @@ interface DiagnosisResultRequest {
   result_score: number;
   total_score: number;
   result_name: string;
-  result_description: string;
   result_critical: boolean;
+  result_description: string;
 }
 
 export const postDiagnosisResult = async (
@@ -71,7 +71,6 @@ export const postDiagnosisResult = async (
 
 interface DiagnosisResultResponse {
   diagnosis: string;
-  id: number;
   result_critical: boolean;
   result_description: string;
   result_name: string;

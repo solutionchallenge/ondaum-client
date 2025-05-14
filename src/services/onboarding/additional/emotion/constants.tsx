@@ -1,17 +1,17 @@
-import JoyIcon from "../../../../assets/images/icon_emotion_joy.svg?react";
-import SadnessIcon from "../../../../assets/images/icon_emotion_sadness.svg?react";
-import AngerIcon from "../../../../assets/images/icon_emotion_anger.svg?react";
-import SurpriseIcon from "../../../../assets/images/icon_emotion_surprise.svg?react";
-import FearIcon from "../../../../assets/images/icon_emotion_fear.svg?react";
-import DisgustIcon from "../../../../assets/images/icon_emotion_disgust.svg?react";
+import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
+import SadnessIcon from "../../../../assets/images/chatresult/icon_sadness.svg?react";
+import AngerIcon from "../../../../assets/images/chatresult/icon_anger.svg?react";
+import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
+import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
+import DisgustIcon from "../../../../assets/images/chatresult/icon_disgust.svg?react";
 
 export const EMOTION_ICONS = {
-  joy: <JoyIcon />,
-  sadness: <SadnessIcon />,
-  anger: <AngerIcon />,
-  surprise: <SurpriseIcon />,
-  fear: <FearIcon />,
-  disgust: <DisgustIcon />,
+  joy: <JoyIcon color="#F57C00" className="w-7 w-7" />,
+  sadness: <SadnessIcon color="#F57C00" className="w-7 w-7" />,
+  anger: <AngerIcon color="#F57C00" className="w-7 w-7" />,
+  surprise: <SurpriseIcon color="#F57C00" className="w-7 w-7" />,
+  fear: <FearIcon color="#F57C00" className="w-7 w-7" />,
+  disgust: <DisgustIcon color="#F57C00" className="w-7 w-7" />,
 };
 
 export const EMOTIONS = {

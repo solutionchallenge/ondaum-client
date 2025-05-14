@@ -14,6 +14,7 @@ export interface SummaryResponse {
     begin_message_id: string;
     end_message_id: string;
   };
+  topic_messages: History[];
 }
 
 export interface ChatResponse {

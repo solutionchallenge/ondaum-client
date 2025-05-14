@@ -5,10 +5,18 @@ import { useState } from "react";
 import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
 import SadnessIcon from "../../../../assets/images/chatresult/icon_sadness.svg?react";
 import AngerIcon from "../../../../assets/images/chatresult/icon_anger.svg?react";
-import SurpiseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
+import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
 import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
 import DisgustIcon from "../../../../assets/images/chatresult/icon_disgust.svg?react";
 
+export const EmotionOptions = [
+  { label: <JoyIcon color="#FFD900" />, value: "joy" },
+  { label: <AngerIcon color="#274B7A" />, value: "anger" },
+  { label: <SurpriseIcon color="#CFC5B4" />, value: "surprise" },
+  { label: <SadnessIcon color="#4A90E2" />, value: "sadness" },
+  { label: <FearIcon color="#5C6BC0" />, value: "fear" },
+  { label: <DisgustIcon color="#8E837E" />, value: "disgust" },
+];
 export default function SearchFilterBottomSheet({
   item,
   updateItem,
@@ -95,15 +103,9 @@ export default function SearchFilterBottomSheet({
         </h3>
         <div className="mb-6">
           <ToggleGroup
+            className="grid grid-cols-3 justify-center items-center"
             multiple
-            options={[
-              { label: <JoyIcon />, value: "joy" },
-              { label: <SadnessIcon />, value: "sadness" },
-              { label: <AngerIcon />, value: "anger" },
-              { label: <SurpiseIcon />, value: "surprise" },
-              { label: <FearIcon />, value: "fear" },
-              { label: <DisgustIcon />, value: "disgust" },
-            ]}
+            options={EmotionOptions}
             selectedOption={selectedEmotion}
             onSelect={(option) => {
               setSelectedEmotion(option as string[]);

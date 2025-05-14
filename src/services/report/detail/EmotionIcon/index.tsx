@@ -14,16 +14,16 @@ export function EmotionIcon({
 }) {
   switch (emotion) {
     case "anger":
-      return <AngerIcon className={className} />;
+      return <AngerIcon color="#274B7A" className={className} />;
     case "fear":
-      return <FearIcon className={className} />;
+      return <FearIcon color="#5C6BC0" className={className} />;
     case "sadness":
-      return <SadnessIcon className={className} />;
+      return <SadnessIcon color="#4A90E2" className={className} />;
     case "joy":
-      return <JoyIcon className={className} />;
+      return <JoyIcon color="#FFD900" className={className} />;
     case "disgust":
-      return <DisgustIcon className={className} />;
+      return <DisgustIcon color="#8E837E" className={className} />;
     case "surprise":
-      return <SurpriseIcon className={className} />;
+      return <SurpriseIcon color="#CFC5B4" className={className} />;
   }
 }

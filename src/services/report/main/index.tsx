@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { getChatReport, ReportResponse } from "../../../api/report/report";
 import Recommendations from "./recommendations/Recommendations";
 import Conversations from "./conversations/Conversations";
-import MontlyOverview from "./montly-overview/MontlyOverview";
+import MontlyOverview from "./monthly-overview/MonthlyOverview";
 
 function ReportMainPage() {
   const [report, setReport] = useState<ReportResponse>();
@@ -14,15 +14,15 @@ function ReportMainPage() {
 
   const fetchReport = async () => {
     const response = await getChatReport({
-      datetime_gte: dayjs(reportDate).toISOString(),
-      datetime_lte: dayjs(reportDate).add(1, "month").toISOString(),
+      datetime_gte: dayjs(reportDate).startOf("month").toISOString(),
+      datetime_lte: dayjs(reportDate).endOf("month").toISOString(),
     });
     setReport(response);
   };
 
   useEffect(() => {
     fetchReport();
-  }, []);
+  }, [reportDate]);
 
   return (
     <ReportLayout>

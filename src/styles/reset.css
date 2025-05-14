@@ -18,6 +18,14 @@
 }
 
 .dayPicker-monthly {
+  .rdp-nav {
+    display: flex;
+    width: 120px;
+    justify-content: space-between;
+    position: absolute;
+    left: 0;
+    z-index: 20;
+  }
   .rdp-button_previous {
     background-color: #f8a047;
     border-radius: 100px;
@@ -33,9 +41,27 @@
   .rdp-chevron {
     fill: #ffffff;
   }
-  .rdp-months {
+  .rdp-month {
+    width: 120px;
+  }
+  .rdp-month_caption {
+    justify-content: center;
   }
   .rdp-caption_label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #f57c00;
+
+    &::before {
+      background-image: url("../assets/images/icon_calendar.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      content: "";
+      display: block;
+      margin-right: 4px;
+      width: 14px;
+      height: 14px;
+    }
   }
   table {
     display: none;

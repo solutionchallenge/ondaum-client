@@ -29,7 +29,7 @@ function OAuthCallback() {
   }, [navigate, redirectUri, searchParams]);
 
   useFetchUser(accessToken, refreshToken, () => {
-    navigate("/onboarding/basic");
+    navigate("/home");
   });
 
   return (

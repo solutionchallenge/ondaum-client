@@ -30,6 +30,7 @@ function App() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route element={<Layout bottomNavigation={!isKeyboardVisible} />}>
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="home">
             <Route index path="*" element={<HomePage />} />
             <Route path="test">

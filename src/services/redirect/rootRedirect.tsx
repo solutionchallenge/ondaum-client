@@ -16,37 +16,28 @@ const RootRedirect = () => {
     if (!user) return;
 
     const hasPrivacy = !!user.privacy;
-    const hasAddition = !!user.addition?.concerns && !!user.addition?.emotions;
-    const isComplete = hasPrivacy && hasAddition;
 
     if ((!accessToken && !refreshToken) || !user.email || user.id == null) {
       navigate("/login", { replace: true });
       return;
     }
 
-    if (location.pathname === "/onboarding/basic") {
-      if (isComplete) {
-        navigate("/home", { replace: true });
-      } else if (hasPrivacy && !hasAddition) {
-        navigate("/onboarding/additional/concern", { replace: true });
-      }
-      return;
-    }
-
-    if (location.pathname === "/onboarding/additional/concern") {
+    if (location.pathname.includes("/onboarding")) {
       if (!hasPrivacy) {
         navigate("/onboarding/basic", { replace: true });
-      } else if (isComplete) {
+      } else {
         navigate("/home", { replace: true });
       }
       return;
     }
 
-    if (location.pathname === "/" || location.pathname === "/home") {
+    if (
+      location.pathname === "" ||
+      location.pathname === "/" ||
+      location.pathname === "/home"
+    ) {
       if (!hasPrivacy) {
         navigate("/onboarding/basic", { replace: true });
-      } else if (!hasAddition) {
-        navigate("/onboarding/additional/concern", { replace: true });
       }
       return;
     }

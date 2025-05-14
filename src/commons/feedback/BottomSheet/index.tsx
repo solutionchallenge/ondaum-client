@@ -26,7 +26,7 @@ export default function BottomSheet({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.3 }}
           className={`fixed inset-0 z-50 flex items-end justify-center ${backdrop ? "bg-black bg-opacity-40" : ""}`}
           onClick={onClose}
         >
@@ -34,7 +34,7 @@ export default function BottomSheet({
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className="bg-white w-full max-w-md rounded-t-2xl p-6 shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >

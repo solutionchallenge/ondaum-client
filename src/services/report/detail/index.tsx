@@ -88,9 +88,11 @@ function ReportDetailPage() {
         <h2 className="font-semibold text-md mb-3">Recommendations</h2>
         <ul className="text-sm list-none space-y-3">
           {detail?.summary?.recommendations.map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <CheckIcon className="w-4 h-4" />
-              {item}
+            <li key={item} className="block flex items-center gap-2">
+              <div className="w-4 h-4">
+                <CheckIcon />
+              </div>
+              <span>{item}</span>
             </li>
           ))}
         </ul>
@@ -100,37 +102,35 @@ function ReportDetailPage() {
           <h2 className="font-semibold text-md">Conversation</h2>
         </div>
         <div className="space-y-2">
-          <div className="mb-4 flex gap-2">
-            <div>
-              <UmIcon />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-main mb-2">Um</p>
-              {detail?.histories
-                ?.filter((item) => item.role === "assistant")
-                .map((item) => (
+          {detail?.summary?.topic_messages?.map((item) =>
+            item.role === "assistant" ? (
+              <div className="mb-4 flex gap-2">
+                <div>
+                  <UmIcon />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-main mb-2">Um</p>
+
                   <div key={item.id}>
                     <span className="border border-gray-1 bg-gray-2 inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-br-[15px] text-sm text-font-color mb-2">
                       {JSON.parse(item.content)?.data}
                     </span>
                   </div>
-                ))}
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-xs font-semibold text-main mb-2">
-              {user?.username}
-            </p>
-            {detail?.histories
-              ?.filter((item) => item.role === "user")
-              .map((item) => (
+                </div>
+              </div>
+            ) : (
+              <div className="text-right">
+                <p className="text-xs font-semibold text-main mb-2">
+                  {user?.username}
+                </p>
                 <div key={item.id}>
                   <span className="border border-main bg-third text-left inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-bl-[15px] text-sm text-font-color mb-2">
                     {item.content}
                   </span>
                 </div>
-              ))}
-          </div>
+              </div>
+            )
+          )}
         </div>
       </div>
       <Card

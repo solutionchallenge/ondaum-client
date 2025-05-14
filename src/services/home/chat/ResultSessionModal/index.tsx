@@ -11,27 +11,27 @@ import { ChatSummary } from "../../../../api/chat";
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   const moodStyles: Record<string, { icon: JSX.Element; color: string }> = {
     Anger: {
-      icon: <AngerIcon className="w-5 h-5" />,
+      icon: <AngerIcon color="#274B7A" className="w-5 h-5" />,
       color: "bg-anger text-anger",
     },
     Disgust: {
-      icon: <DisgustIcon className="w-5 h-5" />,
+      icon: <DisgustIcon color="#8E837E" className="w-5 h-5" />,
       color: "bg-disgust text-disgust",
     },
     Sadness: {
-      icon: <SadnessIcon className="w-5 h-5" />,
+      icon: <SadnessIcon color="#4A90E2" className="w-5 h-5" />,
       color: "bg-sadness text-sadness",
     },
     Fear: {
-      icon: <FearIcon className="w-5 h-5" />,
+      icon: <FearIcon color="#5C6BC0" className="w-5 h-5" />,
       color: "bg-fear text-fear",
     },
     Surprise: {
-      icon: <SurpriseIcon className="w-5 h-5" />,
+      icon: <SurpriseIcon color="#CFC5B4" className="w-5 h-5" />,
       color: "bg-surprise text-surprise",
     },
     Joy: {
-      icon: <JoyIcon className="w-5 h-5" />,
+      icon: <JoyIcon color="#FFD900" className="w-5 h-5" />,
       color: "bg-joy text-joy",
     },
   };

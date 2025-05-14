@@ -14,8 +14,8 @@ function Conversations() {
   const [searchFilterBottomSheet, setSearchFilterBottomSheet] = useState({
     isVisible: false,
     filter: {
-      date: "1",
-      emotion: ["joy", "sadness"],
+      date: "3",
+      emotion: ["joy", "sadness", "anger", "surprise", "fear", "disgust"],
     },
   });
   const [searchBottomSheet, setSearchBottomSheet] = useState({
@@ -26,9 +26,10 @@ function Conversations() {
   const fetchChats = async () => {
     const response = await getChats({
       datetime_gte: dayjs()
+        .startOf("hour")
         .subtract(Number(searchFilterBottomSheet.filter.date), "day")
         .toISOString(),
-      datetime_lte: dayjs().toISOString(),
+      datetime_lte: dayjs().endOf("hour").toISOString(),
       dominant_emotions: searchFilterBottomSheet.filter.emotion.join(","),
       matching_content: searchBottomSheet.keyword,
     });
@@ -55,7 +56,7 @@ function Conversations() {
               }}
             />
             <button
-              className="flex items-center gap-1 cursor-pointer text-font-color"
+              className="flex items-center gap-1 cursor-pointer text-font-color text-right"
               onClick={() => {
                 setSearchFilterBottomSheet({
                   ...searchFilterBottomSheet,
@@ -64,7 +65,10 @@ function Conversations() {
               }}
             >
               {searchFilterBottomSheet.filter.date} days ago ·{" "}
-              {searchFilterBottomSheet.filter.emotion.join(",")}{" "}
+              {searchFilterBottomSheet.filter.emotion.length === 5 && <br />}
+              {searchFilterBottomSheet.filter.emotion.length === 6
+                ? "all emotions"
+                : searchFilterBottomSheet.filter.emotion.join(",")}{" "}
               <ArrowDownIcon />
             </button>
           </div>

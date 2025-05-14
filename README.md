@@ -51,7 +51,7 @@ src/
 │   └── onboarding
 ```
 
-## 🚀 INTALLATION
+## 🚀 INSTALLATION
 
 1. Set Node LTS Version (As of May 15, 2025)
 ```bash
@@ -70,7 +70,7 @@ npm install
 npm run dev
 ```
 
-## 📱 USAGE
+## 📱 FEATURE
 - AI Counseling With Um
 - Psychological Assessments
   - International standard tests PHQ-9 / GAD-7 / PSS 

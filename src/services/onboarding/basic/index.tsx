@@ -58,7 +58,7 @@ function OnboardingBasicPage() {
           options={GENDERS}
           selectedOption={privacy.gender || ""}
           onSelect={(value) =>
-            setPrivacy((prev) => ({ ...prev, gender: value }))
+            setPrivacy((prev) => ({ ...prev, gender: value as string }))
           }
         />
       </article>

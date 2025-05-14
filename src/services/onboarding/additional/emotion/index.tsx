@@ -94,6 +94,7 @@ function OnboardingEmotionPage() {
       }
       button={{
         name: "Finish choosing your mind",
+        disabled: Object.values(emotion).flat().length === 0,
         onPress: () => {
           fetchAddition();
           goCompletePage();

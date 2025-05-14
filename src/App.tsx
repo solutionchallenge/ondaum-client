@@ -40,7 +40,7 @@ function App() {
           <Route path="report">
             <Route index path="*" element={<NotFoundPage />} />
             <Route path="main" element={<ReportMainPage />} />
-            <Route path="detail/:id" element={<ReportDetailPage />} />
+            <Route path="detail/:session_id" element={<ReportDetailPage />} />
           </Route>
         </Route>
         <Route element={<Layout bottomNavigation={false} />}>

@@ -126,8 +126,8 @@ function HomePage() {
         style={{
           WebkitOverflowScrolling: "touch",
           overscrollBehavior: "none",
-          marginBottom: isKeyboardOpen ? 0 : "9rem",
-          height: isKeyboardOpen ? `${viewportHeight - 51}px` : undefined,
+          paddingBottom: isKeyboardOpen ? "0px" : "123px",
+          height: isKeyboardOpen ? `${viewportHeight - 59}px` : undefined,
         }}
       >
         <DateChip date={new Date()} />

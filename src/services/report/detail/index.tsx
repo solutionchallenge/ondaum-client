@@ -2,16 +2,32 @@ import ReportLayout from "../layout";
 import Card from "../../../commons/surfaces/Card";
 import PhoneIcon from "../../../assets/images/icon_phone.svg?react";
 import BackIcon from "../../../assets/images/icon_arrow_back.svg?react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SolutionModal from "../../home/test/SolutionModal";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CheckIcon from "../../../assets/images/icon_check.svg?react";
+import { ChatDetailResponse, getChatDetail } from "../../../api/report/chats";
+import { useAuthStore } from "../../../store/auth";
+import UmIcon from '../../../assets/images/icon_um.svg?react';
+import { EmotionIcon } from "./EmotionIcon";
 
 function ReportDetailPage() {
-  const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigate = useNavigate();
-  const [emotion] = useState<string>("fear");
+  const {session_id} = useParams();
+  const {user}=useAuthStore();
+  const [detail, setDetail] = useState<ChatDetailResponse>();
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+
+  const fetchDetail = async (id: string) => {
+    const response = await getChatDetail(id);
+    setDetail(response);
+  }
+
+  useEffect(() => {
+    if(!session_id)return;
+    fetchDetail(session_id);
+  }, [session_id]);
 
   return (
     <ReportLayout>
@@ -19,97 +35,83 @@ function ReportDetailPage() {
         <BackIcon className="w-6 h-6 mt-2" onClick={() => navigate(-1)} />
         {`Here's your\nTalking summary`}
       </h1>
-
-      {/* Date */}
       <div className="w-full text-xs text-center bg-second text-white py-1 rounded-full mb-8 mt-12">
-        {dayjs().format("ddd, MMM DD, hh:mm a")}
+        {dayjs(detail?.started_date).format("ddd, MMM DD, hh:mm a")}
       </div>
-
-      {/* Summary */}
       <Card
         title="Conversation Summary"
         description="The consultation revealed signs of moderate anxiety, suggesting a need for continued emotional support and stress management"
         styleType="fill-white/outline-third"
       />
-
-      {/* Key Themes */}
       <div className="my-6">
         <h2 className="font-semibold text-md mb-2">Key Themes</h2>
         <div className="flex flex-wrap gap-2">
-          {["#overthinking", "#feelinglow", "#reflect"].map((tag) => (
-            <span
+          {detail?.summary.keywords.map((tag) => (
+           <span
               key={tag}
               className="text-sm px-3 py-1 rounded-full bg-orange-50 text-orange-500 border border-orange-200"
             >
-              {tag}
+               #{tag}
             </span>
           ))}
         </div>
       </div>
-
-      {/* Mood of the Day */}
       <div className="border border-orange-100 rounded-xl p-4 mb-6 bg-white">
-        <h2 className="font-semibold text-md mb-1">Mood of the Day</h2>
+        <h2 className="font-semibold text-md mb-3">Mood of the Day</h2>
         <div className="flex items-center gap-2">
-          <img
-            src={`../../../assets/images/chatresult/icon_${emotion}.svg?react`}
-            alt={emotion}
-            className="w-4 h-4"
-          />
-          <span className={`text-black text-sm`}>{emotion}</span>
+          <EmotionIcon emotion={detail?.summary?.emotions?.[0]?.emotion || ''} className="w-4 h-4" />
+          <span className={`text-black text-sm`}>{detail?.summary?.emotions?.[0]?.emotion}</span>
           <div className="flex-1">
             <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div className={`h-full bg-${"emotion"} w-[70%]`} />
+              <div className={`h-full rounded-full bg-${detail?.summary?.emotions?.[0]?.emotion}`} style={{width: `${detail?.summary?.emotions?.[0]?.rate ? detail?.summary?.emotions?.[0]?.rate*100 : 0}%`}} />
             </div>
           </div>
-          <span className="text-sm text-gray-500">70%</span>
+          <span className="text-sm text-gray-500">{detail?.summary?.emotions?.[0]?.rate ? detail?.summary?.emotions?.[0]?.rate*100 : '-'}%</span>
         </div>
       </div>
-
-      {/* Recommendations */}
       <div className="border border-orange-100 rounded-xl p-4 mb-8 bg-white">
-        <h2 className="font-semibold text-md mb-2">Recommendations</h2>
+        <h2 className="font-semibold text-md mb-3">Recommendations</h2>
         <ul className="text-sm list-none space-y-3">
-          <li className="flex items-center gap-2">
+          {detail?.summary?.recommendations.map((item)=>(
+            <li key={item} className="flex items-center gap-2">
             <CheckIcon className="w-4 h-4" />
-            Take 3 quiet minutes each day
-          </li>
-          <li className="flex items-center gap-2">
-            <CheckIcon className="w-4 h-4" />
-            Stop working at least 2 hours before bed
-          </li>
-          <li className="flex items-center gap-2">
-            <CheckIcon className="w-4 h-4" />
-            Take a 10minute break every 90 minutes
-          </li>
+            {item}
+            </li>
+          ))}
         </ul>
       </div>
-
-      {/* Conversation */}
       <div className="border border-orange-100 rounded-xl p-4 mb-8 bg-white">
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="font-semibold text-md">Conversation</h2>
-          <span className="text-gray-400">›</span>
         </div>
         <div className="space-y-2">
-          <div className="text-left">
-            <p className="text-xs font-medium text-orange-500">Um</p>
-            <div className="bg-gray-100 inline-block px-3 py-2 rounded-xl text-sm text-gray-800">
-              Hello, do you have any concerns?
-              <br />
-              Feel free to tell me.
+          <div className="mb-4 flex gap-2">
+            <div>
+              <UmIcon />
             </div>
+            <div>
+            <p className="text-xs font-semibold text-main mb-2">Um</p>
+              {detail?.histories?.filter((item)=>item.role==='assistant').map((item)=>(
+             <div key={item.id}>
+            <span className="border border-gray-1 bg-gray-2 inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-br-[15px] text-sm text-font-color mb-2">
+               {JSON.parse(item.content)?.data}
+            </span>
+            </div>
+              ))}
+              </div>
           </div>
           <div className="text-right">
-            <p className="text-xs font-medium text-orange-500">GGaengster</p>
-            <div className="bg-orange-100 inline-block px-3 py-2 rounded-xl text-sm text-gray-800">
-              Um... I'm thinking about quitting my job. It's too hard.
+            <p className="text-xs font-semibold text-main mb-2">{user?.username}</p>
+            {detail?.histories?.filter((item)=>item.role==='user').map((item)=>(
+           <div key={item.id}>
+            <span className="border border-main bg-third text-left inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-bl-[15px] text-sm text-font-color mb-2">
+                {item.content}
+              </span>
             </div>
-          </div>
+              ))}
+            </div>
         </div>
       </div>
-
-      {/* CTA */}
       <Card
         icon={<PhoneIcon />}
         title="Talk to Someone"

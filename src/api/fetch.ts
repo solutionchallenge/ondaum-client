@@ -20,8 +20,9 @@ const baseFetch = async (url: RequestInfo, init?: RequestInit) => {
 };
 
 const http = {
-  get: async <T = any>(url: string) => {
-    return baseFetch(url, {
+  get: async <T = any>(url: string, params?: Record<string, string>) => {
+    const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
+    return baseFetch(`${url}${queryString}`, {
       method: "GET",
     }) as Promise<{ response: T }>;
   },

@@ -1,4 +1,4 @@
-﻿import { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFetchUser } from "../../hooks/auth/useFetchUser";
 import { User } from "../../store/auth";

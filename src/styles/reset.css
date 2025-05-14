@@ -17,15 +17,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+
+.dayPicker-monthly {
+  .rdp-button_previous{
+    background-color: #F8A047;
+    border-radius: 100px;
+    width:14px;
+    height:14px;
   }
-  a:hover {
-    color: #747bff;
+  .rdp-button_next{
+    background-color: #F8A047;
+    border-radius: 100px;
+    width:14px;
+    height:14px;
   }
-  button {
-    background-color: #f9f9f9;
+  .rdp-chevron{
+    fill:#ffffff;
   }
-} */
+  .rdp-months{
+    
+  }
+  .rdp-caption_label{
+    
+  }
+  table{
+    display: none;
+  }
+}

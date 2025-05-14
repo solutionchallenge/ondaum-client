@@ -50,6 +50,7 @@ function OnboardingConcernPage() {
       }}
       button={{
         name: "Finish choosing your mind",
+        disabled: Object.values(concern).flat().length === 0,
         onPress: () => {
           goEmotionPage();
         },

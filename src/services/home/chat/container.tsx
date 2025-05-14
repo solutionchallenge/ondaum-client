@@ -82,7 +82,8 @@ export const ChatInputArea = ({
       position: "fixed",
       bottom: 0,
       width: "100%",
-      paddingBottom: isKeyboardOpen ? "env(safe-area-inset-bottom)" : "2.5rem",
+      paddingBottom: isKeyboardOpen ? "env(safe-area-inset-bottom)" : "0",
+      zIndex: 20,
     }}
   >
     <ChatInputBox

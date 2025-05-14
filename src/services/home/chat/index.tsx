@@ -27,8 +27,8 @@ function HomePage() {
     const updateHeight = () => {
       setViewportHeight(window.visualViewport?.height || window.innerHeight);
     };
-    updateHeight();
     window.visualViewport?.addEventListener("resize", updateHeight);
+    updateHeight();
     return () =>
       window.visualViewport?.removeEventListener("resize", updateHeight);
   }, []);
@@ -118,7 +118,9 @@ function HomePage() {
       className="relative flex flex-col bg-white overflow-hidden"
       style={{ height: `${viewportHeight}px` }}
     >
-      <ChatHeaderSection />
+      <div className="sticky top-0 z-10 bg-white">
+        <ChatHeaderSection />
+      </div>
       <div
         className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4"
         style={{
@@ -140,14 +142,12 @@ function HomePage() {
         <TestSectionContainer showTestSection={showTestSection} />
         <div ref={bottomRef} />
       </div>
-
       <ChatInputArea
         chatInput={chatInput}
         setChatInput={setChatInput}
         onSubmit={handleSendMessage}
         isKeyboardOpen={isKeyboardOpen}
       />
-
       <ChatModalManager
         showEndSessionModal={showEndSessionModal}
         showChatResultModal={showChatResultModal}

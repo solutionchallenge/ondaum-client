@@ -5,7 +5,6 @@ import { connectChatWebSocket } from "../../../../api/chat/websocket";
 const handleEndSession = async (onConfirm: () => void) => {
   console.log("handleEndSession triggered");
   const sessionId = useChatStore.getState().sessionId;
-  console.log("Current sessionId:", sessionId);
 
   if (sessionId) {
     try {
@@ -23,14 +22,14 @@ const handleContinueTalk = async (onClose: () => void) => {
   const sessionId = useChatStore.getState().sessionId;
   if (sessionId) {
     try {
-      await connectChatWebSocket((data) => {
-        console.log("WebSocket message received:", data);
-      });
       onClose();
     } catch (error) {
       console.error("Failed to reconnect chat:", error);
     }
   } else {
+    await connectChatWebSocket((data) => {
+      console.log("WebSocket message received:", data);
+    });
     onClose();
   }
 };

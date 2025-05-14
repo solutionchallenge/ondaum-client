@@ -7,30 +7,31 @@ import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg
 import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
 import { JSX } from "react";
 import { ChatSummary } from "../../../../api/chat";
+import { useChatStore } from "../../../../store/chat";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   const moodStyles: Record<string, { icon: JSX.Element; color: string }> = {
-    Anger: {
+    anger: {
       icon: <AngerIcon color="#274B7A" className="w-5 h-5" />,
       color: "bg-anger text-anger",
     },
-    Disgust: {
+    disgust: {
       icon: <DisgustIcon color="#8E837E" className="w-5 h-5" />,
       color: "bg-disgust text-disgust",
     },
-    Sadness: {
+    sadness: {
       icon: <SadnessIcon color="#4A90E2" className="w-5 h-5" />,
       color: "bg-sadness text-sadness",
     },
-    Fear: {
+    fear: {
       icon: <FearIcon color="#5C6BC0" className="w-5 h-5" />,
       color: "bg-fear text-fear",
     },
-    Surprise: {
+    surprise: {
       icon: <SurpriseIcon color="#CFC5B4" className="w-5 h-5" />,
       color: "bg-surprise text-surprise",
     },
-    Joy: {
+    joy: {
       icon: <JoyIcon color="#FFD900" className="w-5 h-5" />,
       color: "bg-joy text-joy",
     },
@@ -42,7 +43,7 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
   };
 
   return (
-    <div className="w-full max-w-sm px-4 py-3 bg-third rounded-[15px] outline outline-1 outline-main flex flex-col gap-2">
+    <div className="w-full max-w-sm px-4 py-3 bg-third rounded-[15px] outline outline-1 outline-second flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <div>{currentStyle.icon}</div>
         <span className="text-black text-sm font-normal leading-tight">
@@ -50,9 +51,9 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
         </span>
       </div>
       <div className="flex items-center gap-2 h-[13px]">
-        <div className="relative flex-1 h-[13px] bg-white rounded-full border border-gray-200">
+        <div className="relative flex-1 h-[13px] bg-white rounded-full">
           <div
-            className={`absolute top-0 left-0 h-full ${currentStyle.color.split(" ")[0]} rounded-full border border-gray-200`}
+            className={`absolute top-0 left-0 h-full ${currentStyle.color.split(" ")[0]} rounded-full`}
             style={{ width: `${moodScore}%` }}
           />
         </div>
@@ -74,8 +75,8 @@ const ChatResultModal = ({
   onClose: () => void;
 }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="w-[90%] max-w-md px-6 py-8 bg-white rounded-2xl shadow-lg border border-gray-200 flex flex-col items-center gap-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50 overflow-y-auto py-10 px-6">
+      <div className="w-full max-w-md px-6 py-8 bg-white rounded-2xl shadow-lg border border-second flex flex-col items-center gap-6">
         <div className="w-full flex flex-col items-center gap-4">
           <h2 className="text-xl font-bold text-font-color text-center leading-7">
             Here's your <br />
@@ -86,15 +87,22 @@ const ChatResultModal = ({
           <div className="text-main text-sm font-bold leading-tight">
             Conversation Summary
           </div>
-          <Card onClick={() => {}} description={summary.title} />
+          <Card
+            onClick={() => {}}
+            description={summary?.text ?? "No title available"}
+          />
         </div>
         <div className="flex flex-col gap-2 w-full">
           <div className="text-main text-sm font-bold leading-tight">
             Mood of the Day
           </div>
           <MoodCard
-            mood={summary.emotions[0]?.emotion || "Joy"}
-            moodScore={Math.round(summary.emotions[0]?.rate * 100) || 0}
+            mood={summary?.emotions?.[0]?.emotion ?? "Joy"}
+            moodScore={
+              summary?.emotions?.[0]?.rate != null
+                ? Math.round(summary.emotions[0].rate * 100)
+                : 0
+            }
           />
         </div>
 
@@ -103,14 +111,15 @@ const ChatResultModal = ({
             Key Themes
           </div>
           <div className="flex flex-wrap gap-3">
-            {summary.keywords.map((theme) => (
-              <div
-                key={theme}
-                className="w-auto h-9 px-4 py-2 bg-third rounded-[15px] outline outline-1 outline-main text-main text-sm"
-              >
-                {theme}
-              </div>
-            ))}
+            {summary?.keywords?.length > 0 &&
+              summary.keywords.map((theme) => (
+                <div
+                  key={theme}
+                  className="w-auto h-9 px-4 py-2 bg-third rounded-[15px] outline outline-1 outline-second text-main text-sm"
+                >
+                  {`#` + theme}
+                </div>
+              ))}
           </div>
         </div>
         <div className="w-full flex flex-col gap-3">
@@ -118,7 +127,10 @@ const ChatResultModal = ({
             The conversation history is saved in the report.
           </div>
           <button
-            onClick={onClose}
+            onClick={() => {
+              useChatStore.getState().resetChat();
+              onClose();
+            }}
             className="w-full h-12 bg-main rounded-[20px] text-white font-semibold text-base leading-snug"
           >
             Okay

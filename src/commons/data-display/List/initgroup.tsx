@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import ChatItem from "./serveritem";
 
-const chatContents = [
+const chatFirstContents = [
   [{ text: "Hello, do you have any concerns?", bold: false }],
   [
     { text: "Would you like to ", bold: false },
@@ -19,24 +19,35 @@ const chatContents = [
   ],
 ];
 
-export default function InitChatList({ onFinish }: { onFinish?: () => void }) {
+const chatContents = [
+  [{ text: "Hello, do you have any concerns?", bold: false }],
+];
+
+export default function InitChatList({
+  onFinish,
+  isFirst,
+}: {
+  onFinish?: () => void;
+  isFirst?: boolean;
+}) {
+  const chatData = isFirst ? chatFirstContents : chatContents;
   const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
-    if (visibleCount < chatContents.length) {
+    if (visibleCount < chatData.length) {
       const timer = setTimeout(() => {
         setVisibleCount((prev) => prev + 1);
-      }, 1000); // 1초에 하나씩
+      }, 1000);
 
       return () => clearTimeout(timer);
-    } else if (visibleCount === chatContents.length && onFinish) {
+    } else if (visibleCount === chatData.length && onFinish) {
       onFinish();
     }
-  }, [visibleCount, onFinish]);
+  }, [visibleCount, onFinish, chatData]);
 
   return (
     <div className="flex flex-col gap-3">
-      {chatContents.slice(0, visibleCount).map((contents, idx) => (
+      {chatData.slice(0, visibleCount).map((contents, idx) => (
         <motion.div
           key={idx}
           initial={{ opacity: 0, y: 10 }}

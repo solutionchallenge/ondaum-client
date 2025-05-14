@@ -79,7 +79,7 @@ interface DiagnosisResultResponse {
 }
 
 export const getDiagnosisResult = async (
-  diagnosis_id: number
+  diagnosis_id: string
 ): Promise<DiagnosisResultResponse> => {
   const { response } = await http.get<DiagnosisResultResponse>(
     `/diagnosis-papers/${diagnosis_id}`

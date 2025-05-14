@@ -1,8 +1,9 @@
-﻿import { useState } from "react";
+﻿import { useState, useEffect } from "react";
 import UmAvatar from "../../../../commons/data-display/Avatar";
 import InitChatList from "../../../../commons/data-display/List/initgroup";
 import ChatToggle from "../ChatToggle";
 import { useChatStore } from "../../../../store/chat";
+import { listChats } from "../../../../api/chat";
 
 const IntroSection = ({
   onProceed,
@@ -16,14 +17,29 @@ const IntroSection = ({
   const setHasSelectedOption = useChatStore(
     (state) => state.setHasSelectedOption
   );
+  const sessionId = useChatStore((state) => state.sessionId);
+  const addChatEvent = useChatStore((state) => state.addChatEvent);
+  const [isFirst, setIsFirst] = useState(false);
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      const { chats } = await listChats();
+      console.log(chats.length);
+      setIsFirst(chats.length === 0);
+    };
+    fetchChats();
+  }, []);
 
   return (
     <div className="w-full flex flex-row justify-center gap-2">
       <UmAvatar />
       <div className="flex flex-col w-full justify-start">
         <div className="text-main font-semibold font-pretendards">Um</div>
-        <div className="min-h-[200px] w-full">
-          <InitChatList onFinish={() => setIsListFinished(true)} />
+        <div className="w-full">
+          <InitChatList
+            onFinish={() => setIsListFinished(true)}
+            isFirst={isFirst}
+          />
         </div>
 
         <div
@@ -40,6 +56,12 @@ const IntroSection = ({
             onClick={() => {
               setSelectedOption("Chat");
               setHasSelectedOption(true);
+              addChatEvent({
+                action: "data",
+                payload: "How’s your heart these days?",
+                message_id: `um-init-${Date.now()}`,
+                session_id: sessionId,
+              });
               onProceed("Chat");
             }}
           >

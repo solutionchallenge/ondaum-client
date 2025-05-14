@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useKeyboardStore } from "../../../store/keyboard";
 import { sendWebSocketMessage } from "../../../api/chat/websocket";
-import { archiveChat, ChatSummary, getChatSummary } from "../../../api/chat";
+import { archiveChat, ChatSummary, putChatSummary } from "../../../api/chat";
 import { useChatStore } from "../../../store/chat";
 import { useChatWebSocket } from "../../../hooks/chat/useChatWebSocket";
 import { useInitialChatSessionLoad } from "../../../hooks/chat/useInitialChatSessionLoad";
@@ -18,6 +18,8 @@ import {
 } from "./container";
 import DateChip from "../../../commons/data-display/Chip";
 import { useLocation } from "react-router-dom";
+import UmWithLoading from "../../../assets/lotties/lottie_loading.json";
+import Lottie from "react-lottie-player";
 
 function HomePage() {
   const [viewportHeight, setViewportHeight] = useState(
@@ -53,6 +55,7 @@ function HomePage() {
 
   const [isNewSession, setIsNewSession] = useState(true);
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const selectedOption = useChatStore((state) => state.selectedOption);
 
   const location = useLocation();
@@ -94,28 +97,11 @@ function HomePage() {
     setShowEndSessionModal(false);
   }, []);
 
-  const handleEndChat = useCallback(async () => {
-    if (sessionId) {
-      try {
-        const full = await getChatSummary(sessionId);
-        setChatSummary(full);
-      } catch (error) {
-        console.error("Failed to fetch chat summary", error);
-      }
-    }
-    setShowEndSessionModal(false);
-    setShowChatResultModal(true);
-  }, [sessionId]);
-
   useEffect(() => {
-    const latestEvent = chatEvents[chatEvents.length - 1];
-    if (
-      latestEvent?.action === "notify" &&
-      latestEvent?.payload === "conversation_finished"
-    ) {
-      setShowEndSessionModal(true);
+    if (chatSummary) {
+      setShowChatResultModal(true);
     }
-  }, [chatEvents]);
+  }, [chatSummary]);
 
   return (
     <main
@@ -138,13 +124,15 @@ function HomePage() {
         }}
       >
         <DateChip date={new Date()} />
-        <IntroSectionContainer
-          isNewSession={isNewSession}
-          selectedOption={selectedOption}
-          setShowChatSection={setShowChatSection}
-          setShowTestSection={setShowTestSection}
-          handleWebSocketMessage={handleWebSocketMessage}
-        />
+        {!sessionId && chatEvents.length === 0 && (
+          <IntroSectionContainer
+            isNewSession={isNewSession}
+            selectedOption={selectedOption}
+            setShowChatSection={setShowChatSection}
+            setShowTestSection={setShowTestSection}
+            handleWebSocketMessage={handleWebSocketMessage}
+          />
+        )}
         <ChatSectionContainer showChatSection={showChatSection} />
         <TestSectionContainer showTestSection={showTestSection} />
         <div ref={bottomRef} />
@@ -155,21 +143,47 @@ function HomePage() {
         onSubmit={handleSendMessage}
         isKeyboardOpen={isKeyboardOpen}
       />
+      {isLoadingSummary && (
+        <div className="fixed inset-0 bg-white bg-opacity-80 z-50 flex justify-center items-center">
+          <Lottie
+            loop
+            animationData={UmWithLoading}
+            play
+            style={{
+              width: window.innerWidth < 480 ? "180%" : "100%",
+              height: window.innerWidth < 480 ? "auto" : "800px",
+            }}
+          />
+        </div>
+      )}
       <ChatModalManager
         showEndSessionModal={showEndSessionModal}
         showChatResultModal={showChatResultModal}
         chatSummary={chatSummary}
         onContinue={handleContinueChat}
-        onEnd={handleEndChat}
+        onEnd={() => {
+          setShowChatResultModal(false);
+          setIsNewSession(true);
+          setShowChatSection(true);
+          setShowTestSection(false);
+        }}
         onArchiveComplete={async () => {
           if (sessionId) {
-            await archiveChat(sessionId);
-            console.log("Chat archived successfully");
+            try {
+              await archiveChat(sessionId);
+              setShowEndSessionModal(false);
+              setIsLoadingSummary(true);
+              const summary = await putChatSummary(sessionId);
+              setChatSummary(summary);
+              setIsLoadingSummary(false);
+              setShowChatResultModal(true);
+            } catch (error) {
+              setIsLoadingSummary(false);
+              console.error("Failed to archive or fetch summary", error);
+            }
           }
-          setShowChatResultModal(false);
           setSessionId(null);
           setIsNewSession(true);
-          setChatSummary(null);
           useChatStore.getState().setSelectedOption("");
         }}
       />

@@ -9,11 +9,6 @@ export function useChatWebSocket(
 
   const handleWebSocketMessage = useCallback(
     (data: any) => {
-      if (data.action === "data") {
-        addChatEvent(data);
-        return;
-      }
-
       if (
         data.action === "notify" &&
         (data.payload === "new_conversation" ||
@@ -21,14 +16,16 @@ export function useChatWebSocket(
         data.session_id
       ) {
         setSessionId(data.session_id);
+        addChatEvent(data);
         return;
       }
-
       if (
         data.action === "notify" &&
         data.payload === "conversation_archived"
       ) {
         setSessionId(null);
+        addChatEvent(data);
+        return;
       }
 
       if (
@@ -36,8 +33,20 @@ export function useChatWebSocket(
         data.payload === "conversation_finished"
       ) {
         setShowEndSessionModal(true);
+        addChatEvent(data);
+        return;
       }
 
+      if (data.action === "data") {
+        try {
+          const parsed = JSON.parse(data.payload || "");
+          if (parsed.type === "action" && parsed.data === "end_conversation") {
+            setShowEndSessionModal(true);
+          }
+        } catch (e) {
+          console.error("Failed to parse payload", e);
+        }
+      }
       addChatEvent(data);
     },
     [addChatEvent, setSessionId, setShowEndSessionModal]

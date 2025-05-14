@@ -32,7 +32,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
             });
           }, 300);
         }}
-        className="flex-1 bg-transparent text-font-color2 text-lg font-medium font-pretendard leading-[25.2px] outline-none"
+        className="flex-1 pr-2 bg-transparent text-font-color2 text-lg font-medium font-pretendard leading-[25.2px] outline-none"
       />
       <button
         type="button"

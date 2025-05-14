@@ -111,10 +111,10 @@ export const ChatModalManager = ({
 }) => (
   <>
     {showEndSessionModal && (
-      <EndSessionModal onClose={onContinue} onConfirm={onEnd} />
+      <EndSessionModal onClose={onContinue} onConfirm={onArchiveComplete} />
     )}
     {showChatResultModal && chatSummary && (
-      <ChatResultModal summary={chatSummary} onClose={onArchiveComplete} />
+      <ChatResultModal summary={chatSummary} onClose={onEnd} />
     )}
   </>
 );

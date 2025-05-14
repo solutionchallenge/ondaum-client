@@ -26,7 +26,6 @@ export interface ChatResponse {
   started_date: string;
   summary: SummaryResponse;
 }
-[];
 
 type History = {
   content: string;

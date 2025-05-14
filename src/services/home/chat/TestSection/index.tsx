@@ -25,7 +25,7 @@ const TestSection = () => {
           }}
         />
         {isListFinished && (
-          <div className="flex flex-nowrap gap-2 w-max max-w-[347px] mt-2 pr-10">
+          <div className="flex flex-nowrap gap-2 w-max max-w-[347px] mt-2 pr-6">
             <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
           </div>
         )}

@@ -120,7 +120,10 @@ function HomePage() {
   return (
     <main
       className="relative flex flex-col bg-white overflow-hidden"
-      style={{ height: `${viewportHeight}px` }}
+      style={{
+        top: isKeyboardOpen ? "224px" : "0px",
+        height: `${viewportHeight}px`,
+      }}
     >
       <div className="sticky top-0 z-10 bg-white">
         <ChatHeaderSection />

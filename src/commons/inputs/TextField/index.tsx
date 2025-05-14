@@ -45,7 +45,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
             });
           }, 300);
         }}
-        className="ml-2 w-[34px] h-[34px] bg-main rounded-full flex items-center justify-center"
+        className="w-[34px] h-[34px] bg-main rounded-full flex items-center justify-center"
       >
         <SendIcon />
       </button>

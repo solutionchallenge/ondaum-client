@@ -21,11 +21,15 @@ import { useLocation } from "react-router-dom";
 
 function HomePage() {
   const [viewportHeight, setViewportHeight] = useState(
-    window.visualViewport?.height || window.innerHeight
+    (window.visualViewport?.height || window.innerHeight) -
+      (window.visualViewport?.offsetTop || 0)
   );
   useEffect(() => {
     const updateHeight = () => {
-      setViewportHeight(window.visualViewport?.height || window.innerHeight);
+      const height =
+        (window.visualViewport?.height || window.innerHeight) -
+        (window.visualViewport?.offsetTop || 0);
+      setViewportHeight(height);
     };
     window.visualViewport?.addEventListener("resize", updateHeight);
     updateHeight();
@@ -127,7 +131,7 @@ function HomePage() {
           WebkitOverflowScrolling: "touch",
           overscrollBehavior: "none",
           paddingBottom: isKeyboardOpen ? "0px" : "123px",
-          height: isKeyboardOpen ? `${viewportHeight - 59}px` : undefined,
+          height: `${viewportHeight - 59}px`,
         }}
       >
         <DateChip date={new Date()} />

@@ -80,7 +80,7 @@ export const ChatInputArea = ({
     className="z-10 bg-white px-4 pt-2"
     style={{
       position: "fixed",
-      bottom: isKeyboardOpen ? "0px" : "64px",
+      bottom: isKeyboardOpen ? "5px" : "64px",
       width: "100%",
       zIndex: 20,
       transition: "bottom 0.3s ease",

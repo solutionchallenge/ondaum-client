@@ -7,6 +7,7 @@ import { ChatSummary } from "../../../api/chat";
 import EndSessionModal from "./EndSessionModal";
 import ChatResultModal from "./ResultSessionModal";
 import HeaderCard from "./HeaderCard";
+import { useChatStore } from "../../../store/chat";
 
 export const IntroSectionContainer = ({
   isNewSession,
@@ -26,11 +27,20 @@ export const IntroSectionContainer = ({
   return (
     <IntroSection
       onProceed={(option) => {
+        const { setSelectedOption } = useChatStore.getState();
+        setSelectedOption(option);
+
         if (option === "Chat") {
           setShowChatSection(true);
+          setShowTestSection(false);
           connectChatWebSocket(handleWebSocketMessage);
         } else if (option === "Test") {
           setShowTestSection(true);
+          setShowChatSection(false);
+        } else {
+          setShowChatSection(false);
+          setShowTestSection(false);
+          setSelectedOption("");
         }
       }}
     />

@@ -17,6 +17,7 @@ import {
   TestSectionContainer,
 } from "./container";
 import DateChip from "../../../commons/data-display/Chip";
+import { useLocation } from "react-router-dom";
 
 function HomePage() {
   const [viewportHeight, setViewportHeight] = useState(
@@ -49,6 +50,13 @@ function HomePage() {
   const [isNewSession, setIsNewSession] = useState(true);
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
   const selectedOption = useChatStore((state) => state.selectedOption);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    useChatStore.getState().setSelectedOption("");
+    useChatStore.getState().setHasSelectedOption(false);
+  }, [location.pathname]);
 
   const { handleWebSocketMessage } = useChatWebSocket(
     setSessionId,
@@ -155,6 +163,7 @@ function HomePage() {
           setSessionId(null);
           setIsNewSession(true);
           setChatSummary(null);
+          useChatStore.getState().setSelectedOption("");
         }}
       />
     </main>

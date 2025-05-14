@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import OnboardingConcernPage from "./services/onboarding/additional/concern";
 import OnboardingEmotionPage from "./services/onboarding/additional/emotion";
 import OnboardingCompletePage from "./services/onboarding/complete";
@@ -38,7 +38,6 @@ function App() {
               <Route path="gad" element={<DiagnosisTest type="gad-7" />} />
             </Route>
           </Route>
-          <Route path="*" element={<NotFoundPage />} />
           <Route path="report">
             <Route index path="*" element={<NotFoundPage />} />
             <Route path="main" element={<ReportMainPage />} />
@@ -60,6 +59,7 @@ function App() {
         <Route path="/oauth/google" element={<OAuthCallback />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/setting" element={<SettingPage />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </AnimatePresence>
   );

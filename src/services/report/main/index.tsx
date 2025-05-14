@@ -44,7 +44,7 @@ function ReportMainPage() {
           description={report?.stress_level_descriptor?.description}
         />
       )}
-      {!!report?.total_chat_count && <Recommendations />}
+      {!report?.total_chat_count && <Recommendations />}
       <Conversations />
     </ReportLayout>
   );

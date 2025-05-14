@@ -21,8 +21,9 @@ function OnboardingCompletePage() {
           animationData={UmWithFriendLottie}
           play
           style={{
-            width: "100%",
-            height: "100vh",
+            width: window.innerWidth < 480 ? "180%" : "100%",
+            height: window.innerWidth < 480 ? "auto" : "800px",
+            marginLeft: window.innerWidth < 480 ? "-40%" : 0,
           }}
         />
       }

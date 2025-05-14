@@ -15,6 +15,7 @@ declare global {
 export type MediationModalItem = {
   title: string;
   videoSrc: string;
+  posterImage: string;
   description: string;
   minutes: number;
   content: string;
@@ -92,6 +93,13 @@ function MeditationModal({ item, updateItem }: MeditationModalProps) {
           id="video"
           className="w-full h-full rounded-lg"
           src={item.videoSrc}
+          poster={item.posterImage}
+          style={{
+            width: "100%",
+            height: "180px",
+            objectFit: "cover",
+          }}
+          preload="metadata"
         />
         <h2 className="text-2xl font-bold text-font-color mb-1 mt-3">
           {item.title}

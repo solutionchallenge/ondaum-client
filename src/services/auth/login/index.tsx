@@ -11,39 +11,40 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col pt-16 justify-between h-screen overflow-hidden relative z-0 bg-white">
+    <div className="flex flex-col h-screen overflow-hidden pt-16 justify-between z-0">
       <GlobalNavigation />
       <div className="relative z-10 p-[20px]">
         <main className="flex flex-col flex-1 relative z-0">
-          <h2 className="text-[24px] text-font-color text-gray-5 font-normal mb-5">
+          <h2 className="text-[24px] text-font-color font-normal mb-5">
             Hello
           </h2>
-          <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] mb-8">
+          <p className="text-4xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] mb-8">
             Is this
             <br />
             your first time
             <br />
             using <span className="text-second">OnDaum?</span>
           </p>
-          <p className="text-[22px] text-font-color text-gray-600 font-normal leading-snug pb-3">
+          <p className="text-[22px] text-font-color font-normal leading-snug pb-3">
             You can sign up in just{" "}
             <span className="text-main">one minute.</span>
           </p>
         </main>
       </div>
-      <div className="absolute inset-x-0 left-0 -bottom-1/3 w-full pointer-events-none z-0">
+      <div className="sticky left-0 bottom-0 z-0">
         <Lottie
           loop
           animationData={UmLoginLottie}
           play
           style={{
-            width: "100%",
-            height: "100vh",
+            width: window.innerWidth < 480 ? "120%" : "100%",
+            height: window.innerWidth < 480 ? "auto" : "800px",
+            marginLeft: window.innerWidth < 480 ? "-10%" : 0,
+            marginBottom: "-10%",
           }}
         />
       </div>
-      <div className="fixed bottom-0 w-full h-[150px] bg-gradient-to-b from-transparent to-[#FFBE7DCC] pointer-events-none" />
-      <div className="fixed bottom-16 flex justify-center w-full z-10">
+      <div className="h-[100px] fixed z-30 left-0 w-screen bottom-0 py-4 px-4 text-center bg-gradient-to-b from-transparent to-[#FFBE7DCC]">
         <LoginButton onClick={handleGoogleLogin} />
       </div>
     </div>

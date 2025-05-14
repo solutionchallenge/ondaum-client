@@ -23,7 +23,7 @@ function Button({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-4 rounded-xl text-sm font-semibold ${colorStyle[color]}
+      className={`w-full py-4 rounded-xl text-lg font-semibold ${colorStyle[color]}
         ${disabled && "bg-gray-300 text-font-color cursor-not-allowed"}
         ${className}`}
     >

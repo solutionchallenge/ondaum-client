@@ -1,7 +1,8 @@
 import OnboardingAdditionalLayout from "../layout.tsx";
 import { useAuthStore } from "../../../store/auth/index.ts";
 import { useOnboardingAdditional } from "../../../hooks/onboarding/useOnboardingAdditional.ts";
-import UmWithFriendImage from "../../../assets/images/image_umWithFriend.png";
+import UmWithFriendLottie from "../../../assets/lotties/lottie_um_with_friend.json";
+import Lottie from "react-lottie-player";
 
 function OnboardingCompletePage() {
   const { user } = useAuthStore();
@@ -14,13 +15,23 @@ function OnboardingCompletePage() {
 
   return (
     <OnboardingAdditionalLayout
-      backgroundImage={UmWithFriendImage}
+      backgroundImage={
+        <Lottie
+          loop
+          animationData={UmWithFriendLottie}
+          play
+          style={{
+            width: "100%",
+            height: "100vh",
+          }}
+        />
+      }
       title={
         <>
-          <h2 className="text-lg text-font-color my-4 font-normal">
+          <h2 className="text-2xl text-font-color mt-6 mb-5 font-normal">
             {user?.username} 님,
           </h2>
-          <p className="text-2xl font-bold text-font-color leading-snug mb-6">
+          <p className="text-4xl font-bold text-font-color leading-snug mb-6">
             From now on, <br />
             <span className="text-second">
               I'd love to hear <br />
@@ -33,9 +44,7 @@ function OnboardingCompletePage() {
         name: "Start OnDaum",
         onPress: goToHomePage,
       }}
-    >
-      {/* <div className="w-screen h-[470px] bg-no-repeat bg-cover bg-center" style={{ backgroundImage: `url(${UmWithFriendImage})` }}/> */}
-    </OnboardingAdditionalLayout>
+    ></OnboardingAdditionalLayout>
   );
 }
 

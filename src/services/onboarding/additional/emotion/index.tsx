@@ -61,10 +61,10 @@ function OnboardingEmotionPage() {
       navigation={goBackPage}
       title={
         <>
-          <h2 className="text-lg text-font-color my-4 font-normal">
+          <h2 className="text-2xl text-font-color mt-4 mb-5font-normal">
             {user?.username} 님,
           </h2>
-          <p className="text-2xl font-semibold text-font-color leading-snug mb-6">
+          <p className="text-3xl font-semibold text-font-color leading-snug mb-14">
             It’s time to
             <br />
             <span className="text-second">Choose your emotion.</span>

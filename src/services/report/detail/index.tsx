@@ -10,7 +10,7 @@ import CheckIcon from "../../../assets/images/icon_check.svg?react";
 import { ChatDetailResponse, getChatDetail } from "../../../api/report/chats";
 import { useAuthStore } from "../../../store/auth";
 import UmIcon from "../../../assets/images/icon_um.svg?react";
-import { EmotionIcon } from "./EmotionIcon";
+import { EmotionIcon } from "../../../commons/data-display/EmotionIcon";
 
 function ReportDetailPage() {
   const navigate = useNavigate();

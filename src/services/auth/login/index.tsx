@@ -1,7 +1,8 @@
 import GlobalNavigation from "../../../commons/navigation/GlobalNavigation";
-import AuthBg from "../../../assets/images/img_login.svg?react";
 import LoginButton from "../../../commons/inputs/Button/login";
 import { startGoogleLogin } from "../../../api/auth/login";
+import Lottie from "react-lottie-player";
+import UmLoginLottie from "../../../assets/lotties/lottie_um_login.json";
 
 function LoginPage() {
   const handleGoogleLogin = () => {
@@ -10,14 +11,14 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col pt-16 justify-between h-screen relative overflow-hidden z-0 bg-white">
+    <div className="flex flex-col pt-16 justify-between h-screen overflow-hidden relative z-0 bg-white">
       <GlobalNavigation />
       <div className="relative z-10 p-[20px]">
         <main className="flex flex-col flex-1 relative z-0">
-          <h2 className="text-[24px] text-font-color text-gray-5 font-normal">
+          <h2 className="text-[24px] text-font-color text-gray-5 font-normal mb-5">
             Hello
           </h2>
-          <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] pb-2">
+          <p className="text-4xl sm:text-4xl md:text-5xl font-extrabold font-[figtree] leading-tight sm:leading-[56px] mb-8">
             Is this
             <br />
             your first time
@@ -30,16 +31,20 @@ function LoginPage() {
           </p>
         </main>
       </div>
-      <div className="flex relative">
-        <div className="w-full max-w-[393px] relative">
-          <AuthBg className="w-full h-auto" />
-          <div className="absolute inset-0 flex mt-[80%] w-full">
-            <div className="absolute bottom-0 w-full h-[150px] bg-gradient-to-b from-transparent to-[#FFBE7DCC] pointer-events-none" />
-            <div className="flex justify-center w-full z-10">
-              <LoginButton onClick={handleGoogleLogin} />
-            </div>
-          </div>
-        </div>
+      <div className="absolute inset-x-0 left-0 -bottom-1/3 w-full pointer-events-none z-0">
+        <Lottie
+          loop
+          animationData={UmLoginLottie}
+          play
+          style={{
+            width: "100%",
+            height: "100vh",
+          }}
+        />
+      </div>
+      <div className="fixed bottom-0 w-full h-[150px] bg-gradient-to-b from-transparent to-[#FFBE7DCC] pointer-events-none" />
+      <div className="fixed bottom-16 flex justify-center w-full z-10">
+        <LoginButton onClick={handleGoogleLogin} />
       </div>
     </div>
   );

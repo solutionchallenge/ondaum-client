@@ -52,7 +52,7 @@ function OnboardingBasicPage() {
         onPress: handleConfirm,
       }}
     >
-      <article className="mb-6">
+      <article className="mb-6 px-5">
         <h5 className="text-xl font-pretendard font-bold mb-2">Sex</h5>
         <ToggleGroup
           options={GENDERS}
@@ -62,7 +62,7 @@ function OnboardingBasicPage() {
           }
         />
       </article>
-      <article className="mb-6">
+      <article className="mb-6 px-5">
         <h5 className="text-xl font-pretendard font-bold mb-2">Birth</h5>
         <Toggle
           selected={!!privacy.birth}

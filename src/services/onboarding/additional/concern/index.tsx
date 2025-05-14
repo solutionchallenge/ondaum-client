@@ -33,10 +33,10 @@ function OnboardingConcernPage() {
       currentStepNumber={1}
       title={
         <>
-          <h2 className="text-lg text-font-color my-4 font-normal">
+          <h2 className="text-2xl text-font-color mt-4 mb-5 font-normal">
             {user?.username} 님,
           </h2>
-          <p className="text-2xl font-semibold text-font-color leading-snug mb-6">
+          <p className="text-3xl font-semibold text-font-color leading-snug mb-14">
             Do you have <br />
             <span className="text-second">something</span> on your mind ?
           </p>

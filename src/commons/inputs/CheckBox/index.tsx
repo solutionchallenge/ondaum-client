@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import CheckedIcon from "../../../assets/images/icon_check_filled.svg?react";
+import UnCheckedIcon from "../../../assets/images/icon_check_empty.svg?react";
 
 interface CheckBoxProps {
   defaultChecked: boolean;
@@ -18,13 +20,13 @@ function CheckBox({ label, onChange, defaultChecked }: CheckBoxProps) {
     onChange(key, value);
   };
   return (
-    <label className="flex items-center space-x-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => check(label, e.target.checked)}
-        className="accent-second w-4 h-4  bg-white text-white"
-      />
+    <label
+      className="flex items-center space-x-2 cursor-pointer"
+      onClick={() => {
+        check(label, !checked);
+      }}
+    >
+      {checked ? <CheckedIcon /> : <UnCheckedIcon />}
       <span className="text-font-color">{label}</span>
     </label>
   );

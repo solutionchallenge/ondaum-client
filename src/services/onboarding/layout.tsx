@@ -1,15 +1,13 @@
 import { ReactNode } from "react";
 import Button from "../../commons/inputs/Button";
 import Progress from "../../commons/feedback/Progress";
-import { motion } from "framer-motion";
-import { useNavigationDirection } from "../../hooks/animation/useNavigationDirection";
 import BackIcon from "../../assets/images/icon_arrow_back.svg?react";
 import Toast from "../../commons/feedback/Toast";
 
 export interface OnboardingLayoutProps {
   title: ReactNode;
   children?: ReactNode;
-  backgroundImage?: string;
+  backgroundImage?: ReactNode;
   navigation?: () => void;
   button?: {
     name: string;
@@ -32,29 +30,9 @@ function OnboardingAdditionalLayout({
   backgroundImage,
   toast,
 }: OnboardingLayoutProps) {
-  const direction = useNavigationDirection();
-
-  const variants = {
-    forward: {
-      initial: { x: 100, opacity: 0 },
-      animate: { x: 0, opacity: 1 },
-      exit: { x: -100, opacity: 0 },
-    },
-    backward: {
-      initial: { x: 0, opacity: 0 },
-      animate: { x: 0, opacity: 1 },
-      exit: { x: 0, opacity: 0 },
-    },
-  };
-
   return (
     <main
-      className="h-[calc(100vh-64px)] pt-16 bg-cover bg-no-repeat bg-origin-content "
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "auto 120%",
-        backgroundPosition: "50% 200px",
-      }}
+      className={`relative h-screen pt-16 ${backgroundImage && "overflow-hidden"}`}
     >
       <nav className="flex gap-4 px-5">
         {navigation && (
@@ -68,18 +46,13 @@ function OnboardingAdditionalLayout({
           </div>
         )}
       </nav>
-      <div className="px-5">{title}</div>
-      <motion.div
-        className="pb-52 px-5"
-        initial={variants[direction].initial}
-        animate={variants[direction].animate}
-        exit={variants[direction].exit}
-        transition={{ duration: 0.3 }}
-      >
-        {children}
-      </motion.div>
+      <div className="relative px-5 z-10">{title}</div>
+      <div className="relative pb-40 z-10">{children}</div>
+      <div className="absolute inset-x-0 left-0 -bottom-1/3 w-full z-0">
+        {backgroundImage}
+      </div>
       {button && (
-        <div className="fixed left-0 w-screen bottom-0 py-4 px-4 text-center bg-gradient-to-t from-[#FFBF7D80] to-transparent">
+        <div className="fixed z-30 left-0 w-screen bottom-0 py-4 px-4 text-center bg-gradient-to-b from-transparent to-[#FFBE7DCC]">
           {toast && (
             <div className="mb-3 inline-block">
               <Toast message={toast.message} type={toast.type} />

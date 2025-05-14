@@ -11,10 +11,7 @@ export default function SearchBottomSheet({
     isVisible: boolean;
     keyword: string;
   };
-  updateItem: (item: {
-    isVisible: boolean;
-    keyword: string;
-  }) => void;
+  updateItem: (item: { isVisible: boolean; keyword: string }) => void;
 }) {
   const [keyword, setKeyword] = useState(item.keyword);
 
@@ -22,19 +19,25 @@ export default function SearchBottomSheet({
     <BottomSheet
       isOpen={item.isVisible}
       title="Search Keywords"
-      onClose={()=>{
-        updateItem({...item, isVisible: false});
+      onClose={() => {
+        updateItem({ ...item, isVisible: false });
       }}
       footer={
         <div className="w-full grid grid-cols-2 gap-2">
-          <Button onClick={()=>{
-            updateItem({...item, isVisible: false});
-          }} color="gray">
+          <Button
+            onClick={() => {
+              updateItem({ ...item, isVisible: false });
+            }}
+            color="gray"
+          >
             cancel
           </Button>
-          <Button onClick={() => {
-            updateItem({...item, isVisible: false, keyword: keyword});
-          }} color="primary">
+          <Button
+            onClick={() => {
+              updateItem({ ...item, isVisible: false, keyword: keyword });
+            }}
+            color="primary"
+          >
             check
           </Button>
         </div>

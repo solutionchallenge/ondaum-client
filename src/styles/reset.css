@@ -17,30 +17,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 .dayPicker-monthly {
-  .rdp-button_previous{
-    background-color: #F8A047;
+  .rdp-button_previous {
+    background-color: #f8a047;
     border-radius: 100px;
-    width:14px;
-    height:14px;
+    width: 14px;
+    height: 14px;
   }
-  .rdp-button_next{
-    background-color: #F8A047;
+  .rdp-button_next {
+    background-color: #f8a047;
     border-radius: 100px;
-    width:14px;
-    height:14px;
+    width: 14px;
+    height: 14px;
   }
-  .rdp-chevron{
-    fill:#ffffff;
+  .rdp-chevron {
+    fill: #ffffff;
   }
-  .rdp-months{
-    
+  .rdp-months {
   }
-  .rdp-caption_label{
-    
+  .rdp-caption_label {
   }
-  table{
+  table {
     display: none;
   }
 }

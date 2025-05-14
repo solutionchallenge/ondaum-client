@@ -6,10 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Profiler
-      id="App"
-      onRender={() =>{} }
-    >
+    <Profiler id="App" onRender={() => {}}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

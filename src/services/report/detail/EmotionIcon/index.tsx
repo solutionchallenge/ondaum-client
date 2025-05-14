@@ -5,19 +5,25 @@ import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
 import DisgustIcon from "../../../../assets/images/chatresult/icon_disgust.svg?react";
 import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
 
-export function EmotionIcon({emotion, className}: {emotion: string, className?: string}) {
-  switch(emotion) {
+export function EmotionIcon({
+  emotion,
+  className,
+}: {
+  emotion: string;
+  className?: string;
+}) {
+  switch (emotion) {
     case "anger":
-      return <AngerIcon className={className} />
+      return <AngerIcon className={className} />;
     case "fear":
-      return <FearIcon className={className} />
+      return <FearIcon className={className} />;
     case "sadness":
-      return <SadnessIcon className={className} />
-    case 'joy':
-      return <JoyIcon className={className} />
-    case 'disgust':
-      return <DisgustIcon className={className} />
-    case 'surprise':
-      return <SurpriseIcon className={className} />
+      return <SadnessIcon className={className} />;
+    case "joy":
+      return <JoyIcon className={className} />;
+    case "disgust":
+      return <DisgustIcon className={className} />;
+    case "surprise":
+      return <SurpriseIcon className={className} />;
   }
-}   
+}

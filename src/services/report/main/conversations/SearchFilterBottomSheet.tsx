@@ -20,7 +20,7 @@ export default function SearchFilterBottomSheet({
       emotion: string[];
     };
   };
-  updateItem: (item:{
+  updateItem: (item: {
     isVisible: boolean;
     filter: {
       date: string;
@@ -35,22 +35,31 @@ export default function SearchFilterBottomSheet({
     <BottomSheet
       isOpen={item.isVisible}
       title="Selection Conditions"
-      onClose={()=>{
-        updateItem({...item, isVisible: false});
+      onClose={() => {
+        updateItem({ ...item, isVisible: false });
       }}
       footer={
         <div className="w-full grid grid-cols-2 gap-2">
-          <Button onClick={()=>{
-        updateItem({...item, isVisible: false});
-      }} color="gray">
+          <Button
+            onClick={() => {
+              updateItem({ ...item, isVisible: false });
+            }}
+            color="gray"
+          >
             cancel
           </Button>
-          <Button onClick={() => {
-            updateItem({isVisible: false, filter:{
-              date: selectedDate,
-              emotion: selectedEmotion,
-            }});
-          }} color="primary">
+          <Button
+            onClick={() => {
+              updateItem({
+                isVisible: false,
+                filter: {
+                  date: selectedDate,
+                  emotion: selectedEmotion,
+                },
+              });
+            }}
+            color="primary"
+          >
             check
           </Button>
         </div>
@@ -65,7 +74,12 @@ export default function SearchFilterBottomSheet({
         </h3>
         <div className="mb-6">
           <ToggleGroup
-            options={[{label:"1 day ago", value:'1'}, {label:"3 days ago", value:'3'}, {label:"1 week ago", value:'7'}, {label:"1 month ago", value:'31'}]}
+            options={[
+              { label: "1 day ago", value: "1" },
+              { label: "3 days ago", value: "3" },
+              { label: "1 week ago", value: "7" },
+              { label: "1 month ago", value: "31" },
+            ]}
             selectedOption={selectedDate}
             onSelect={(option) => {
               setSelectedDate(option as string);
@@ -82,7 +96,14 @@ export default function SearchFilterBottomSheet({
         <div className="mb-6">
           <ToggleGroup
             multiple
-            options={[{label:<JoyIcon/>, value:'joy'},{label:<SadnessIcon/>, value:'sadness'}, {label:<AngerIcon/>, value:'anger'}, {label:<SurpiseIcon/>, value:'surprise'}, {label:<FearIcon/>, value:'fear'}, {label:<DisgustIcon/>, value:'disgust'}]}
+            options={[
+              { label: <JoyIcon />, value: "joy" },
+              { label: <SadnessIcon />, value: "sadness" },
+              { label: <AngerIcon />, value: "anger" },
+              { label: <SurpiseIcon />, value: "surprise" },
+              { label: <FearIcon />, value: "fear" },
+              { label: <DisgustIcon />, value: "disgust" },
+            ]}
             selectedOption={selectedEmotion}
             onSelect={(option) => {
               setSelectedEmotion(option as string[]);

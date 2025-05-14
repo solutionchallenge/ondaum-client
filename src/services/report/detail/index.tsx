@@ -9,23 +9,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import CheckIcon from "../../../assets/images/icon_check.svg?react";
 import { ChatDetailResponse, getChatDetail } from "../../../api/report/chats";
 import { useAuthStore } from "../../../store/auth";
-import UmIcon from '../../../assets/images/icon_um.svg?react';
+import UmIcon from "../../../assets/images/icon_um.svg?react";
 import { EmotionIcon } from "./EmotionIcon";
 
 function ReportDetailPage() {
   const navigate = useNavigate();
-  const {session_id} = useParams();
-  const {user}=useAuthStore();
+  const { session_id } = useParams();
+  const { user } = useAuthStore();
   const [detail, setDetail] = useState<ChatDetailResponse>();
   const [reportModalVisible, setReportModalVisible] = useState(false);
 
   const fetchDetail = async (id: string) => {
     const response = await getChatDetail(id);
     setDetail(response);
-  }
+  };
 
   useEffect(() => {
-    if(!session_id)return;
+    if (!session_id) return;
     fetchDetail(session_id);
   }, [session_id]);
 
@@ -47,11 +47,11 @@ function ReportDetailPage() {
         <h2 className="font-semibold text-md mb-2">Key Themes</h2>
         <div className="flex flex-wrap gap-2">
           {detail?.summary.keywords.map((tag) => (
-           <span
+            <span
               key={tag}
               className="text-sm px-3 py-1 rounded-full bg-orange-50 text-orange-500 border border-orange-200"
             >
-               #{tag}
+              #{tag}
             </span>
           ))}
         </div>
@@ -59,23 +59,38 @@ function ReportDetailPage() {
       <div className="border border-orange-100 rounded-xl p-4 mb-6 bg-white">
         <h2 className="font-semibold text-md mb-3">Mood of the Day</h2>
         <div className="flex items-center gap-2">
-          <EmotionIcon emotion={detail?.summary?.emotions?.[0]?.emotion || ''} className="w-4 h-4" />
-          <span className={`text-black text-sm`}>{detail?.summary?.emotions?.[0]?.emotion}</span>
+          <EmotionIcon
+            emotion={detail?.summary?.emotions?.[0]?.emotion || ""}
+            className="w-4 h-4"
+          />
+          <span className={`text-black text-sm`}>
+            {detail?.summary?.emotions?.[0]?.emotion}
+          </span>
           <div className="flex-1">
             <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div className={`h-full rounded-full bg-${detail?.summary?.emotions?.[0]?.emotion}`} style={{width: `${detail?.summary?.emotions?.[0]?.rate ? detail?.summary?.emotions?.[0]?.rate*100 : 0}%`}} />
+              <div
+                className={`h-full rounded-full bg-${detail?.summary?.emotions?.[0]?.emotion}`}
+                style={{
+                  width: `${detail?.summary?.emotions?.[0]?.rate ? detail?.summary?.emotions?.[0]?.rate * 100 : 0}%`,
+                }}
+              />
             </div>
           </div>
-          <span className="text-sm text-gray-500">{detail?.summary?.emotions?.[0]?.rate ? detail?.summary?.emotions?.[0]?.rate*100 : '-'}%</span>
+          <span className="text-sm text-gray-500">
+            {detail?.summary?.emotions?.[0]?.rate
+              ? detail?.summary?.emotions?.[0]?.rate * 100
+              : "-"}
+            %
+          </span>
         </div>
       </div>
       <div className="border border-orange-100 rounded-xl p-4 mb-8 bg-white">
         <h2 className="font-semibold text-md mb-3">Recommendations</h2>
         <ul className="text-sm list-none space-y-3">
-          {detail?.summary?.recommendations.map((item)=>(
+          {detail?.summary?.recommendations.map((item) => (
             <li key={item} className="flex items-center gap-2">
-            <CheckIcon className="w-4 h-4" />
-            {item}
+              <CheckIcon className="w-4 h-4" />
+              {item}
             </li>
           ))}
         </ul>
@@ -90,26 +105,32 @@ function ReportDetailPage() {
               <UmIcon />
             </div>
             <div>
-            <p className="text-xs font-semibold text-main mb-2">Um</p>
-              {detail?.histories?.filter((item)=>item.role==='assistant').map((item)=>(
-             <div key={item.id}>
-            <span className="border border-gray-1 bg-gray-2 inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-br-[15px] text-sm text-font-color mb-2">
-               {JSON.parse(item.content)?.data}
-            </span>
+              <p className="text-xs font-semibold text-main mb-2">Um</p>
+              {detail?.histories
+                ?.filter((item) => item.role === "assistant")
+                .map((item) => (
+                  <div key={item.id}>
+                    <span className="border border-gray-1 bg-gray-2 inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-br-[15px] text-sm text-font-color mb-2">
+                      {JSON.parse(item.content)?.data}
+                    </span>
+                  </div>
+                ))}
             </div>
-              ))}
-              </div>
           </div>
           <div className="text-right">
-            <p className="text-xs font-semibold text-main mb-2">{user?.username}</p>
-            {detail?.histories?.filter((item)=>item.role==='user').map((item)=>(
-           <div key={item.id}>
-            <span className="border border-main bg-third text-left inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-bl-[15px] text-sm text-font-color mb-2">
-                {item.content}
-              </span>
-            </div>
+            <p className="text-xs font-semibold text-main mb-2">
+              {user?.username}
+            </p>
+            {detail?.histories
+              ?.filter((item) => item.role === "user")
+              .map((item) => (
+                <div key={item.id}>
+                  <span className="border border-main bg-third text-left inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-bl-[15px] text-sm text-font-color mb-2">
+                    {item.content}
+                  </span>
+                </div>
               ))}
-            </div>
+          </div>
         </div>
       </div>
       <Card

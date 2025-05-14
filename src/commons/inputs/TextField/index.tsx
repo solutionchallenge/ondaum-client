@@ -14,8 +14,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
   };
 
   return (
-    <div className="w-full h-[51px] relative">
-      <div className="absolute inset-0 bg-gray-2 rounded-[20px] border border-gray-1" />
+    <div className="w-full h-[51px] bg-gray-2 rounded-[20px] border border-gray-1 flex items-center px-4">
       <input
         value={value}
         onChange={onChange}
@@ -33,7 +32,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
             });
           }, 300);
         }}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[calc(100%-80px)] bg-transparent text-font-color2 text-lg font-medium font-pretendard leading-[25.2px] outline-none"
+        className="flex-1 bg-transparent text-font-color2 text-lg font-medium font-pretendard leading-[25.2px] outline-none"
       />
       <button
         type="button"
@@ -46,7 +45,7 @@ export default function ChatField({ value, onChange, onSend }: ChatFieldProps) {
             });
           }, 300);
         }}
-        className="absolute right-2 top-[9px] w-[34px] h-[34px] bg-[#f57c00] rounded-full flex items-center justify-center"
+        className="ml-2 w-[34px] h-[34px] bg-main rounded-full flex items-center justify-center"
       >
         <SendIcon />
       </button>

@@ -16,11 +16,13 @@ import ReportMainPage from "./services/report/main/index.tsx";
 import ReportDetailPage from "./services/report/detail/index.tsx";
 import DiagnosisTest from "./services/home/test/index.tsx";
 import { useKeyboardStore } from "./store/keyboard";
+import { useKeyboardVisible } from "./hooks/keyboard/useKeyboardVisible.ts";
 
 function App() {
   const location = useLocation();
   RootRedirect();
   useTokenMonitor();
+  useKeyboardVisible();
 
   const isKeyboardVisible = useKeyboardStore((state) => state.isKeyboardOpen);
 

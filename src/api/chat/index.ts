@@ -37,10 +37,8 @@ export const listChats = async () => {
 export const getChatSummary = async (
   session_id: string
 ): Promise<ChatSummary> => {
-  const { response } = await http.get<ChatSummary>(
-    `/chats/${session_id}/summary`
-  );
-  return response;
+  const { response } = await http.get<Chat>(`/chats/${session_id}`);
+  return response.summary;
 };
 
 export const archiveChat = async (session_id: string): Promise<void> => {

@@ -5,10 +5,15 @@ import SettingFalse from "../../../assets/images/bottom/icon_setting_false.svg?r
 import Settingtrue from "../../../assets/images/bottom/icon_setting_true.svg?react";
 import ReportFalse from "../../../assets/images/bottom/icon_report_false.svg?react";
 import Reporttrue from "../../../assets/images/bottom/icon_report_true.svg?react";
+import { useKeyboardStore } from "../../../store/keyboard";
 
 function BottomNavigation() {
+  const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
   return (
-    <footer className="fixed bottom-0 z-10 w-screen items-center bg-white h-16 flex justify-around">
+    <footer
+      className="fixed bottom-0 z-10 w-screen items-center bg-white h-16 flex justify-around"
+      style={{ display: isKeyboardOpen ? "none" : "flex" }}
+    >
       <NavLink to={"/setting"}>
         {({ isActive }) => (isActive ? <Settingtrue /> : <SettingFalse />)}
       </NavLink>

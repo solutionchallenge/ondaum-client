@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+﻿import { useState, useEffect } from "react";
 import UmAvatar from "../../../../commons/data-display/Avatar";
 import TestChatList from "../../../../commons/data-display/List/testgroup";
 import TestToggle from "../TestToggle";
@@ -8,6 +8,11 @@ const TestSection = () => {
   const [isListFinished, setIsListFinished] = useState(false);
   const selectedTest = useChatStore((state) => state.suggestedTest || "phq-9");
   const setSelectedTest = useChatStore((state) => state.setSuggestedTest);
+
+  useEffect(() => {
+    setSelectedTest("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="w-full flex flex-row gap-2 mb-4">

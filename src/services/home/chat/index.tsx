@@ -1,20 +1,23 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useKeyboardStore } from "../../../store/keyboard";
-import DateChip from "../../../commons/data-display/Chip";
-import {
-  connectChatWebSocket,
-  sendWebSocketMessage,
-} from "../../../api/chat/websocket";
+import { sendWebSocketMessage } from "../../../api/chat/websocket";
 import { archiveChat, ChatSummary, getChatSummary } from "../../../api/chat";
-import ChatResultModal from "./ResultSessionModal";
-import EndSessionModal from "./EndSessionModal";
-import HeaderCard from "./HeaderCard";
-import IntroSection from "./IntroSection";
-import ChatSection from "./ChatSection";
-import ChatInputBox from "./ChatInputBox";
 import { useChatStore } from "../../../store/chat";
-import { listChats } from "../../../api/chat";
-import TestSection from "./TestSection";
+import { useChatWebSocket } from "../../../hooks/chat/useChatWebSocket";
+import { useInitialChatSessionLoad } from "../../../hooks/chat/useInitialChatSessionLoad";
+import { useScrollToBottom } from "../../../hooks/chat//useScrollToBottom";
+import { useAutoScrollOnInputFocus } from "../../../hooks/chat/useAutoScrollOnInputFocus";
+import { useBodyScrollLockWithKeyboard } from "../../../hooks/chat/useBodyScrollLockWithKeyboard";
+import {
+  ChatHeaderSection,
+  ChatInputArea,
+  ChatModalManager,
+  ChatSectionContainer,
+  IntroSectionContainer,
+  TestSectionContainer,
+} from "./container";
+import DateChip from "../../../commons/data-display/Chip";
+import { useLocation } from "react-router-dom";
 
 function HomePage() {
   const [viewportHeight, setViewportHeight] = useState(
@@ -24,8 +27,8 @@ function HomePage() {
     const updateHeight = () => {
       setViewportHeight(window.visualViewport?.height || window.innerHeight);
     };
-    updateHeight();
     window.visualViewport?.addEventListener("resize", updateHeight);
+    updateHeight();
     return () =>
       window.visualViewport?.removeEventListener("resize", updateHeight);
   }, []);
@@ -33,7 +36,6 @@ function HomePage() {
   const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
 
   const bottomRef = useRef<HTMLDivElement>(null);
-  const alreadyInitialized = useRef(false);
   const [chatInput, setChatInput] = useState("");
   const sessionId = useChatStore((state) => state.sessionId);
   const setSessionId = useChatStore((state) => state.setSessionId);
@@ -49,59 +51,25 @@ function HomePage() {
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
   const selectedOption = useChatStore((state) => state.selectedOption);
 
-  const handleWebSocketMessage = useCallback((data: any) => {
-    if (data.action === "data") {
-      addChatEvent(data);
-      return;
-    }
-
-    if (
-      data.action === "notify" &&
-      (data.payload === "new_conversation" ||
-        data.payload === "existing_conversation") &&
-      data.session_id
-    ) {
-      setSessionId(data.session_id);
-      return;
-    }
-
-    if (data.action === "notify" && data.payload === "conversation_archived") {
-      setSessionId(null);
-    }
-
-    if (data.action === "notify" && data.payload === "conversation_finished") {
-      setShowEndSessionModal(true);
-    }
-
-    addChatEvent(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const location = useLocation();
 
   useEffect(() => {
-    const setup = async () => {
-      const { chats } = await listChats();
-      const ongoing = chats.find((c) => !c.is_finished && !c.is_archived);
-      if (alreadyInitialized.current) return;
-      alreadyInitialized.current = true;
-      if (ongoing) {
-        setIsNewSession(false);
-        if (chatEvents.length === 0) {
-          addChatEvent({
-            action: "data",
-            payload: "How’s your heart these days?",
-            message_id: `um-init-${Date.now()}`,
-            session_id: ongoing.session_id,
-          });
-        }
-        connectChatWebSocket(handleWebSocketMessage);
-        setShowChatSection(true);
-      } else {
-        setIsNewSession(true);
-      }
-    };
+    useChatStore.getState().setSelectedOption("");
+    useChatStore.getState().setHasSelectedOption(false);
+  }, [location.pathname]);
 
-    setup();
-  }, [handleWebSocketMessage, setSessionId, addChatEvent, chatEvents.length]);
+  const { handleWebSocketMessage } = useChatWebSocket(
+    setSessionId,
+    setShowEndSessionModal
+  );
+  useInitialChatSessionLoad(
+    handleWebSocketMessage,
+    setShowChatSection,
+    setIsNewSession
+  );
+  useScrollToBottom(bottomRef, [chatEvents]);
+  useAutoScrollOnInputFocus();
+  useBodyScrollLockWithKeyboard();
 
   const handleSendMessage = useCallback(
     (text: string) => {
@@ -136,17 +104,6 @@ function HomePage() {
   }, [sessionId]);
 
   useEffect(() => {
-    const handleResize = () => {
-      document.body.style.overflow =
-        window.innerHeight < window.outerHeight ? "auto" : "hidden";
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
     const latestEvent = chatEvents[chatEvents.length - 1];
     if (
       latestEvent?.action === "notify" &&
@@ -156,95 +113,59 @@ function HomePage() {
     }
   }, [chatEvents]);
 
-  useEffect(() => {
-    const inputEl = document.querySelector("input");
-
-    if (!inputEl) return;
-    const handleFocus = () => {
-      setTimeout(() => {
-        inputEl.scrollIntoView({ block: "end", behavior: "smooth" });
-      }, 100);
-    };
-
-    inputEl.addEventListener("focus", handleFocus);
-    return () => {
-      inputEl.removeEventListener("focus", handleFocus);
-    };
-  }, []);
-
   return (
     <main
       className="relative flex flex-col bg-white overflow-hidden"
       style={{ height: `${viewportHeight}px` }}
     >
-      <div className="sticky top-0 w-full gap-4 px-4 py-4">
-        <HeaderCard />
+      <div className="sticky top-0 z-10 bg-white">
+        <ChatHeaderSection />
       </div>
       <div
-        className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4 py-4"
+        className="flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-4"
         style={{
           WebkitOverflowScrolling: "touch",
           overscrollBehavior: "none",
-          marginBottom: isKeyboardOpen ? 0 : "3rem",
+          marginBottom: isKeyboardOpen ? 0 : "9rem",
+          height: isKeyboardOpen ? `${viewportHeight - 51}px` : undefined,
         }}
       >
         <DateChip date={new Date()} />
-        {isNewSession && (
-          <IntroSection
-            onProceed={() => {
-              if (selectedOption === "Chat") {
-                setShowChatSection(true);
-                connectChatWebSocket(handleWebSocketMessage);
-              } else if (selectedOption === "Test") {
-                setShowTestSection(true);
-              }
-            }}
-          />
-        )}
-        {showChatSection && <ChatSection />}
-        {showTestSection && <TestSection />}
+        <IntroSectionContainer
+          isNewSession={isNewSession}
+          selectedOption={selectedOption}
+          setShowChatSection={setShowChatSection}
+          setShowTestSection={setShowTestSection}
+          handleWebSocketMessage={handleWebSocketMessage}
+        />
+        <ChatSectionContainer showChatSection={showChatSection} />
+        <TestSectionContainer showTestSection={showTestSection} />
         <div ref={bottomRef} />
       </div>
-
-      <div
-        className="z-10 bg-white px-4 pt-2"
-        style={{
-          position: "fixed",
-          bottom: 0,
-          width: "100%",
-          paddingBottom: isKeyboardOpen
-            ? "env(safe-area-inset-bottom)"
-            : "2.5rem",
+      <ChatInputArea
+        chatInput={chatInput}
+        setChatInput={setChatInput}
+        onSubmit={handleSendMessage}
+        isKeyboardOpen={isKeyboardOpen}
+      />
+      <ChatModalManager
+        showEndSessionModal={showEndSessionModal}
+        showChatResultModal={showChatResultModal}
+        chatSummary={chatSummary}
+        onContinue={handleContinueChat}
+        onEnd={handleEndChat}
+        onArchiveComplete={async () => {
+          if (sessionId) {
+            await archiveChat(sessionId);
+            console.log("Chat archived successfully");
+          }
+          setShowChatResultModal(false);
+          setSessionId(null);
+          setIsNewSession(true);
+          setChatSummary(null);
+          useChatStore.getState().setSelectedOption("");
         }}
-      >
-        <ChatInputBox
-          chatInput={chatInput}
-          setChatInput={setChatInput}
-          onSubmit={handleSendMessage}
-        />
-      </div>
-
-      {showEndSessionModal && (
-        <EndSessionModal
-          onClose={handleContinueChat}
-          onConfirm={handleEndChat}
-        />
-      )}
-      {showChatResultModal && chatSummary && (
-        <ChatResultModal
-          summary={chatSummary}
-          onClose={async () => {
-            if (sessionId) {
-              await archiveChat(sessionId);
-              console.log("Chat archived successfully");
-            }
-            setShowChatResultModal(false);
-            setSessionId(null);
-            setIsNewSession(true);
-            setChatSummary(null);
-          }}
-        />
-      )}
+      />
     </main>
   );
 }

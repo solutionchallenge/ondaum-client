@@ -1,4 +1,4 @@
-# Ondaum WEB repository
+# Ondaum Client
 
 Hello👋 This is team Ondaum. ***Ondaum*** is a pure Korean word, meaning “a warm and genuine self”
 

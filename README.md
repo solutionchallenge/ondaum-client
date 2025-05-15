@@ -2,28 +2,38 @@
 # Ondaum client - Web App
 > Hello👋 This is team Ondaum. ***Ondaum*** is a pure Korean word, meaning ***'a warm and genuine self'***.
 
+![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Zustand](https://img.shields.io/badge/Zustand-000000?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
 ## 🌍 OVERVIEW
 We want to help people around the world live healthier lives by being with Um, an AI professional psychological counseling companion, anytime and anywhere.
+
+In the past year, 73.6% of Korean young adults experienced mental health challenges. In addition, global statistics reveal that 66% of individuals aged 18-24 report experiencing moderate to severe.
+
+Ondaum provides accessible, mental health support anytime, anywhere, reducing financial and stigma barriers. The chatbot analyzes conversations in real time to detect risk signals and offer timely support, while its friendly interface keeps users engaged and lowers resistance.
+
+
+
 Let's start https://ondaum.revimal.me/
 
-#### 📱 FEATURE
+#### 📱 FEATURES
 - AI Counseling With Um
+  - Personalized Psychological Assessments & Real-Time Crisis Response
 - Psychological Assessments
-  - International standard tests PHQ-9 / GAD-7 / PSS 
+  - International standard tests(PHQ-9 / GAD-7 / PSS)
+  - Deliver tailored insights and links to support upon risk detection
 - AI Analysis of Conversation Content
   - Summary and organization of the conversation
-  - Sharing feedback and areas for improvement
+  - extracting key emotions and keywords
+  - visualize the recommends using charts
 
-#### ✨ VALUE
+#### ✨ VALUES
 - Available for consultation anytime, anywhere
 - Personalized consultation possible
 - Reduced barriers to seeking counseling
@@ -118,4 +128,4 @@ npm run dev
 | ![image](https://github.com/user-attachments/assets/fff9d63a-1816-4ad3-b8da-1eed2a890849) | | |
 
 
-> 📅 This README was written on **May 15, 2025**.
+📅 This README was written on **May 15, 2025**.

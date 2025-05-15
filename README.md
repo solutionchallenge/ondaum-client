@@ -1,14 +1,7 @@
-# Ondaum Client
 
-> 📅 This README was written on **May 15, 2025**.
+# Ondaum client - Web App
+> Hello👋 This is team Ondaum. ***Ondaum*** is a pure Korean word, meaning ***'a warm and genuine self'***.
 
-Hello👋 This is team Ondaum. ***Ondaum*** is a pure Korean word, meaning ***'a warm and genuine self'***.
-
-We want to help people around the world live healthier lives by being with Um, an AI professional psychological counseling companion, anytime and anywhere.
-
-Let's start https://ondaum.revimal.me/
-
-## 🛠 SKILLS
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Zustand](https://img.shields.io/badge/Zustand-000000?style=for-the-badge&logo=react)
@@ -17,18 +10,59 @@ Let's start https://ondaum.revimal.me/
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+
+## 🌍 OVERVIEW
+We want to help people around the world live healthier lives by being with Um, an AI professional psychological counseling companion, anytime and anywhere.
+Let's start https://ondaum.revimal.me/
+
+#### 📱 FEATURE
+- AI Counseling With Um
+- Psychological Assessments
+  - International standard tests PHQ-9 / GAD-7 / PSS 
+- AI Analysis of Conversation Content
+  - Summary and organization of the conversation
+  - Sharing feedback and areas for improvement
+
+#### ✨ VALUE
+- Available for consultation anytime, anywhere
+- Personalized consultation possible
+- Reduced barriers to seeking counseling
+- Access to a pre-trained professional psychological counseling AI
+
+## 🛠 SKILLS
+- **Web**: React, Typescript, Zustand, web socket
+- **Mobile**: Flutter, Dart
+- **AI**: Gemini-2.5-Pro
+- **Auth**: Google Oauth, jwt
+- **Bundler**: Vite, 
+- **Package Manager**: NPM
+- **Logging System**: Google Analytics
+
+## CLIENT ARCHITECTURE
+```mermaid
+graph TD
+    Web[Web]
+    iOS[iOS]
+    Android[Android]
+    Ondaum[ondaum-client]
+    Flutter[ondaum-application]
+
+    Flutter --> iOS
+    Flutter --> Android
+    Ondaum --> Web
+    Ondaum --> Flutter
+```
   
 ## 📁 DIRECTORY
-
 ```
 src/
-├── api/           # API list
+├── api/           # server API list
 │   ├── auth
 │   ├── chat
 │   ├── onboarding
 │   ├── report
 │   └── test
-├── assets/        # assets
+├── assets/        # static assets
 │   ├── images
 │   └── lotties    
 ├── commons/       # common components (like metaial UI)
@@ -38,15 +72,15 @@ src/
 │   ├── mui-x/DatePickers
 │   ├── navigation
 │   └── surfaces
-├── hooks/         # custom hook
-├── services/      # domain components
+├── hooks/         # custom hooks
+├── services/      # service components
 │   ├── auth
 │   ├── error
 │   ├── home
 │   ├── onboarding
 │   ├── report
 │   └── setting
-├── styles/        # global css
+├── styles/        # reset css
 ├── store/         # zustand store
 │   ├── auth
 │   ├── chat
@@ -73,20 +107,6 @@ npm install
 npm run dev
 ```
 
-## 📱 FEATURE
-- AI Counseling With Um
-- Psychological Assessments
-  - International standard tests PHQ-9 / GAD-7 / PSS 
-- AI Analysis of Conversation Content
-  - Summary and organization of the conversation
-  - Sharing feedback and areas for improvement
-
-## ✨ VALUE
-- Available for consultation anytime, anywhere
-- Personalized consultation possible
-- Reduced barriers to seeking counseling
-- Access to a pre-trained professional psychological counseling AI
-
 ## 🖥️ SCREENS
 
 | | | |
@@ -98,3 +118,4 @@ npm run dev
 | ![image](https://github.com/user-attachments/assets/fff9d63a-1816-4ad3-b8da-1eed2a890849) | | |
 
 
+> 📅 This README was written on **May 15, 2025**.

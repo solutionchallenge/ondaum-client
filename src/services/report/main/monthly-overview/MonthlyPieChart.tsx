@@ -38,7 +38,7 @@ function MonthlyPieChart({ report }: { report?: ReportResponse }) {
     const { cx, cy, midAngle, outerRadius, innerRadius, index } = props;
     const RADIAN = Math.PI / 180;
 
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.2;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.3;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -49,7 +49,7 @@ function MonthlyPieChart({ report }: { report?: ReportResponse }) {
         fill="white"
         fontWeight="bold"
         fontSize={11}
-        textAnchor={x > cx ? "start" : "end"}
+        textAnchor={x > cx ? "start" : "middle"}
         dominantBaseline="central"
       >
         {data[index].name}

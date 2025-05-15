@@ -44,7 +44,7 @@ function LoginPage() {
           }}
         />
       </div>
-      <div className="h-[100px] fixed z-30 left-0 w-screen bottom-0 py-4 px-4 text-center bg-gradient-to-b from-transparent to-[#FFBE7DCC]">
+      <div className="fixed z-30 left-0 w-screen bottom-0 pt-4 pb-10 px-4 text-center bg-gradient-to-b from-transparent to-[#FFBE7DCC]">
         <LoginButton onClick={handleGoogleLogin} />
       </div>
     </div>

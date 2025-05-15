@@ -48,9 +48,11 @@ function OnboardingAdditionalLayout({
       </nav>
       <div className="relative px-5 z-10">{title}</div>
       <div className="relative pb-40 z-10">{children}</div>
-      <div className="sticky left-0 -bottom-40 z-0">{backgroundImage}</div>
+      {backgroundImage && (
+        <div className="sticky left-0 -bottom-40 z-0">{backgroundImage}</div>
+      )}
       {button && (
-        <div className="h-[100px] fixed z-30 left-0 w-screen bottom-0 py-4 px-4 text-center bg-gradient-to-b from-transparent to-[#FFBE7DCC]">
+        <div className="fixed z-30 left-0 w-screen bottom-0 pt-4 pb-10 px-4 text-center bg-gradient-to-b from-transparent to-[#FFBE7DCC]">
           {toast && (
             <div className="mb-3 inline-block">
               <Toast message={toast.message} type={toast.type} />

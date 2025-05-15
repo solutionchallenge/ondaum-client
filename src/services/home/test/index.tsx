@@ -37,8 +37,7 @@ export default function DiagnosisTest({
   );
   const [showSolutionModal, setShowSolutionModal] = useState(false);
   const [, setResultId] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [postedResult, setPostedResult] = useState<any>(null);
+  const [, setPostedResult] = useState<any>(null);
 
   useEffect(() => {
     const fetchQuestions = async () => {

@@ -13,9 +13,8 @@ export const useTokenMonitor = () => {
       if (!storedRefreshToken) return;
 
       try {
-        const { access_token, refresh_token } =
-          await refreshToken(storedRefreshToken);
-        setTokens(access_token, refresh_token);
+        const accessToken = await refreshToken(storedRefreshToken);
+        setTokens(accessToken, storedRefreshToken);
       } catch (error) {
         console.error("Token refresh failed:", error);
         setTokens(null, null);

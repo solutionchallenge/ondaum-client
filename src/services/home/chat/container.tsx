@@ -11,8 +11,6 @@ import { useChatStore } from "../../../store/chat";
 
 export const IntroSectionContainer = ({
   isNewSession,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  selectedOption,
   setShowChatSection,
   setShowTestSection,
   handleWebSocketMessage,

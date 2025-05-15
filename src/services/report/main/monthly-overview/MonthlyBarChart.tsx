@@ -109,10 +109,10 @@ function MonthlyChart({ report }: { report?: ReportResponse }) {
         <BarChart data={barData}>
           <Bar
             dataKey="count"
-            isAnimationActive={true}
             radius={[8, 8, 0, 0]}
             label={renderLabel}
             background={renderBackground}
+            isAnimationActive={false}
           >
             {barData.map((entry, index) => (
               <Cell

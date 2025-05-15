@@ -40,7 +40,7 @@ Let's start https://ondaum.revimal.me/
 - Access to a pre-trained professional psychological counseling AI
 
 ## 🛠 SKILLS
-- **Web**: React, Typescript, Zustand, web socket
+- **Web**: React, Typescript, Zustand, WebSocket, TailwindCSS
 - **Mobile**: Flutter, Dart
 - **AI**: Gemini-2.5-Pro
 - **Auth**: Google Oauth, jwt
@@ -48,7 +48,7 @@ Let's start https://ondaum.revimal.me/
 - **Package Manager**: NPM
 - **Logging System**: Google Analytics
 
-## CLIENT ARCHITECTURE
+## 🏛️ CLIENT ARCHITECTURE
 ```mermaid
 graph TD
     Web[Web]
@@ -119,13 +119,12 @@ npm run dev
 
 ## 🖥️ SCREENS
 
-| | | |
-|:--:|:--:|:--:|
-| ![image](https://github.com/user-attachments/assets/3e7d64d3-84f7-4aff-bbce-4b72713454f9) | ![image](https://github.com/user-attachments/assets/5b93c969-adae-48a8-ac65-6bcd7f013367) | ![image](https://github.com/user-attachments/assets/7dd486a3-fed0-412b-935d-372717ecdf34) |
-| ![image](https://github.com/user-attachments/assets/84bec7ae-0be4-4b39-b381-69ef3705cc50) | ![image](https://github.com/user-attachments/assets/e242d6a7-5e0a-4f80-9c5a-ee0b1d7522cc) | ![image](https://github.com/user-attachments/assets/8c682e7a-3f8f-455e-b532-34ca9730aa5d) |
-| ![image](https://github.com/user-attachments/assets/a87b3875-c0b3-4d28-8272-f71f48428446) | ![image](https://github.com/user-attachments/assets/aba49ac6-59ad-48d6-94c8-115eb3036c85) | ![image](https://github.com/user-attachments/assets/3af15c50-82e7-451f-8b4e-e9af0eb02922) |
-| ![image](https://github.com/user-attachments/assets/c9bdaaef-66ea-48a4-834f-9cc0f794b919) | ![image](https://github.com/user-attachments/assets/b0724e62-8126-4051-a162-c0b8ce41048e) | ![image](https://github.com/user-attachments/assets/88f8a6f2-1339-42c6-9d53-75ab74f39446) |
-| ![image](https://github.com/user-attachments/assets/fff9d63a-1816-4ad3-b8da-1eed2a890849) | | |
+| |
+|:--:|
+| <img width="543" alt="image" src="https://github.com/user-attachments/assets/fb658963-0ce9-46b9-b7b0-ca5014c4156d" /> | 
+ | <img width="540" alt="image" src="https://github.com/user-attachments/assets/5b469fb4-a23b-4e9c-b432-75d81669a94e" /> | 
+ | <img width="881" alt="image" src="https://github.com/user-attachments/assets/d931f45b-afc1-49bb-8481-96ccbce65b3a" /> | 
+ | <img width="313" alt="image" src="https://github.com/user-attachments/assets/95f52feb-708f-4112-a668-5b4eada0990d" /> | 
 
 
 📅 This README was written on **May 15, 2025**.

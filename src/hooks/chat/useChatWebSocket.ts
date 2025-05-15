@@ -1,4 +1,5 @@
-﻿import { useCallback } from "react";
+﻿import { connectChatWebSocket } from "../../api/chat/websocket";
+import { useCallback, useRef } from "react";
 import { useChatStore } from "../../store/chat";
 
 export function useChatWebSocket(
@@ -6,6 +7,7 @@ export function useChatWebSocket(
   setShowEndSessionModal: (show: boolean) => void
 ) {
   const addChatEvent = useChatStore((state) => state.addChatEvent);
+  const currentSessionIdRef = useRef<string | null>(null);
 
   const handleWebSocketMessage = useCallback(
     (data: any) => {
@@ -16,6 +18,13 @@ export function useChatWebSocket(
         data.session_id
       ) {
         setSessionId(data.session_id);
+        if (
+          data.payload === "new_conversation" &&
+          currentSessionIdRef.current !== data.session_id
+        ) {
+          connectChatWebSocket(data.session_id);
+          currentSessionIdRef.current = data.session_id;
+        }
         addChatEvent(data);
         return;
       }

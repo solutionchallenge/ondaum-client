@@ -5,7 +5,7 @@ type MessageHandler = (data: any) => void;
 
 let initialSocket: WebSocket | null = null;
 let sessionSocket: WebSocket | null = null;
-let pingInterval: number | null = null;
+let pingInterval: ReturnType<typeof setInterval> | null = null;
 let connectionAttempted = false;
 
 const messageQueue: string[] = [];

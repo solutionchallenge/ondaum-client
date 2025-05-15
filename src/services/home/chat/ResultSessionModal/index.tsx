@@ -1,51 +1,21 @@
 ﻿import Card from "../../../../commons/surfaces/Card";
-import AngerIcon from "../../../../assets/images/chatresult/icon_anger.svg?react";
-import DisgustIcon from "../../../../assets/images/chatresult/icon_disgust.svg?react";
-import SadnessIcon from "../../../../assets/images/chatresult/icon_sadness.svg?react";
-import FearIcon from "../../../../assets/images/chatresult/icon_fear.svg?react";
-import SurpriseIcon from "../../../../assets/images/chatresult/icon_surprise.svg?react";
-import JoyIcon from "../../../../assets/images/chatresult/icon_joy.svg?react";
-import { JSX } from "react";
 import { ChatSummary } from "../../../../api/chat";
 import { useChatStore } from "../../../../store/chat";
+import { EmotionIcon } from "../../../../commons/data-display/EmotionIcon";
 
 const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
-  const moodStyles: Record<string, { icon: JSX.Element; color: string }> = {
-    anger: {
-      icon: <AngerIcon color="#274B7A" className="w-5 h-5" />,
-      color: "bg-anger text-anger",
-    },
-    disgust: {
-      icon: <DisgustIcon color="#8E837E" className="w-5 h-5" />,
-      color: "bg-disgust text-disgust",
-    },
-    sadness: {
-      icon: <SadnessIcon color="#4A90E2" className="w-5 h-5" />,
-      color: "bg-sadness text-sadness",
-    },
-    fear: {
-      icon: <FearIcon color="#5C6BC0" className="w-5 h-5" />,
-      color: "bg-fear text-fear",
-    },
-    surprise: {
-      icon: <SurpriseIcon color="#CFC5B4" className="w-5 h-5" />,
-      color: "bg-surprise text-surprise",
-    },
-    joy: {
-      icon: <JoyIcon color="#FFD900" className="w-5 h-5" />,
-      color: "bg-joy text-joy",
-    },
+  const colorMap: Record<string, string> = {
+    joy: "text-joy bg-joy",
+    sadness: "text-sadness bg-sadness",
+    anger: "text-anger bg-anger",
+    fear: "text-fear bg-fear",
+    surprise: "text-surprise bg-surprise",
+    disgust: "text-disgust bg-disgust",
   };
-
-  const currentStyle = moodStyles[mood] || {
-    icon: null,
-    color: "bg-gray-300 text-gray-500",
-  };
-
   return (
     <div className="w-full max-w-sm px-4 py-3 bg-third rounded-[15px] outline outline-1 outline-second flex flex-col gap-2">
       <div className="flex items-center gap-2">
-        <div>{currentStyle.icon}</div>
+        <EmotionIcon emotion={mood || ""} className="w-4 h-4" />
         <span className="text-black text-sm font-normal leading-tight">
           {mood}
         </span>
@@ -53,12 +23,12 @@ const MoodCard = ({ mood, moodScore }: { mood: string; moodScore: number }) => {
       <div className="flex items-center gap-2 h-[13px]">
         <div className="relative flex-1 h-[13px] bg-white rounded-full">
           <div
-            className={`absolute top-0 left-0 h-full ${currentStyle.color.split(" ")[0]} rounded-full`}
+            className={`absolute top-0 left-0 h-full ${colorMap[mood].split(" ")[1]} rounded-full`}
             style={{ width: `${moodScore}%` }}
           />
         </div>
         <div
-          className={`${currentStyle.color.split(" ")[1]} text-base font-semibold leading-snug`}
+          className={`${colorMap[mood].split(" ")[0] ?? "text-gray-400"} text-base font-semibold leading-snug`}
         >
           {moodScore}%
         </div>
@@ -97,7 +67,7 @@ const ChatResultModal = ({
             Mood of the Day
           </div>
           <MoodCard
-            mood={summary?.emotions?.[0]?.emotion ?? "Joy"}
+            mood={summary?.emotions?.[0]?.emotion ?? "joy"}
             moodScore={
               summary?.emotions?.[0]?.rate != null
                 ? Math.round(summary.emotions[0].rate * 100)

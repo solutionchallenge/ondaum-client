@@ -61,8 +61,8 @@ interface DiagnosisResultRequest {
 
 export const postDiagnosisResult = async (
   result: DiagnosisResultRequest
-): Promise<{ id: number; success: boolean }> => {
-  const { response } = await http.post<{ id: number; success: boolean }>(
+): Promise<{ id: string; success: boolean }> => {
+  const { response } = await http.post<{ id: string; success: boolean }>(
     "/diagnoses",
     result
   );
@@ -82,7 +82,7 @@ export const getDiagnosisResult = async (
   diagnosis_id: string
 ): Promise<DiagnosisResultResponse> => {
   const { response } = await http.get<DiagnosisResultResponse>(
-    `/diagnosis-papers/${diagnosis_id}`
+    `/diagnoses/${diagnosis_id}`
   );
   return response;
 };

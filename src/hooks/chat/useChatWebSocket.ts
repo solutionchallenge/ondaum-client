@@ -4,10 +4,12 @@ import { useChatStore } from "../../store/chat";
 
 export function useChatWebSocket(
   setSessionId: (id: string | null) => void,
-  setShowEndSessionModal: (show: boolean) => void
+  setShowEndSessionModal: (show: boolean) => void,
+  setShowSolutionModal: (show: boolean) => void
 ) {
   const addChatEvent = useChatStore((state) => state.addChatEvent);
   const currentSessionIdRef = useRef<string | null>(null);
+  const sessionId = useChatStore((state) => state.sessionId);
 
   const handleWebSocketMessage = useCallback(
     (data: any) => {
@@ -47,10 +49,34 @@ export function useChatWebSocket(
       }
 
       if (data.action === "data") {
+        if (data.payload === "") {
+          setShowSolutionModal(true);
+          addChatEvent({
+            action: "data",
+            payload:
+              "Would you like to talk more about what you’re feeling? You’re not alone.",
+            message_id: `um-init-${Date.now()}`,
+            session_id: sessionId,
+          });
+          return;
+        }
         try {
           const parsed = JSON.parse(data.payload || "");
           if (parsed.type === "action" && parsed.data === "end_conversation") {
             setShowEndSessionModal(true);
+          } else if (
+            parsed.type === "action" &&
+            parsed.data === "escalate_crisis"
+          ) {
+            setShowSolutionModal(true);
+            addChatEvent({
+              action: "data",
+              payload:
+                "Would you like to talk more about what you’re feeling? You’re not alone.",
+              message_id: `um-init-${Date.now()}`,
+              session_id: sessionId,
+            });
+            return;
           }
         } catch (e) {
           console.error("Failed to parse payload", e);
@@ -58,7 +84,13 @@ export function useChatWebSocket(
       }
       addChatEvent(data);
     },
-    [addChatEvent, setSessionId, setShowEndSessionModal]
+    [
+      addChatEvent,
+      sessionId,
+      setSessionId,
+      setShowEndSessionModal,
+      setShowSolutionModal,
+    ]
   );
 
   return { handleWebSocketMessage };

@@ -56,6 +56,7 @@ function HomePage() {
   const [showTestSection, setShowTestSection] = useState(false);
   const [showEndSessionModal, setShowEndSessionModal] = useState(false);
   const [showChatResultModal, setShowChatResultModal] = useState(false);
+  const [showSolutionModal, setShowSolutionModal] = useState(false);
 
   const [isNewSession, setIsNewSession] = useState(true);
   const [chatSummary, setChatSummary] = useState<ChatSummary | null>(null);
@@ -71,7 +72,8 @@ function HomePage() {
 
   const { handleWebSocketMessage } = useChatWebSocket(
     setSessionId,
-    setShowEndSessionModal
+    setShowEndSessionModal,
+    setShowSolutionModal
   );
   useInitialChatSessionLoad(
     handleWebSocketMessage,
@@ -163,6 +165,7 @@ function HomePage() {
       <ChatModalManager
         showEndSessionModal={showEndSessionModal}
         showChatResultModal={showChatResultModal}
+        showSolutionModal={showSolutionModal}
         chatSummary={chatSummary}
         onContinue={handleContinueChat}
         onEnd={() => {
@@ -189,6 +192,9 @@ function HomePage() {
           setSessionId(null);
           setIsNewSession(true);
           useChatStore.getState().setSelectedOption("");
+        }}
+        onClose={() => {
+          setShowSolutionModal(false);
         }}
       />
     </main>

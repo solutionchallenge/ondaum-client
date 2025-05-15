@@ -8,6 +8,7 @@ import EndSessionModal from "./EndSessionModal";
 import ChatResultModal from "./ResultSessionModal";
 import HeaderCard from "./HeaderCard";
 import { useChatStore } from "../../../store/chat";
+import SolutionModal from "../test/SolutionModal";
 
 export const IntroSectionContainer = ({
   isNewSession,
@@ -95,17 +96,21 @@ export const ChatInputArea = ({
 export const ChatModalManager = ({
   showEndSessionModal,
   showChatResultModal,
+  showSolutionModal,
   chatSummary,
   onContinue,
   onEnd,
   onArchiveComplete,
+  onClose,
 }: {
   showEndSessionModal: boolean;
   showChatResultModal: boolean;
+  showSolutionModal: boolean;
   chatSummary: ChatSummary | null;
   onContinue: () => void;
   onEnd: () => void;
   onArchiveComplete: () => void;
+  onClose: () => void;
 }) => (
   <>
     {showEndSessionModal && (
@@ -114,6 +119,7 @@ export const ChatModalManager = ({
     {showChatResultModal && chatSummary && (
       <ChatResultModal summary={chatSummary} onClose={onEnd} />
     )}
+    {showSolutionModal && <SolutionModal onClose={onClose} />}
   </>
 );
 

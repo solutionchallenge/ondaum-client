@@ -10,19 +10,21 @@ import OAuthCallback from "./services/auth/oauth";
 import Layout from "./layout.tsx";
 import { AnimatePresence } from "framer-motion";
 import SettingPage from "./services/setting/index.tsx";
-import RootRedirect from "./services/redirect/rootRedirect.tsx";
 import { useTokenMonitor } from "./hooks/auth/useTokenMonitor";
 import ReportMainPage from "./services/report/main/index.tsx";
 import ReportDetailPage from "./services/report/detail/index.tsx";
 import DiagnosisTest from "./services/home/test/index.tsx";
 import { useKeyboardStore } from "./store/keyboard";
 import { useKeyboardVisible } from "./hooks/keyboard/useKeyboardVisible.ts";
+import useRootRedirect from "./hooks/redirect/useRootRedirect.tsx";
+import useScrollTop from "./hooks/redirect/useScrollTop.tsx";
 
 function App() {
   const location = useLocation();
-  RootRedirect();
+  useRootRedirect();
   useTokenMonitor();
   useKeyboardVisible();
+  useScrollTop();
 
   const isKeyboardVisible = useKeyboardStore((state) => state.isKeyboardOpen);
 

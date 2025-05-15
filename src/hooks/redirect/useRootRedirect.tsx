@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useFetchUser } from "../../hooks/auth/useFetchUser";
 import { User } from "../../store/auth";
 
-const RootRedirect = () => {
+const useRootRedirect = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const accessToken = localStorage.getItem("access_token");
@@ -46,4 +46,4 @@ const RootRedirect = () => {
   return null;
 };
 
-export default RootRedirect;
+export default useRootRedirect;

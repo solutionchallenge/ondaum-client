@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import ServerItem from "./serveritem";
 
@@ -15,6 +15,12 @@ const chatContents = [
 
 export default function TestChatList({ onFinish }: { onFinish?: () => void }) {
   const [visibleCount, setVisibleCount] = useState(0);
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [visibleCount]);
 
   useEffect(() => {
     if (visibleCount < chatContents.length) {
@@ -40,6 +46,7 @@ export default function TestChatList({ onFinish }: { onFinish?: () => void }) {
           <ServerItem contents={contents} />
         </motion.div>
       ))}
+      <div ref={bottomRef} />
     </div>
   );
 }

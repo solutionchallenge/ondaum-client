@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import UmAvatar from "../../../../commons/data-display/Avatar";
 import TestChatList from "../../../../commons/data-display/List/testgroup";
 import TestToggle from "../TestToggle";
@@ -8,6 +8,11 @@ const TestSection = () => {
   const [isListFinished, setIsListFinished] = useState(false);
   const selectedTest = useChatStore((state) => state.suggestedTest || "phq-9");
   const setSelectedTest = useChatStore((state) => state.setSuggestedTest);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [isListFinished]);
 
   useEffect(() => {
     setSelectedTest("");
@@ -29,6 +34,7 @@ const TestSection = () => {
             <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
           </div>
         )}
+        <div ref={bottomRef} />
       </div>
     </div>
   );

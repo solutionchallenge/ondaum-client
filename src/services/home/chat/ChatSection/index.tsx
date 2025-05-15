@@ -36,13 +36,37 @@ const ChatSection = () => {
       {chatEvents.map((event, idx) => {
         const isUser = event.action === "chat";
         const isBot = event.action === "data";
+        let parsed: any = event.payload;
+        if (
+          typeof event.payload === "string" &&
+          event.payload.trim().startsWith("{")
+        ) {
+          try {
+            parsed = JSON.parse(event.payload);
+          } catch (e) {
+            console.error(
+              "Failed to parse chat event payload:",
+              event.payload,
+              e
+            );
+            return null;
+          }
+        }
+
+        if (
+          isBot &&
+          parsed.type === "action" &&
+          typeof parsed.data === "string" &&
+          parsed.data.includes("end_conversation")
+        ) {
+          return null;
+        }
 
         if (
           event.action === "data" &&
           typeof event.payload === "string" &&
           event.payload.startsWith("{")
         ) {
-          const parsed = JSON.parse(event.payload);
           if (
             parsed.type === "action" &&
             parsed.data?.startsWith("suggest_test_")

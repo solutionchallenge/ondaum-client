@@ -36,7 +36,8 @@ export default function DiagnosisTest({
     null
   );
   const [showSolutionModal, setShowSolutionModal] = useState(false);
-  const [, setResultId] = useState<number | null>(null);
+  const [, setResultId] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [postedResult, setPostedResult] = useState<any>(null);
 
   useEffect(() => {
@@ -152,16 +153,6 @@ export default function DiagnosisTest({
           <div className="justify-start px-5 text-font-color text-xl font-bold font-pretendard leading-7">
             Your Mental Health Check-In Result
           </div>
-          {postedResult && (
-            <>
-              <div className="text-main text-lg font-bold mt-2">
-                {postedResult.result_name}
-              </div>
-              <div className="text-sm text-gray-500 mb-4">
-                {postedResult.result_description}
-              </div>
-            </>
-          )}
           {(() => {
             const score = answers.reduce((sum, val) => sum + val, 0);
             return (

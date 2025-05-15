@@ -14,7 +14,7 @@ export interface DataPayload {
 export interface ChatEvent {
   action: ChatAction;
   payload: string;
-  session_id?: string;
+  session_id?: string | null;
   message_id: string;
 }
 
@@ -42,6 +42,7 @@ interface ChatStore {
   setMood: (m: string) => void;
   setThemes: (t: string[]) => void;
   setMoodScore: (n: number) => void;
+  resetChat: () => void;
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -67,4 +68,17 @@ export const useChatStore = create<ChatStore>((set) => ({
   setMood: (m) => set({ mood: m }),
   setThemes: (t) => set({ themes: t }),
   setMoodScore: (n) => set({ moodScore: n }),
+  resetChat: () =>
+    set({
+      selectedOption: "",
+      hasSelectedOption: false,
+      isConnected: false,
+      sessionId: null,
+      chatEvents: [],
+      suggestedTest: null,
+      summary: "",
+      mood: "",
+      themes: [],
+      moodScore: 0,
+    }),
 }));

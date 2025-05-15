@@ -1,17 +1,5 @@
 import { http } from "../fetch";
-
-export interface ChatEmotion {
-  emotion: string;
-  rate: number;
-}
-
-export interface ChatSummary {
-  emotions: ChatEmotion[];
-  keywords: string[];
-  recommendations: string[];
-  text: string;
-  title: string;
-}
+import { EmotionTypes } from "../onboarding/addition";
 
 export interface Chat {
   chat_duration: string;
@@ -25,6 +13,28 @@ export interface Chat {
   user_timezone: string;
 }
 
+export interface ChatSummary {
+  emotions: {
+    emotion: EmotionTypes;
+    rate: 0;
+  }[];
+  keywords: string[];
+  recommendations: string[];
+  text: string;
+  title: string;
+  main_topic: {
+    begin_message_id: string;
+    end_message_id: string;
+  };
+  topic_messages: History[];
+}
+
+export interface ChatSummaryReponse {
+  success: boolean;
+  created: boolean;
+  returning: ChatSummary;
+}
+
 export interface ListChatsResponse {
   chats: Chat[];
 }
@@ -34,11 +44,17 @@ export const listChats = async () => {
   return response;
 };
 
-export const getChatSummary = async (
+export const putChatSummary = async (
   session_id: string
 ): Promise<ChatSummary> => {
-  const { response } = await http.get<Chat>(`/chats/${session_id}`);
-  return response.summary;
+  const { response } = await http.put<ChatSummaryReponse>(
+    `/chats/${session_id}/summary`
+  );
+  if (response.success) {
+    return response.returning;
+  } else {
+    throw new Error("Failed to fetch chat summary.");
+  }
 };
 
 export const archiveChat = async (session_id: string): Promise<void> => {

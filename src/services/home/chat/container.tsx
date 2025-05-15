@@ -11,6 +11,7 @@ import { useChatStore } from "../../../store/chat";
 
 export const IntroSectionContainer = ({
   isNewSession,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   selectedOption,
   setShowChatSection,
   setShowTestSection,
@@ -23,7 +24,6 @@ export const IntroSectionContainer = ({
   handleWebSocketMessage: (data: any) => void;
 }) => {
   if (!isNewSession) return null;
-  console.log("selectedOption", selectedOption);
   return (
     <IntroSection
       onProceed={(option) => {
@@ -77,10 +77,10 @@ export const ChatInputArea = ({
   isKeyboardOpen: boolean;
 }) => (
   <div
-    className="z-10 bg-white px-4 pt-2"
+    className="z-10 bg-white px-3 pt-2"
     style={{
       position: "fixed",
-      bottom: isKeyboardOpen ? "5px" : "64px",
+      bottom: isKeyboardOpen ? "10px" : "64px",
       width: "100%",
       zIndex: 20,
       transition: "bottom 0.3s ease",
@@ -111,10 +111,10 @@ export const ChatModalManager = ({
 }) => (
   <>
     {showEndSessionModal && (
-      <EndSessionModal onClose={onContinue} onConfirm={onEnd} />
+      <EndSessionModal onClose={onContinue} onConfirm={onArchiveComplete} />
     )}
     {showChatResultModal && chatSummary && (
-      <ChatResultModal summary={chatSummary} onClose={onArchiveComplete} />
+      <ChatResultModal summary={chatSummary} onClose={onEnd} />
     )}
   </>
 );

@@ -1,6 +1,7 @@
 import { ReportResponse } from "../../../../api/report/report";
 import { Bar, BarChart, Cell, ResponsiveContainer } from "recharts";
 import { EmotionIcon } from "../../../../commons/data-display/EmotionIcon";
+import { JSX } from "react";
 
 export const BarChartLegend = [
   {
@@ -36,18 +37,30 @@ export const BarChartLegend = [
 ];
 
 function MonthlyChart({ report }: { report?: ReportResponse }) {
-  const renderLabel = ({ x, y, width, height, value }: any) => (
-    <text
-      x={x + width / 2}
-      y={y + height - 30}
-      fill="#fff"
-      fontSize={18}
-      fontWeight={500}
-      textAnchor="middle"
-    >
-      {value}
-    </text>
-  );
+  const renderLabel = ({ x, y, width, height, value }: any): JSX.Element => {
+    const valid =
+      typeof x === "number" &&
+      typeof y === "number" &&
+      typeof width === "number" &&
+      typeof height === "number";
+
+    const labelX = valid ? x + width / 2 : 0;
+    const labelY = valid ? y + height - 30 : 0;
+    const labelValue = valid ? value : "";
+
+    return (
+      <text
+        x={labelX}
+        y={labelY}
+        fill="#fff"
+        fontSize={18}
+        fontWeight={500}
+        textAnchor="middle"
+      >
+        {labelValue}
+      </text>
+    );
+  };
   const renderBackground = ({ x, width, height, index }: any) => (
     <rect
       x={x}
@@ -64,38 +77,44 @@ function MonthlyChart({ report }: { report?: ReportResponse }) {
     {
       name: "joy",
       color: "#FFD900",
-      count: report?.emotion_counts?.find((item) => item.emotion === "joy")
-        ?.count,
+      count:
+        report?.emotion_counts?.find((item) => item.emotion === "joy")?.count ??
+        0,
     },
     {
       name: "sadness",
       color: "#4A90E2",
-      count: report?.emotion_counts?.find((item) => item.emotion === "sadness")
-        ?.count,
+      count:
+        report?.emotion_counts?.find((item) => item.emotion === "sadness")
+          ?.count ?? 0,
     },
     {
       name: "anger",
       color: "#274B7A",
-      count: report?.emotion_counts?.find((item) => item.emotion === "anger")
-        ?.count,
+      count:
+        report?.emotion_counts?.find((item) => item.emotion === "anger")
+          ?.count ?? 0,
     },
     {
       name: "fear",
       color: "#5C6BC0",
-      count: report?.emotion_counts?.find((item) => item.emotion === "fear")
-        ?.count,
+      count:
+        report?.emotion_counts?.find((item) => item.emotion === "fear")
+          ?.count ?? 0,
     },
     {
       name: "surprise",
       color: "#CFC5B4",
-      count: report?.emotion_counts?.find((item) => item.emotion === "surprise")
-        ?.count,
+      count:
+        report?.emotion_counts?.find((item) => item.emotion === "surprise")
+          ?.count ?? 0,
     },
     {
       name: "disgust",
       color: "#8E837E",
-      count: report?.emotion_counts?.find((item) => item.emotion === "disgust")
-        ?.count,
+      count:
+        report?.emotion_counts?.find((item) => item.emotion === "disgust")
+          ?.count ?? 0,
     },
   ];
 

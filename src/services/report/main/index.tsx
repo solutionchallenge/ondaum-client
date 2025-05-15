@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import UmStressImage from "../../../assets/images/image_um_stress.svg?react";
 import ReportLayout from "../layout";
 import Card from "../../../commons/surfaces/Card";
-import dayjs from "dayjs";
 import { getChatReport, ReportResponse } from "../../../api/report/report";
 import Recommendations from "./recommendations/Recommendations";
 import Conversations from "./conversations/Conversations";
 import MontlyOverview from "./monthly-overview/MonthlyOverview";
+import dayjs from "dayjs";
 
 function ReportMainPage() {
   const [report, setReport] = useState<ReportResponse>();
@@ -44,7 +44,7 @@ function ReportMainPage() {
           description={report?.stress_level_descriptor?.description}
         />
       )}
-      {report?.total_chat_count && <Recommendations />}
+      {!!report?.total_chat_count && <Recommendations />}
       <Conversations />
     </ReportLayout>
   );

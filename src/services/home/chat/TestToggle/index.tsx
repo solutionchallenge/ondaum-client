@@ -21,7 +21,7 @@ const TEST_TOGGLE_ITEMS: TestToggleItem[] = [
 const TestToggle: React.FC<TestToggleGroupProps> = ({ selected, onSelect }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-nowrap gap-2 w-full mt-4 overflow-x-auto">
+    <div className="flex gap-2 w-full overflow-x-auto">
       {TEST_TOGGLE_ITEMS.map((item) => {
         const isSelected = selected === item.key;
         return (

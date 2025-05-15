@@ -20,18 +20,24 @@ const TestSection = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-row gap-2 mb-4">
-      <UmAvatar />
+    <div className="w-full max-w-[347px]">
       <div className="flex flex-col w-full justify-start">
-        <div className="text-main font-semibold font-pretendard">Um</div>
-        <TestChatList
-          onFinish={() => {
-            setIsListFinished(true);
-          }}
-        />
+        <div className="flex items-start gap-2">
+          <UmAvatar />
+          <div>
+            <div className="text-main font-semibold font-pretendard">Um</div>
+            <TestChatList
+              onFinish={() => {
+                setIsListFinished(true);
+              }}
+            />
+          </div>
+        </div>
         {isListFinished && (
-          <div className="flex flex-nowrap gap-2 w-max max-w-[347px] mt-2 pr-6">
-            <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
+          <div className="w-full overflow-x-auto ml-10 pl-2 pr-6 animate-fade-in-up">
+            <div className="inline-flex gap-2">
+              <TestToggle selected={selectedTest} onSelect={setSelectedTest} />
+            </div>
           </div>
         )}
         <div ref={bottomRef} />

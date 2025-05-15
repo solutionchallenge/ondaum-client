@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFetchUser } from "../../hooks/auth/useFetchUser";
-import { User } from "../../store/auth";
 
 const useRootRedirect = () => {
   const navigate = useNavigate();
@@ -9,25 +8,18 @@ const useRootRedirect = () => {
   const accessToken = localStorage.getItem("access_token");
   const refreshToken = localStorage.getItem("refresh_token");
 
-  const result = useFetchUser(accessToken, refreshToken, undefined);
-  const user = result.user as User | null;
+  const { user, loading } = useFetchUser(accessToken, refreshToken, undefined);
 
   useEffect(() => {
-    if (!user) return;
+    if (loading || !user) return;
 
     const hasPrivacy = !!user.privacy;
 
+    const hasConcerns = !!user.addition?.concerns;
+    const hasEmotions = !!user.addition?.emotions;
+
     if ((!accessToken && !refreshToken) || !user.email || user.id == null) {
       navigate("/login", { replace: true });
-      return;
-    }
-
-    if (location.pathname.includes("/onboarding")) {
-      if (!hasPrivacy) {
-        navigate("/onboarding/basic", { replace: true });
-      } else {
-        navigate("/home", { replace: true });
-      }
       return;
     }
 
@@ -38,10 +30,12 @@ const useRootRedirect = () => {
     ) {
       if (!hasPrivacy) {
         navigate("/onboarding/basic", { replace: true });
+      } else if (!hasConcerns || !hasEmotions) {
+        navigate("/onboarding/additional/concern", { replace: true });
       }
       return;
     }
-  }, [navigate, location, accessToken, refreshToken, user]);
+  }, [navigate, location, accessToken, refreshToken, user, loading]);
 
   return null;
 };

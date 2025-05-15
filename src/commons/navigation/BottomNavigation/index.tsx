@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import HomeFalse from "../../../assets/images/bottom/icon_home_false.svg?react";
 import Hometrue from "../../../assets/images/bottom/icon_home_true.svg?react";
 import SettingFalse from "../../../assets/images/bottom/icon_setting_false.svg?react";
@@ -9,6 +9,7 @@ import { useKeyboardStore } from "../../../store/keyboard";
 
 function BottomNavigation() {
   const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
+  const location = useLocation();
   return (
     <footer
       className="fixed bottom-0 z-10 w-screen items-center bg-white h-16 flex justify-around"
@@ -21,7 +22,13 @@ function BottomNavigation() {
         {({ isActive }) => (isActive ? <Hometrue /> : <HomeFalse />)}
       </NavLink>
       <NavLink to={"/report/main"}>
-        {({ isActive }) => (isActive ? <Reporttrue /> : <ReportFalse />)}
+        {() =>
+          location.pathname.startsWith("/report") ? (
+            <Reporttrue />
+          ) : (
+            <ReportFalse />
+          )
+        }
       </NavLink>
     </footer>
   );

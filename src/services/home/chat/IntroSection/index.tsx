@@ -24,7 +24,6 @@ const IntroSection = ({
   useEffect(() => {
     const fetchChats = async () => {
       const { chats } = await listChats();
-      console.log(chats.length);
       setIsFirst(chats.length === 0);
     };
     fetchChats();

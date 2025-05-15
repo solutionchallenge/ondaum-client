@@ -20,12 +20,18 @@ import DateChip from "../../../commons/data-display/Chip";
 import { useLocation } from "react-router-dom";
 import UmWithLoading from "../../../assets/lotties/lottie_loading.json";
 import Lottie from "react-lottie-player";
+import { getDynamicContentHeight } from "../../../hooks/keyboard/useDevice";
+import { useDynamicTop } from "../../../hooks/keyboard/useDynamicTop";
 
 function HomePage() {
   const [viewportHeight, setViewportHeight] = useState(
     (window.visualViewport?.height || window.innerHeight) -
       (window.visualViewport?.offsetTop || 0)
   );
+
+  const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
+  const dynamicTop = useDynamicTop(isKeyboardOpen);
+
   useEffect(() => {
     const updateHeight = () => {
       const height =
@@ -37,9 +43,7 @@ function HomePage() {
     updateHeight();
     return () =>
       window.visualViewport?.removeEventListener("resize", updateHeight);
-  }, []);
-
-  const isKeyboardOpen = useKeyboardStore((state) => state.isKeyboardOpen);
+  }, [isKeyboardOpen]);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const [chatInput, setChatInput] = useState("");
@@ -107,7 +111,7 @@ function HomePage() {
     <main
       className="relative flex flex-col bg-white overflow-hidden"
       style={{
-        top: isKeyboardOpen ? "224px" : "0px",
+        top: `${dynamicTop}px`,
         height: `${viewportHeight}px`,
       }}
     >
@@ -120,7 +124,7 @@ function HomePage() {
           WebkitOverflowScrolling: "touch",
           overscrollBehavior: "none",
           paddingBottom: isKeyboardOpen ? "0px" : "123px",
-          height: `${viewportHeight - 59}px`,
+          height: getDynamicContentHeight(viewportHeight),
         }}
       >
         <DateChip date={new Date()} />

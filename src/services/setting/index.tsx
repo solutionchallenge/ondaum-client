@@ -19,6 +19,7 @@ function SettingPage() {
           className=" text-main font-bold  underline cursor-pointer"
           onClick={() => {
             logout();
+            location.href = "/login";
           }}
         >
           Logout

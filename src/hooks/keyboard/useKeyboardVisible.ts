@@ -1,11 +1,11 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useLayoutEffect, useState } from "react";
 import { useKeyboardStore } from "../../store/keyboard";
 
 const useKeyboardVisible = () => {
   const [isVisible, setIsVisible] = useState(false);
   const setKeyboardOpen = useKeyboardStore((state) => state.setKeyboardOpen);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const threshold = 100;
     const handleResize = () => {
       const viewportHeight =

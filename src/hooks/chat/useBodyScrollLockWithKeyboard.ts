@@ -9,8 +9,10 @@ export function useBodyScrollLockWithKeyboard() {
 
     handleResize();
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+      document.body.style.overflow = "auto";
     };
   }, []);
 }

@@ -10,9 +10,9 @@ dayjs.extend(timezone);
 export default function ConversationCard({ item }: { item: ChatResponse }) {
   const navigate = useNavigate();
 
-  const formatTime = (datetime: string, timezoneStr: string) => {
-    const day = dayjs.utc(datetime).tz(timezoneStr); // UTC 기준에서 해당 타임존으로 변환
-    const now = dayjs().tz(timezoneStr);
+  const formatTime = (datetime: string) => {
+    const day = dayjs(datetime);
+    const now = dayjs();
 
     if (day.isSame(now, "day")) {
       return `Today, ${day.format("h:mm A")}`;
@@ -32,7 +32,7 @@ export default function ConversationCard({ item }: { item: ChatResponse }) {
           <h2 className="font-semibold text-black">{item?.summary?.title}</h2>
           <p className="text-sm text-gray-400">
             {" "}
-            {formatTime(item?.started_date, "UTC")}
+            {formatTime(item?.started_date)}
           </p>
         </div>
         <div

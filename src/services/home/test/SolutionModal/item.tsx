@@ -25,7 +25,12 @@ const SolutionModalItem = ({
           <span>{time}</span>
         </div>
       </div>
-      <button className="h-[46px] px-5 py-2 rounded-full bg-second text-white text-sm font-pretendard">
+      <button
+        className="w-[89px] h-[46px] py-2 rounded-full bg-second text-white text-sm font-pretendard"
+        onClick={() => {
+          window.location.href = "tel:" + 109977384123123;
+        }}
+      >
         Call now
       </button>
     </div>

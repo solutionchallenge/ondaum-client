@@ -11,6 +11,7 @@ import { ChatDetailResponse, getChatDetail } from "../../../api/report/chats";
 import { useAuthStore } from "../../../store/auth";
 import UmIcon from "../../../assets/images/icon_um.svg?react";
 import { EmotionIcon } from "../../../commons/data-display/EmotionIcon";
+import { motion } from "framer-motion";
 
 function ReportDetailPage() {
   const navigate = useNavigate();
@@ -68,11 +69,13 @@ function ReportDetailPage() {
           </span>
           <div className="flex-1">
             <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div
+              <motion.div
                 className={`h-full rounded-full bg-${detail?.summary?.emotions?.[0]?.emotion}`}
-                style={{
+                initial={{ width: 0 }}
+                animate={{
                   width: `${detail?.summary?.emotions?.[0]?.rate ? detail?.summary?.emotions?.[0]?.rate * 100 : 0}%`,
                 }}
+                transition={{ duration: 0.6 }}
               />
             </div>
           </div>
@@ -104,14 +107,13 @@ function ReportDetailPage() {
         <div className="space-y-2">
           {detail?.summary?.topic_messages?.map((item) =>
             item.role === "assistant" ? (
-              <div className="mb-4 flex gap-2">
+              <div className="mb-4 flex gap-2 " key={item.id}>
                 <div>
                   <UmIcon />
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-main mb-2">Um</p>
-
-                  <div key={item.id}>
+                  <div>
                     <span className="border border-gray-1 bg-gray-2 inline-block px-3 py-2 rounded-tl-[15px] rounded-tr-[15px] rounded-br-[15px] text-sm text-font-color mb-2">
                       {JSON.parse(item.content)?.data}
                     </span>

@@ -7,8 +7,14 @@ const useRootRedirect = () => {
   const location = useLocation();
   const accessToken = localStorage.getItem("access_token");
   const refreshToken = localStorage.getItem("refresh_token");
-
   const { user, loading } = useFetchUser(accessToken, refreshToken, undefined);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!accessToken || !refreshToken) {
+      navigate("/login", { replace: true });
+    }
+  }, [accessToken, refreshToken]);
 
   useEffect(() => {
     if (loading || !user) return;
@@ -17,11 +23,6 @@ const useRootRedirect = () => {
 
     const hasConcerns = !!user.addition?.concerns;
     const hasEmotions = !!user.addition?.emotions;
-
-    if ((!accessToken && !refreshToken) || !user.email || user.id == null) {
-      navigate("/login", { replace: true });
-      return;
-    }
 
     if (
       location.pathname === "" ||
